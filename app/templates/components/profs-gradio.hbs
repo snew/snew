@@ -1,0 +1,26 @@
+{{#if showFilter}}
+<div class='sr-interest-bar'>
+  <div class='bubble'>
+    <p><a href="https://www.reddit.com/live/uocz16gmx2s7" target="reddit">
+      <em>P</em>eople's <em>R</em>epublic <em>o</em>f <em>F</em>ree <em>S</em>new <em>gRadio</em></a></p>
+    <div class='query-box'>
+      {{input value=searchText placeholder='what snews are you interested in?' class='query'}}
+    </div>
+  </div>
+</div>
+{{/if}}
+{{#if includeVideo}}
+{{ember-youtube ytid=gradio.lastUpdate.ytid class='pull-right'
+  playing="ytPlaying" ended="ytEnded" width=300
+  autoplay=gradio.autoplay showControls=false}}
+{{/if}}
+{{#each update in updates}}
+  {{reddit-link content=update.post}}
+  {{reddit-comment content=update.comment}}
+{{else}}{{#if maxUpdates}}
+  {{#if gradio.lastUpdate.comment}}
+    <h4>Nothing to see here.</h4>
+  {{else}}
+    <h2 class='loading working'><div class='throbber'></div> {{link-to 'Loading...' 'radio'}}</h2>
+  {{/if}}
+{{/if}}{{/each}}

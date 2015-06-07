@@ -1,0 +1,46 @@
+{{#if display_name}}
+  <span class='hover pagename reddiname'>
+    {{link-to display_name 'subreddit.index'}}
+  </span>
+  <ul class='tabmenu'>
+    {{#link-to 'subreddit.index' tagName='li' activeClass='selected'}}
+      {{link-to 'hot' 'subreddit.index'}}
+    {{/link-to}}
+    {{#link-to 'subreddit.new' tagName='li' activeClass='selected'}}
+      {{link-to 'new' 'subreddit.new'}}
+    {{/link-to}}
+    {{#link-to 'subreddit.rising' tagName='li' activeClass='selected'}}
+      {{link-to 'rising' 'subreddit.rising'}}
+    {{/link-to}}
+    {{#link-to 'subreddit.controversial' tagName='li' activeClass='selected'}}
+      {{link-to 'controversial' 'subreddit.controversial'}}
+    {{/link-to}}
+    {{#link-to 'subreddit.top' tagName='li' activeClass='selected'}}
+      {{link-to 'top' 'subreddit.top'}}
+    {{/link-to}}
+    {{#link-to 'radio' tagName='li' activeClass='selected'}}
+      {{link-to 'radio' 'radio'}}
+    {{/link-to}}
+  </ul>
+{{else}}
+  <ul class='tabmenu'>
+    {{#link-to 'index' tagName='li' activeClass='selected'}}
+      {{link-to 'hot' 'index'}}
+    {{/link-to}}
+    {{#link-to 'new' tagName='li' activeClass='selected'}}
+      {{link-to 'new' 'new'}}
+    {{/link-to}}
+    {{#link-to 'rising' tagName='li' activeClass='selected'}}
+      {{link-to 'rising' 'rising'}}
+    {{/link-to}}
+    {{#link-to 'controversial' tagName='li' activeClass='selected'}}
+      {{link-to 'controversial' 'controversial'}}
+    {{/link-to}}
+    {{#link-to 'top' tagName='li' activeClass='selected'}}
+      {{link-to 'top' 'top'}}
+    {{/link-to}}
+    {{#link-to 'radio' tagName='li' activeClass='selected'}}
+      {{link-to 'radio' 'radio'}}
+    {{/link-to}}
+  </ul>
+{{/if}}

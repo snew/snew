@@ -1,3 +1,109 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<div id='header' role='banner'>
+  <a tabindex='1' href='#content' id='jumpToContent'>jump to content</a>
+  <div id='sr-header-area'>
+    <STRONG>THIS IS NOT REDDIT!!!</STRONG>
+    |
+    Welcome to the <strong>snew</strong> client.
+  </div>
+  <div id='header-bottom-left'>
+    {{#if subreddit.header_img}}
+      {{#link-to 'index' id='header-img-a'}}
+        <img id='header-img' {{bind-attr
+          src=subreddit.header_img
+          alt=subreddit.display_name
+          title=subreddit.header_title
+        }}>
+      {{/link-to}}
+    {{else}}
+      {{#link-to 'index' id='header-img' class='default-header'}}
+        snew
+      {{/link-to}}
+    {{/if}}
+    {{outlet "tabmenu"}}
+  </div>
+  <div id='header-bottom-right'>
+    {{!--{{#if user}}
+      <span class='user'><a>{{user.name}}</a></span>&nbsp;(<span class='userkarma'>{{user.link_karma}}</span>)<span class='separator'>|</span><a
+        id='mail' href='/message/inbox' {{bind-attr class="user.has_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
+        id='modmail' href='/message/moderator' {{bind-attr class="user.has_mod_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
+        {{action 'logout'}} title='Logout' style='cursor: pointer;'>logout {{time-ahead-in-words loginExpiry}}</a>
+    {{else}}
+      <a title='Login' {{bind-attr href=loginUrl}}>Login at reddit.com</a>
+    {{/if}} |--}}
+    <div class='working'>
+      <div class='throbber'></div>
+      {{link-to 'PRoFS gRadio' 'radio'}}
+      {{#if gradio.playlist.length}}
+        <button {{action 'playPrevious'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-backward'></span>prev</button>
+        {{#if gradio.autoplay}}
+          <button {{action 'stopRadio'}} class='btn btn-danger'><span class='glyphicon glyphicon-stop'></span>stop</button>
+        {{else}}
+          <button {{action 'playRadio'}} class='btn btn-primary'><span class='glyphicon glyphicon-play'></span>play</button>
+        {{/if}}
+        <button {{action 'playNext'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-forward'></span>next</button>
+      {{/if}}
+    </div>
+  </div>
+</div>
+<div class='side'>
+  <div class='spacer'>
+    {{interest-bar}}
+  </div>
+  {{outlet "sidebar"}}
+  <div class='spacer'>
+    <h2>{{link-to "PRoFS' Guerrilla Radio" "radio"}}</h2>
+    <hr>
+    {{profs-gradio class='container' maxUpdates=3}}
+  </div>
+</div>
+<div class='listing-chooser initialized'></div>
+<a name='content'></a>
+<div class='content' role='main'>{{outlet}}</div>
+<footer id='footer' class='container'>
+  <hr>
+  <h5>
+    All <a target='github' href='https://github.com/Fair-Share'>code and concepts</a>
+    are licensed under <a href='http://www.wtfpl.net' target='license'>WTFPLv2</a>.  Build something!
+    {{link-to 'Privacy Policy' 'privacy'}}
+  </h5>
+  <h5><a href='https://us.reddit.com/r/POLITIC/comments/37ovia/politicbot_was_shadowbanned_yesterday_for_spam/'>
+    This app claims no affiliation with reddit inc. nor does reddit inc. endorse it.</a></h5>
+  <strong>NO CONTENT OR DATA IS HOSTED HERE!!!</strong>  This is just a client application written in javascript.
+  <hr>
+</footer>
+<div class='footer-parent'>
+  <div class='footer rounded'>
+  </div>
+  <p class='bottommenu'>This is NOT reddit.com, It is the V for reddit client {{link-to 'Privacy Policy' 'privacy' class='updated'}}</p>
+  <p class='bottommenu'>REDDIT and the ALIEN Logo are registered trademarks of reddit inc.</p>
+</div>
 
-{{outlet}}
+<p class='debuginfo'>
+  <span class='icon'>π</span>
+</p>
+
+{{#if fixedExpando}}
+  <div class='fixed-expando'>
+  <div class='controls'>
+    <button {{action "closeFixedExpando"}}>Close</button>
+  </div>
+  {{#with fixedExpando}}
+    {{#if imageUrl}}
+      <img {{bind-attr src=imageUrl}}/>
+    {{else}}
+      {{#if media.oembed.html}}
+        {{{media.oembed.html}}}
+      {{/if}}
+    {{/if}}{{#if selftext_html}}
+      <form class='usertext'>
+        <div class='usertext-body md-container'>
+          {{{selftext_html}}}
+        </div>
+      </form>
+    {{/if}}
+  {{/with}}
+  </div>
+{{/if}}
+<div {{bind-attr class="gradio.autoplay :fixed-gradio"}}>{{profs-gradio class='container' maxUpdates=0 includeVideo=true}}</div>
+
+{{growl-manager notifications=growl.notifications}}

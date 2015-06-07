@@ -1,0 +1,12 @@
+<div class='usertext-edit md-container' style='width: 500px;'>
+  {{input type='hidden' name='thing_id' value=thing.name}}
+  <div class='md'>
+    {{textarea value=body rows='1' cols='1' name='text' style='width: 500px; height: 100px;'}}
+  </div>
+  <div class='bottom-area'>
+    <div class='usertext-buttons'>
+      <button type='submit' {{action 'save'}}>save</button>
+      {{#if cancel}}<button type='button' {{action 'cancel'}}>cancel</button>{{/if}}
+    </div>
+  </div>
+</div>

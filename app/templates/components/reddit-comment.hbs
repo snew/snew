@@ -1,0 +1,40 @@
+<p class='parent'><a></a></p>
+<div class='midcol unvoted'>
+  <div class='arrow up' role='button' aria-label='upvote' tabindex='0'></div>
+  <div class='arrow down' role='button' aria-label='downvote' tabindex='0'></div>
+</div>
+<div class='entry unvoted'>
+  <p class='tagline'>
+    {{!==<a class='expand'>[-]</a>--}}
+    <a class='author'>{{unbound author}}</a><span class='userattrs'></span><span
+      class='score dislikes'>{{downs}} points</span><span
+      class='score unvoted'>{{score}} points</span><span
+      class='score likes'>{{ups}} points</span>
+    <time datetime="{{unbound created_utc}}" class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+{{#if children.length}}
+    <a class='numchildren'>({{children.length}} children)</a>
+{{/if}}
+  </p>
+  <form class='usertext'>
+    <div class='usertext-body md-container'>
+      {{#if body_html}}
+        {{{body_html}}}
+      {{else}}
+        {{body}}
+      {{/if}}
+    </div>
+  </form>
+  <ul class='flat-list buttons'>
+    <li class='first'><a>permalink</a></li>
+    {{!--<li class='comment-save-button save-button'><a>save</a></li>--}}
+    {{!--<li class='report-button'><a>report</a></li>--}}
+    {{!--<li><a class='give-gold'>give gold</a></li>--}}
+    {{!--<li><a>reply</a></li>--}}
+  </ul>
+</div>
+{{#if children.length}}
+  <div class='child'>
+    {{reddit-listing content=children classNames="listing"}}
+  </div>
+{{/if}}
+<div class='clearleft'></div>

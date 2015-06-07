@@ -1,0 +1,63 @@
+<p class='parent'></p>
+{{#if rank}}<span class='rank'>{{rank}}</span>{{/if}}
+<div class='midcol unvoted'>
+  <div class='arrow up' role='button' aria-label='upvote'></div>
+  <div class='score dislikes'>{{downs}}</div>
+  <div class='score unvoted'>{{score}}</div>
+  <div class='score likes'>{{ups}}</div>
+  <div class='arrow down' role='button' aria-label='downvote'></div>
+</div>
+{{!--{{#if is_self}}
+  <a class='thumbnail self' {{bind-attr href=url}} target='_new'></a>
+{{else}}
+  {{#if thumbnail}}<a class='thumbnail may-blank' {{bind-attr href=url}} target='_new'><img {{bind-attr src=thumbnail}}/></a>{{/if}}
+{{/if}}--}}
+<div class='entry unvoted'>
+  <p class='title'>
+    {{#if link_flair_css_class}}
+      <span class='linkflairlabel'>{{link_flair_text}}</span>
+    {{/if}}
+    <a class='title' {{bind-attr href=url}} target='_new'>{{title}}</a>
+    <span class='domain'>(<a>{{domain}}</a>)</span>
+  </p>
+  {{#if expandable}}
+    <div {{action "toggleExpand"}} title="toggle" {{bind-attr
+      class=':expando-button expand:expanded:collapsed expandoClass'}}></div>
+  {{/if}}
+  <p class='tagline'>
+    submitted <time {{bind-attr
+      datetime=created_utc
+    }} class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+    by <a>{{author}}</a>
+    to <a href="/r/{{unbound subreddit}}">/r/{{subreddit}}</a>
+  </p>
+  <ul class='flat-list buttons'>
+    <li class='first'>
+      <a {{bind-attr href=permalink}} class="comments">
+        {{num_comments}} comments
+      </a>
+    </li>{{!--<li class='share'>
+    </li><li class='link-save-button save-button'>
+      <a>save</a>
+    </li><li class='report-button'>
+      <a>report</a>
+    </li>--}}
+  </ul>
+  {{#if expand}}
+    <div class='expando'>{{#if imageUrl}}
+      <img {{bind-attr src=imageUrl}} {{action "toggleExpand"}}/>
+    {{else}}
+      {{#if media.oembed.html}}
+        {{{media.oembed.html}}}
+      {{/if}}
+    {{/if}}{{#if selftext_html}}
+      <form class='usertext'>
+        <div class='usertext-body md-container'>
+          {{{selftext_html}}}
+        </div>
+      </form>
+    {{/if}}</div>
+  {{/if}}
+</div>
+<div class='child'></div>
+<div class='clearleft'></div>

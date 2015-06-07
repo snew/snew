@@ -1,0 +1,24 @@
+
+{{#if notification.isError}}
+  <img src="../img/error.svg" alt="Error"/>
+{{/if}}
+
+{{#if notification.isAlert}}
+  <img src="../img/alert.svg" alt="Alert"/>
+{{/if}}
+
+{{#if notification.isInfo}}
+  <img src="../img/info.svg" alt="Info"/>
+{{/if}}
+
+<div class="message-area">
+  {{#if notification.isError}}
+    <h1>Error!</h1>
+  {{/if}}
+
+  {{#if notification.isAlert}}
+    <h1>Alert!</h1>
+  {{/if}}
+
+  {{{notification.content}}}
+</div>

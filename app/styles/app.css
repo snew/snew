@@ -1,0 +1,66 @@
+.thumbnail img {
+  max-width: 70px;
+  max-height: 70px;
+}
+
+.expando img {
+  max-width: 100%;
+  max-height: 720px;
+}
+
+.fixed-gradio {
+  visibility: hidden;
+}
+
+.fixed-gradio.autoplay,
+.fixed-expando {
+  visibility: visible;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 9001;
+}
+
+.fixed-expando .controls {
+  text-align: right;
+}
+
+#header-img.default-header {
+  background-position: left bottom;
+  margin-bottom: 0px;
+  background-image: url("http://i.imgur.com/NQfOq89.png") !important;
+  text-align: center;
+  /*text-indent: 0px;*/
+  line-height: 40px;
+  font-size: 12pt;
+}
+
+.sr-interest-bar {
+  background-image: none;
+}
+
+.sr-interest-bar .bubble {margin-left: 2em;}
+
+.side .sr-interest-bar .bubble {
+  margin-left: 10px;
+  margin-right: 0px;
+}
+
+.side .sr-interest-bar {
+  border-width: 0px;
+  background-color: salmon;
+}
+
+.thumbnail.self {
+  background-image: none;
+}
+
+.link.thing .rank {
+  width: 1.5em;
+}
+.link.thing .midcol {
+  width: 3.5em;
+}
+
+.profs-gradio .link.thing .rank {display: none;}
+.profs-gradio .link.thing .midcol {width: auto;}

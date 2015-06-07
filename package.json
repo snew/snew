@@ -31,6 +31,12 @@
     "ember-cli-qunit": "0.3.10",
     "ember-cli-uglify": "1.0.1",
     "ember-data": "1.0.0-beta.16.1",
-    "ember-export-application-global": "^1.0.2"
+    "ember-export-application-global": "^1.0.2",
+    "ember-moment": "^1.1.1",
+    "ember-youtube": "^0.3.1",
+    "ember-cli-growl": "^1.0.3"
+  },
+  "dependencies": {
+    "ember-cli-dates": "^1.1.2"
   }
 }

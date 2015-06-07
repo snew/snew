@@ -1,0 +1,7 @@
+{{#each item in listing}}
+  {{#if item.content.title}}
+    {{reddit-link content=item.content rank=item.rank}}
+  {{else}}
+    {{reddit-comment content=item.content}}
+  {{/if}}
+{{/each}}

@@ -1,0 +1,24 @@
+<div class='sr-interest-bar'>
+  <div class='bubble'>
+    {{#if snoocore.isLoggedIn}}<p class='caption'>
+      ready for something new?
+      <span class='subscribe'>subscribe</span>
+      to some new subreddits.
+    </p>{{/if}}
+    <div class='query-box'>
+      {{input class='query' value=query placeholder='what are you interested in?'}}
+      <div class='throbber'></div>
+    </div>
+    {{#if results.length}}
+      <ul class='results' style='display: block;'>
+        <li>try these:</li>
+        {{#each result in results}}
+          <li><a href="/r/{{unbound result.name}}">/r/{{result.name}}</a></li>
+        {{/each}}
+        {{!--<li>
+          <a {{action 'serendipity'}} class='random' style='cursor: pointer;' title='serendipity'>serendipity</a>
+        </li>--}}
+      </ul>
+    {{/if}}
+  </div>
+</div>
