@@ -32,9 +32,18 @@ export default Ember.Service.extend(Ember.Evented, {
     this.playNext();
   },
 
+  parseTubeId: function(url) {
+    var id = getParamByName(url, 'v');
+    if (!id) {
+      id = url.split('youtu.be/').pop();
+      id = id.split(/(#|\?)/)[0];
+    }
+    return id;
+  },
+
   playUrl: function(url) {
     this.set('autoplay', true);
-    this.set('lastUpdate.ytid', getParamByName(url, 'v'));
+    this.set('lastUpdate.ytid', this.parseTubeId(url));
   },
 
   stop: function() {
@@ -121,9 +130,8 @@ export default Ember.Service.extend(Ember.Evented, {
     var tube = lines[lines.length - 1];
     var parts = link.split('/');
     var id = parts.pop();
-    var slut = parts.pop();
+    var slug = parts.pop();
     var postId = parts.pop();
-    var ytid = getParamByName(tube, 'v');
     return bot('/api/info').get({
       id: 't3_' + postId + ',t1_' + id
     }).then(function(result) {
@@ -131,7 +139,7 @@ export default Ember.Service.extend(Ember.Evented, {
         url: link,
         post: Ember.get(result, 'data.children.0.data'),
         comment: Ember.get(result, 'data.children.1.data'),
-        ytid: self.get('lastUpdate.ytid') || ytid
+        ytid: self.get('lastUpdate.ytid')
       };
       self.get('updates').insertAt(0, update);
       self.set('lastUpdate', update);
