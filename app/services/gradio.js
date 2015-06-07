@@ -32,6 +32,11 @@ export default Ember.Service.extend(Ember.Evented, {
     this.playNext();
   },
 
+  playUrl: function(url) {
+    this.set('autoplay', true);
+    this.set('lastUpdate.ytid', getParamByName(url, 'v'));
+  },
+
   stop: function() {
     this.set('autoplay', false);
     this.set('lastUpdate.ytid', this.get('nextPlaylistId'));

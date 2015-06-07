@@ -6,6 +6,31 @@ export default Ember.Route.extend({
 
   model: function() {
     var route = this;
+
+
+    window.onclick = function(e) {
+      e = e || window.event;
+      var t = e.target || e.srcElement;
+      t = Ember.$(t).closest('a').get(0);
+      if (t && t.href && t.href.match(/youtu/)) {
+        e.preventDefault();
+        route.get('gradio').playUrl(t.href);
+        return false;
+      }
+      if (t && t.href && !Ember.$(t).hasClass('dontintercept') && !Ember.$(t).hasClass('ember-view')){
+        var parts = t.href.split(window.location.origin, 2);
+        if (parts.length > 1) {
+          e.preventDefault();
+          try {
+            window.location.hash = parts[1];
+          } catch(err) {
+            console.error(err.stack || err);
+          }
+          return false;
+        }
+      }
+    };
+
     return this.get('snoocore').checkLogin().then(function(isLoggedIn) {
       var client = route.get('snoocore.client');
       if (isLoggedIn) {
