@@ -1,6 +1,6 @@
-{{#if display_name}}
+{{#if model.display_name}}
   <span class='hover pagename reddiname'>
-    {{link-to display_name 'subreddit.index'}}
+    {{link-to model.display_name 'subreddit.index'}}
   </span>
   <ul class='tabmenu'>
     {{#link-to 'subreddit.index' tagName='li' activeClass='selected'}}
