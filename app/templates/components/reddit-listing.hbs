@@ -2,6 +2,8 @@
   {{#if item.content.title}}
     {{reddit-link content=item.content rank=item.rank}}
   {{else}}
-    {{reddit-comment content=item.content}}
+    {{#if item.content.body}}
+      {{reddit-comment content=item.content}}
+    {{/if}}
   {{/if}}
 {{/each}}

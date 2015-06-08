@@ -16,7 +16,6 @@ export default Ember.Route.extend({
   },
 
   afterModel: function(model) {
-    console.log('yo', model);
     /*
     if (!model.display_name) {return;}
     return this.get('snoocore.client')(model.url + 'about/stylesheet').get().then(function(result) {

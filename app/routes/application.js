@@ -22,7 +22,8 @@ export default Ember.Route.extend({
         if (parts.length > 1) {
           e.preventDefault();
           try {
-            window.location.hash = parts[1];
+            route.transitionTo(parts[1]);
+            //window.location.hash = parts[1];
           } catch(err) {
             console.error(err.stack || err);
           }

@@ -7,6 +7,10 @@ export default Ember.Component.extend({
 
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
 
+  link_id: function() {
+    return (this.get('content.link_id') || '').split('_').pop();
+  }.property(),
+
   children: function() {
     return (this.get('replies.data.children') || []).getEach('data');
   }.property('replies.data.children'),

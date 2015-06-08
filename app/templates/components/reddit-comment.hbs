@@ -25,7 +25,9 @@
     </div>
   </form>
   <ul class='flat-list buttons'>
-    <li class='first'><a>permalink</a></li>
+    {{#if link_id}}
+    <li class='first'>{{link-to 'permalink' 'subreddit.link' subreddit link_id '_'}}</li>
+    {{/if}}
     {{!--<li class='comment-save-button save-button'><a>save</a></li>--}}
     {{!--<li class='report-button'><a>report</a></li>--}}
     {{!--<li><a class='give-gold'>give gold</a></li>--}}

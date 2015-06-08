@@ -33,9 +33,9 @@
   </p>
   <ul class='flat-list buttons'>
     <li class='first'>
-      <a {{bind-attr href=permalink}} class="comments">
+      {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
         {{num_comments}} comments
-      </a>
+      {{/link-to}}
     </li>{{!--<li class='share'>
     </li><li class='link-save-button save-button'>
       <a>save</a>
