@@ -28,6 +28,9 @@
       <h1 class='hover redditname'>
         {{link-to model.display_name 'subreddit.index'}}
       </h1>
+      {{#each sub in model.subreddits}}
+        <h4>{{#link-to 'subreddit.index' sub}}/r/{{sub}}{{/link-to}}</h4>
+      {{/each}}
       <span class='subscribers'>
         <span class='number'>{{model.subscribers}}</span>
         <span class='word'>readers</span>

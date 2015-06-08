@@ -6,9 +6,10 @@
       to some new subreddits.
     </p>{{/if}}
     <div class='query-box'>
-      {{input class='query' value=query placeholder='what are you interested in?' escape-press='cancel'}}
+      {{input class='query' value=query placeholder=placeholder escape-press='cancel'}}
       <div class='throbber'></div>
     </div>
+    {{#unless hideResults}}
     {{#if results.length}}
       <ul class='results' style='display: block;'>
         <li>try these:</li>
@@ -20,5 +21,6 @@
         </li>--}}
       </ul>
     {{/if}}
+    {{/unless}}
   </div>
 </div>

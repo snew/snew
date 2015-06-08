@@ -61,16 +61,20 @@
 
 .side .sr-interest-bar {
   border-width: 0px;
-  background-color: salmon;
+  background-color: transparent;
   position: absolute;
   top: -4px;
-  right: 0px;
-  width: 200px;
+  /*right: 0px;*/
+  left: 25px;
+  width: 100px;
   z-index: 9000;
   border-radius: 10px;
 }
 #header-bottom-right {
   display: none;
+}
+.redditname {
+  margin-left: 1em;
 }
 .side .sr-interest-bar .bubble {}
 .side .sr-interest-bar input {

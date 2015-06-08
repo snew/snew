@@ -12,6 +12,14 @@ export default Ember.Route.extend({
     if (params.subreddit === 'all') {return {url: '/r/all/'};}
     return this.get('snoocore.client')(path).get().then(function(result) {
       return result.data;
+    }).catch(function(error) {
+      console.error(error);
+      return {
+        name: params.subreddit,
+        display_name: 'multi',
+        subreddits: params.subreddit.split('+'),
+        url: '/r/' + params.subreddit + '/'
+      };
     });
   },
 

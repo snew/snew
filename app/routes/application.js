@@ -91,6 +91,9 @@ export default Ember.Route.extend({
     },
     playPrevious: function() {
       this.get('gradio').playPrevious();
+    },
+    navToMulti: function(subs) {
+      this.transitionTo('subreddit.index', subs.join('+'));
     }
   }
 });
