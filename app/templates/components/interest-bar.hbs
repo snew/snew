@@ -6,14 +6,14 @@
       to some new subreddits.
     </p>{{/if}}
     <div class='query-box'>
-      {{input class='query' value=query placeholder='what are you interested in?'}}
+      {{input class='query' value=query placeholder='what are you interested in?' escape-press='cancel'}}
       <div class='throbber'></div>
     </div>
     {{#if results.length}}
       <ul class='results' style='display: block;'>
         <li>try these:</li>
         {{#each result in results}}
-          <li><a href="/r/{{unbound result.name}}">/r/{{result.name}}</a></li>
+          <li>{{#link-to 'subreddit.index' result.name}}/r/{{result.name}}{{/link-to}}</li>
         {{/each}}
         {{!--<li>
           <a {{action 'serendipity'}} class='random' style='cursor: pointer;' title='serendipity'>serendipity</a>

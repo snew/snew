@@ -30,20 +30,12 @@
     {{else}}
       <a title='Login' {{bind-attr href=loginUrl}}>Login at reddit.com</a>
     {{/if}} |--}}
-    {{link-to 'PRoFS gRadio' 'radio'}}
-    {{#if gradio.playlist.length}}
-      <button {{action 'playPrevious'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-backward'></span>prev</button>
-      {{#if gradio.autoplay}}
-        <button {{action 'stopRadio'}} class='btn btn-danger'><span class='glyphicon glyphicon-stop'></span>stop</button>
-      {{else}}
-        <button {{action 'playRadio'}} class='btn btn-primary'><span class='glyphicon glyphicon-play'></span>play</button>
-      {{/if}}
-      <button {{action 'playNext'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-forward'></span>next</button>
-    {{/if}}
   </div>
 </div>
 <div class='side'>
+  <div class='spacer'>
     {{interest-bar}}
+  </div>
   {{outlet "sidebar"}}
   <div class='spacer'>
     <h2>{{link-to "PRoFS' Guerrilla Radio" "radio"}}</h2>
@@ -99,6 +91,20 @@
   {{/with}}
   </div>
 {{/if}}
-<div {{bind-attr class="gradio.autoplay :fixed-gradio"}}>{{profs-gradio class='container' maxUpdates=0 includeVideo=true}}</div>
+<div {{bind-attr class="gradio.autoplay :fixed-gradio"}}>
+  {{profs-gradio class='container' maxUpdates=0 includeVideo=true}}
+<div class='gradio-controls'>
+{{link-to "People's Republic of Free Snew gRadio" 'radio'}}
+{{#if gradio.playlist.length}}
+  <button {{action 'playPrevious'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-backward'></span>prev</button>
+  {{#if gradio.autoplay}}
+    <button {{action 'stopRadio'}} class='btn btn-danger'><span class='glyphicon glyphicon-stop'></span>stop</button>
+  {{else}}
+    <button {{action 'playRadio'}} class='btn btn-primary'><span class='glyphicon glyphicon-play'></span>play</button>
+  {{/if}}
+  <button {{action 'playNext'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-forward'></span>next</button>
+{{/if}}
+</div>
+</div>
 
 {{growl-manager notifications=growl.notifications}}

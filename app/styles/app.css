@@ -10,18 +10,29 @@
   max-height: 720px;
 }
 
-.fixed-gradio {
-  visibility: hidden;
-}
 
-.fixed-gradio.autoplay,
+.fixed-gradio,
 .fixed-expando {
-  visibility: visible;
   position: fixed;
   bottom: 0;
   right: 0;
   z-index: 9001;
 }
+.fixed-gradio .profs-gradio{
+  display: none;
+}
+.fixed-gradio.autoplay .profs-gradio {
+  display: block;
+}
+
+.fixed-gradio {
+  color: white;
+  background-color: salmon;
+}
+.fixed-gradio .gradio-controls {
+  text-align: right;
+}
+
 
 .fixed-expando .controls {
   text-align: right;
@@ -59,8 +70,7 @@
   border-radius: 10px;
 }
 #header-bottom-right {
-  border-top-right-radius: 10px;
-  right: 210px;
+  display: none;
 }
 .side .sr-interest-bar .bubble {}
 .side .sr-interest-bar input {

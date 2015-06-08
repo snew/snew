@@ -29,5 +29,11 @@ export default Ember.Component.extend({
     }).finally(function() {
       this.set('working', false);
     }.bind(this));
+  },
+
+  actions: {
+    cancel: function() {
+      this.set('query', '');
+    }
   }
 });
