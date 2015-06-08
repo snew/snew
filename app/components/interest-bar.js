@@ -24,7 +24,6 @@ export default Ember.Component.extend({
     this.get('snoocore.client')('/api/subreddits_by_topic.json').get({
       query: query
     }).then(function(results) {
-      console.log('results', results);
       this.sendAction('action', results.getEach('name'));
       this.set('results', results);
     }.bind(this)).catch(function(error) {

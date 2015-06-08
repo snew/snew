@@ -4,11 +4,34 @@
   </div>
 </div>--}}
 <div class='spacer'>
+  <div class='nav-buttons'>
+    <span class='nextprev'>
+      {{link-to 'view more' (query-params before='' after='' count=0)}}
+      {{#if count}}
+        {{#if prevCount}}
+          {{link-to '‹ prev'
+            (query-params before=first.name after='' count=prevCount)
+            class='prev'}}
+        {{else}}
+          {{link-to '< prev'
+            (query-params before='' after='' count=0)
+            class='prev'}}
+        {{/if}}
+      {{/if}}
+      {{#if hasMore}}
+        {{link-to 'next ›'
+          (query-params after=last.name before='' count=nextCount)
+          class='next'}}
+      {{/if}}
+    </span>
+  </div>
+</div>
+<div class='spacer'>
   <style>.ember-app >.content .link .rank, .rank-spacer { width: 3.3ex } .ember-app >.content .link .midcol, .midcol-spacer { width: 5.1ex }</style>
   {{reddit-listing content=content classNames="linklisting" rankStart=count}}
   <div class='nav-buttons'>
     <span class='nextprev'>
-      view more:
+      {{link-to 'view more' (query-params before='' after='' count=0)}}
       {{#if count}}
         {{#if prevCount}}
           {{link-to '‹ prev'
