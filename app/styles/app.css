@@ -3,7 +3,7 @@
   max-height: 70px;
 }
 
-#header {background-color: salmon;}
+#header {background-color: salmon !important; height: 40px !important;}
 
 .expando img {
   max-width: 100%;
@@ -41,11 +41,16 @@
 #header-img.default-header {
   background-position: left bottom;
   margin-bottom: 0px;
+  background-repeat: no-repeat;
+  bottom: 0px !important;
+  left: 0px !important;
   background-image: url("http://i.imgur.com/NQfOq89.png") !important;
   text-align: center;
   /*text-indent: 0px;*/
   line-height: 40px;
   font-size: 12pt;
+  width: 105px !important;
+  height: 40px !important;
 }
 
 .sr-interest-bar {
@@ -59,16 +64,15 @@
   margin-right: 0px;
 }
 
-.side .sr-interest-bar {
+#header .interestbar input {
   border-width: 0px;
-  background-color: transparent;
   position: absolute;
-  top: -4px;
+  top: 25px;
+  left: 40px;
+  padding: 3px 3px 3px 3px;
   /*right: 0px;*/
-  left: 25px;
-  width: 100px;
+  width: 80px;
   z-index: 9000;
-  border-radius: 10px;
 }
 #header-bottom-right {
   display: none;
@@ -76,9 +80,18 @@
 .redditname {
   margin-left: 1em;
 }
-.side .sr-interest-bar .bubble {}
-.side .sr-interest-bar input {
+#header .sr-interest-bar .bubble {}
+#header .sr-interest-bar input {
   font-size: 12px;
+}
+
+#header .sr-interest-bar input {
+  margin-left: 3em;
+  margin-top: 1em;
+  padding: 0.5em 0.5em 0.5em 0.5em !important;
+  background-color: black;
+  border-radius: 0.5em;
+  width: 7em;
 }
 
 #sr-header-area {display: none;}

@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+function escapeRegExp(string){
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
   gradio: Ember.inject.service(),
@@ -55,6 +59,21 @@ export default Ember.Route.extend({
     });
   },
 
+  afterModel: function(model) {
+    return this.get('snoocore.client')('/r/carbon/about/stylesheet').get().then(function(result) {
+      var data = result.data || {};
+      var css = data.stylesheet || '';
+      var images = data.images || [];
+      images.forEach(function(img) {
+        var link = escapeRegExp(img.link);
+        var regex = new RegExp(link, 'g');
+        css = css.replace(regex, 'url("'+img.url+'")');
+      });
+      this.controllerFor('application').set('stylesheet', css);
+    }.bind(this));
+  },
+
+
   renderTemplate: function() {
     this.render();
     this.render('sidebar', {
@@ -93,6 +112,7 @@ export default Ember.Route.extend({
       this.get('gradio').playPrevious();
     },
     navToMulti: function(subs) {
+      if (!subs.length) {return this.transitionTo('index');}
       this.transitionTo('subreddit.index', subs.join('+'));
     }
   }

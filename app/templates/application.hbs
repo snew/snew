@@ -1,3 +1,4 @@
+{{#if stylesheet}}<style>{{{stylesheet}}}</style>{{/if}}
 <div id='header' role='banner'>
   <a tabindex='1' href='#content' id='jumpToContent'>jump to content</a>
   <div id='sr-header-area'>
@@ -20,6 +21,7 @@
       {{/link-to}}
     {{/if}}
     {{outlet "tabmenu"}}
+    {{interest-bar placeholder="what's new?" action='navToMulti' hideResults=true}}
   </div>
   <div id='header-bottom-right'>
     {{!--{{#if user}}
@@ -33,9 +35,6 @@
   </div>
 </div>
 <div class='side'>
-  <div class='spacer'>
-    {{interest-bar placeholder="what's new?" action='navToMulti' hideResults=true}}
-  </div>
   {{outlet "sidebar"}}
   <div class='spacer'>
     <h2>{{link-to "PRoFS' Guerrilla Radio" "radio"}}</h2>
