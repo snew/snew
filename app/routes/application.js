@@ -64,7 +64,7 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
-    this.get('snoocore.client')('/r/carbon/about/stylesheet').get().then(function(result) {
+    this.get('snoocore.anon')('/r/carbon/about/stylesheet').get().then(function(result) {
       var data = result.data || {};
       var css = data.stylesheet || '';
       var images = data.images || [];

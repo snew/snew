@@ -24,12 +24,12 @@ export default Ember.Service.extend({
     //'creddits',
     'edit',
     'history',
-    'modflair',
+    /*'modflair',
     'modlog',
     'modothers',
     'modposts',
     'modself',
-    'modwiki',
+    'modwiki',*/
     'mysubreddits',
     'privatemessages',
     'report',
@@ -41,8 +41,8 @@ export default Ember.Service.extend({
     'wikiread',
     'read',
     'flair',
-    'identity',
-    'modconfig'
+    'identity'/*,
+    'modconfig'*/
   ],
 
   setupPoller: function() {
@@ -92,7 +92,7 @@ export default Ember.Service.extend({
         duration: 'temporary',
         key: config.consumerKey,
         redirectUri: config.redirectUrl,
-        scope: this.get('fullScope')
+        scope: this.get('fullScope').concat(['modconfig'])
       }
     });
   }.property('userAgent'),
@@ -108,7 +108,7 @@ export default Ember.Service.extend({
         duration: 'temporary',
         key: config.consumerKey,
         redirectUri: config.redirectUrl,
-        scope: this.get('fullScope')
+        scope: this.get('fullScope').concat(['modconfig'])
       }
     });
   }.property('userAgent'),

@@ -41,28 +41,25 @@
   <div class='spacer'>
     <h2>{{link-to "PRoFS' Guerrilla Radio" "radio"}}</h2>
     <hr>
-    {{profs-gradio class='container' maxUpdates=10}}
+    {{profs-gradio class='container' maxUpdates=25}}
   </div>
 </div>
 <div class='listing-chooser initialized'></div>
 <a name='content'></a>
 <div class='content' role='main'>{{outlet}}</div>
-<footer id='footer' class='container'>
-  <hr>
-  <h5>
-    All <a target='github' href='https://github.com/Fair-Share'>code and concepts</a>
-    are licensed under <a href='http://www.wtfpl.net' target='license'>WTFPLv2</a>.  Build something!
-    {{link-to 'Privacy Policy' 'privacy'}}
-  </h5>
-  <h5><a href='https://us.reddit.com/r/POLITIC/comments/37ovia/politicbot_was_shadowbanned_yesterday_for_spam/'>
-    This app claims no affiliation with reddit inc. nor does reddit inc. endorse it.</a></h5>
-  <strong>NO CONTENT OR DATA IS HOSTED HERE!!!</strong>  This is just a client application written in javascript.
-  <hr>
-</footer>
 <div class='footer-parent'>
   <div class='footer rounded'>
+    <h1>
+      {{link-to "this app claims no affiliation with reddit inc. nor does reddit inc. endorse it." "subreddit.link" "POLITIC" "37ovia" "shadowban"}}
+    </h1>
+    <h2><strong>NO CONTENT OR DATA IS HOSTED HERE!!!</strong>  This is just an API client written in javascript.</h2>
+    <h1>
+      {{link-to 'Privacy Policy' 'privacy'}}
+      All <a target='github' href='https://github.com/snew/snew'>code</a>
+      is licensed under <a href='http://www.wtfpl.net' target='license'>WTFPLv2</a>.
+    </h1>
   </div>
-  <p class='bottommenu'>This is NOT reddit.com, It is the V for reddit client {{link-to 'Privacy Policy' 'privacy' class='updated'}}</p>
+  <p class='bottommenu'>This is NOT reddit.com, It is the V for reddit client AKA snew {{link-to 'Privacy Policy' 'privacy' class='updated'}}</p>
   <p class='bottommenu'>REDDIT and the ALIEN Logo are registered trademarks of reddit inc.</p>
 </div>
 
