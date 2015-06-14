@@ -67,7 +67,6 @@ export default Ember.Service.extend({
   }.property('isLoggedIn', 'api', 'anon'),
 
   api: function() {
-    return this.get('anon');
     return new Snoocore({
       userAgent: this.get('userAgent'),
       decodeHtmlEntities: true,
