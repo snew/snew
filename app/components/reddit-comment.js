@@ -1,7 +1,8 @@
 /* globals moment */
 import Ember from 'ember';
+import ItemComponentMixin from 'snew/mixins/item-component';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ItemComponentMixin, {
   classNames: 'thing comment'.w(),
   timeupdater: Ember.inject.service(),
 
@@ -10,6 +11,10 @@ export default Ember.Component.extend({
   link_id: function() {
     return (this.get('content.link_id') || '').split('_').pop();
   }.property(),
+
+  isComment: function() {
+    return (this.get('content.name') || '').slice(0, 2) === 't1';
+  }.property('content.name'),
 
   children: function() {
     return (this.get('replies.data.children') || []).getEach('data');

@@ -4,19 +4,20 @@ export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
 
   model: function(params) {
-    var path = '/r/' + params.subreddit + '/about/';
-    if (params.subreddit === 'all') {return {url: '/r/all/'};}
-    return this.get('snoocore.client')(path).get().then(function(result) {
-      return result.data;
-    }).catch(function(error) {
-      console.error(error);
+    if (this.get('snoocore.isLoggedIn')) {
       return {
-        name: params.subreddit,
-        display_name: 'multi',
-        subreddits: params.subreddit.split('+'),
-        url: '/r/' + params.subreddit + '/'
+        name: 'me',
+        display_name: 'me',
+        subreddits: [],
+        url: '/'
       };
-    });
+    }
+    return {
+      name: 'me',
+      display_name: 'reddit',
+      subreddits: [],
+      url: '/'
+    };
   },
 
   afterModel: function() {
@@ -36,23 +37,17 @@ export default Ember.Route.extend({
     });*/
   },
 
-  exit: function() {
-    if (this.controller) {
-      Ember.set(this.controller, 'model', null);
-    }
-  },
-
   renderTemplate: function() {
     this._super.apply(this, arguments);
     this.render('sidebar', {
       into: 'application',
       outlet: 'sidebar',
-      controller: 'subreddit'
+      controller: 'me'
     });
-    this.render('subreddit/tabmenu', {
+    this.render('me/tabmenu', {
       into: 'application',
       outlet: 'tabmenu',
-      controller: 'subreddit'
+      controller: 'me'
     });
   }
 });

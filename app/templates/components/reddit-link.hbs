@@ -1,11 +1,11 @@
 <p class='parent'></p>
 {{#if rank}}<span class='rank'>{{rank}}</span>{{/if}}
 <div class='midcol unvoted'>
-  <div class='arrow up' role='button' aria-label='upvote'></div>
+  <div {{bind-attr class=":arrow upmod:upmod:up"}} {{action 'upmod'}} role='button' aria-label='upvote'></div>
   <div class='score dislikes'>{{downs}}</div>
-  <div class='score unvoted'>{{score}}</div>
+  <div class='score unvoted'>{{content.score}}</div>
   <div class='score likes'>{{ups}}</div>
-  <div class='arrow down' role='button' aria-label='downvote'></div>
+  <div {{bind-attr class=":arrow downmod:downmod:down"}} {{action 'downmod'}} role='button' aria-label='downvote'></div>
 </div>
 {{!--{{#if is_self}}
   <a class='thumbnail self' {{bind-attr href=url}} target='_new'></a>

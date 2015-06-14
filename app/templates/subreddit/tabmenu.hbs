@@ -24,6 +24,18 @@
   </ul>
 {{else}}
   <ul class='tabmenu'>
+    {{#link-to 'subreddit' 'all' tagName='li' activeClass='selected'}}
+      {{link-to 'all' 'subreddit' 'all'}}
+    {{/link-to}}
+    {{#if snoocore.isLoggedIn}}
+      {{#link-to 'me' tagName='li' activeClass='selected'}}
+        {{link-to 'me' 'me'}}
+      {{/link-to}}
+    {{else}}
+      {{#link-to 'me' tagName='li' activeClass='selected'}}
+        {{link-to "reddit" 'me'}}
+      {{/link-to}}
+    {{/if}}
     {{#link-to 'index' tagName='li' activeClass='selected'}}
       {{link-to 'hot' 'index'}}
     {{/link-to}}

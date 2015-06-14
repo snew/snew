@@ -1,0 +1,30 @@
+<span class='hover pagename redditname'>
+  {{#if snoocore.isLoggedIn}}
+    {{link-to 'me' 'me.index'}}
+  {{else}}
+    {{link-to "reddit" 'me.index'}}
+  {{/if}}
+</span>
+<ul class='tabmenu'>
+  {{#link-to 'subreddit' 'all' tagName='li' activeClass='selected'}}
+    {{link-to 'all' 'subreddit' 'all'}}
+  {{/link-to}}
+  {{#link-to 'me.index' tagName='li' activeClass='selected'}}
+    {{link-to 'hot' 'me.index'}}
+  {{/link-to}}
+  {{#link-to 'me.new' tagName='li' activeClass='selected'}}
+    {{link-to 'new' 'me.new'}}
+  {{/link-to}}
+  {{#link-to 'me.rising' tagName='li' activeClass='selected'}}
+    {{link-to 'rising' 'me.rising'}}
+  {{/link-to}}
+  {{#link-to 'me.controversial' tagName='li' activeClass='selected'}}
+    {{link-to 'controversial' 'me.controversial'}}
+  {{/link-to}}
+  {{#link-to 'me.top' tagName='li' activeClass='selected'}}
+    {{link-to 'top' 'me.top'}}
+  {{/link-to}}
+  {{#link-to 'radio' tagName='li' activeClass='selected'}}
+    {{link-to 'radio' 'radio'}}
+  {{/link-to}}
+</ul>

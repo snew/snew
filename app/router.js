@@ -1,4 +1,3 @@
-/* globals window */
 import Ember from 'ember';
 import config from './config/environment';
 
@@ -7,6 +6,14 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource('redditRedirect', {path: '/r/reddit'});
+  this.resource('me', {path: '/r/me'}, function() {
+    this.route('new');
+    this.route('rising');
+    this.route('controversial');
+    this.route('top');
+    this.route('gilded');
+  });
   this.resource('subreddit', {path: '/r/:subreddit'}, function() {
     this.route('link', {path: '/comments/:id/:slug'});
     this.route('new');

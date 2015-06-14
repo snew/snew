@@ -39,15 +39,13 @@ export default Ember.Route.extend({
     return this.get('snoocore').checkLogin().then(function(isLoggedIn) {
       var client = route.get('snoocore.client');
       if (isLoggedIn) {
-        return client('/api/v1/me').get().then(function(res) {
-          route.growl.info([
-            '<h1>Logged in as',res.name,'</h1>',
-            '<div class="message">',
-            'V for reddit will now poll for new (mod) mail',
-            '</div>'
-          ].join('\n'));
-          return res;
-        });
+        route.growl.info([
+          '<h1>Logged in as',route.get('snoocore.user.name'),'</h1>',
+          '<div class="message">',
+          'Only voting is currently supported',
+          '</div>'
+        ].join('\n'));
+        return route.get('snoocore.user');
       } else {
         route.growl.info([
           '<h1>Welcome to <em>snew</em></h1><div class="message">',
@@ -59,7 +57,13 @@ export default Ember.Route.extend({
     });
   },
 
-  afterModel: function(model) {
+  redirect: function(user) {
+    if (user) {
+      this.transitionTo('me.index');
+    }
+  },
+
+  afterModel: function() {
     this.get('snoocore.client')('/r/carbon/about/stylesheet').get().then(function(result) {
       var data = result.data || {};
       var css = data.stylesheet || '';

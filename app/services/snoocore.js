@@ -1,4 +1,4 @@
-/* globals Snoocore */
+/* globals Snoocore,moment */
 import Ember from 'ember';
 import config from 'snew/config/environment';
 
@@ -11,6 +11,8 @@ function getParamByName(name) {
 
 
 export default Ember.Service.extend({
+  timeupdater: Ember.inject.service(),
+
   userAgent: 'vforreddit 0.0.1 by go1dfish',
 
   scope: [
@@ -43,6 +45,19 @@ export default Ember.Service.extend({
     'modconfig'
   ],
 
+  setupPoller: function() {
+    this.get('timeupdater');
+  }.on('init'),
+
+
+  handleExpiredAuth: function() {
+    var self = this;
+    if (!this.get('isLoggedIn')) {return;};
+    this.get('snoocore.client').on('access_token_expired', function(responseError) {
+      window.location = self.get('snoocore.loginUrl');
+    });
+  }.observes('snoocore.client').on('init'),
+
   client: function() {
     if (this.get('isLoggedIn')) {
       return this.get('api');
@@ -53,7 +68,7 @@ export default Ember.Service.extend({
 
   api: function() {
     return this.get('anon');
-    /*return new Snoocore({
+    return new Snoocore({
       userAgent: this.get('userAgent'),
       decodeHtmlEntities: true,
       oauth: {
@@ -64,7 +79,7 @@ export default Ember.Service.extend({
         redirectUri: config.redirectUrl,
         scope: this.get('fullScope')
       }
-    });*/
+    });
   }.property('userAgent'),
 
   anon: function() {
@@ -86,7 +101,7 @@ export default Ember.Service.extend({
     return new Snoocore({
       userAgent: this.get('userAgent'),
       decodeHtmlEntities: true,
-      throttle: 10000,
+      throttle: 30000,
       oauth: {
         type: 'implicit',
         mobile: false,
@@ -102,14 +117,27 @@ export default Ember.Service.extend({
     return this.get('api').getImplicitAuthUrl().replace('www.reddit', 'us.reddit');
   }.property('user', 'api'),
 
+  loginExpiry: function() {
+    return this.get('loginExpires');
+  }.property('loginExpires', 'timeupdater.currentMoment'),
+
   checkLogin: function() {
     var code = getParamByName('access_token');
     var self = this;
     var snoo = this.get('api');
     if (code) {
-      return snoo.auth(code).then(function() {
-        self.set('isLoggedIn', true);
-        return true;
+      this.set(
+        'loginExpires',
+        moment().add(parseInt(getParamByName('expires_in')), 'second')
+      );
+      return snoo.auth(code).then(function(result) {
+        return snoo('/api/v1/me').get();
+      }).then(function(res) {
+        self.setProperties({
+          isLoggedIn: true,
+          user: res
+        });
+        return res;
       });
     }
     return Ember.RSVP.resolve(false);

@@ -1,14 +1,16 @@
 <p class='parent'><a></a></p>
-<div class='midcol unvoted'>
-  <div class='arrow up' role='button' aria-label='upvote' tabindex='0'></div>
-  <div class='arrow down' role='button' aria-label='downvote' tabindex='0'></div>
-</div>
+{{#if isComment}}
+  <div class='midcol unvoted'>
+    <div {{bind-attr class=":arrow upmod:upmod:up"}} {{action 'upmod'}} role='button' aria-label='upvote' tabindex='0'></div>
+    <div {{bind-attr class=":arrow downmod:downmod:down"}} {{action 'downmod'}} role='button' aria-label='downvote' tabindex='0'></div>
+  </div>
+{{/if}}
 <div class='entry unvoted'>
   <p class='tagline'>
     {{!==<a class='expand'>[-]</a>--}}
     <a class='author'>{{unbound author}}</a><span class='userattrs'></span><span
       class='score dislikes'>{{downs}} points</span><span
-      class='score unvoted'>{{score}} points</span><span
+      class='score unvoted'>{{content.score}} points</span><span
       class='score likes'>{{ups}} points</span>
     <time datetime="{{unbound created_utc}}" class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
 {{#if children.length}}

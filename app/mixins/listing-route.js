@@ -18,8 +18,10 @@ export default Ember.Mixin.create({
 
   listingType: 'hot',
 
+  listingClass: 'subreddit',
+
   makeApiCall: function(params) {
-    var sub = this.modelFor('subreddit');
+    var sub = this.modelFor(this.get('listingClass'));
     var path = sub.url + this.get('listingType');
     return this.get('snoocore.client')(path).listing(params);
   },
@@ -29,7 +31,7 @@ export default Ember.Mixin.create({
   },
 
   renderTemplate: function() {
-    this.render('subreddit/index', {
+    this.render(this.get('listingClass') + '/index', {
       controller: this.controller
     });
   }

@@ -24,14 +24,16 @@
     {{interest-bar placeholder="what's new?" action='navToMulti' hideResults=true}}
   </div>
   <div id='header-bottom-right'>
-    {{!--{{#if user}}
+    {{#if snoocore.user}}
+      {{#with snoocore.user as user}}
       <span class='user'><a>{{user.name}}</a></span>&nbsp;(<span class='userkarma'>{{user.link_karma}}</span>)<span class='separator'>|</span><a
         id='mail' href='/message/inbox' {{bind-attr class="user.has_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
         id='modmail' href='/message/moderator' {{bind-attr class="user.has_mod_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
-        {{action 'logout'}} title='Logout' style='cursor: pointer;'>logout {{time-ahead-in-words loginExpiry}}</a>
+        {{action 'logout'}} title='Logout' style='cursor: pointer;'>logout {{time-ahead-in-words snoocore.loginExpiry}}</a>
+      {{/with}}
     {{else}}
-      <a title='Login' {{bind-attr href=loginUrl}}>Login at reddit.com</a>
-    {{/if}} |--}}
+      <a title='Login' {{bind-attr href=snoocore.loginUrl}}>Login at reddit.com</a>
+    {{/if}}
   </div>
 </div>
 <div class='side'>
@@ -39,7 +41,7 @@
   <div class='spacer'>
     <h2>{{link-to "PRoFS' Guerrilla Radio" "radio"}}</h2>
     <hr>
-    {{profs-gradio class='container' maxUpdates=3}}
+    {{profs-gradio class='container' maxUpdates=10}}
   </div>
 </div>
 <div class='listing-chooser initialized'></div>

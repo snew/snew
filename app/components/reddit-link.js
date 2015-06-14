@@ -1,7 +1,8 @@
 /* globals moment */
 import Ember from 'ember';
+import ItemComponentMixin from 'snew/mixins/item-component';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ItemComponentMixin, {
   timeupdater: Ember.inject.service(),
   expand: false,
   tagName: 'div',
@@ -10,7 +11,6 @@ export default Ember.Component.extend({
   fixedExpand: 'fixedExpando',
 
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
-
 
   expandable: function() {
     if (this.get('imageUrl')) {
@@ -42,9 +42,12 @@ export default Ember.Component.extend({
     }
   }.property('link_flair_css_class'),
 
-  unknownProperty: function (key) {
+  unknownProperty: function (key, value) {
     var content = Ember.get(this, 'content');
     if (content) {
+      if (arguments.length > 1) {
+        return Ember.set(content, key, value);
+      }
       return Ember.get(content, key);
     }
   },

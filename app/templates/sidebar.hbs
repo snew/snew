@@ -31,14 +31,18 @@
       {{#each sub in model.subreddits}}
         <h4>{{#link-to 'subreddit.index' sub}}/r/{{sub}}{{/link-to}}</h4>
       {{/each}}
-      <span class='subscribers'>
-        <span class='number'>{{model.subscribers}}</span>
-        <span class='word'>readers</span>
-      </span>
-      <p class='users-online' title='logged-in users viewing this subreddit in the past 15 minutes'>
-        <span class='number'>{{model.accounts_active}}</span>
-        <span class='word'>users here now</span>
-      </p>
+      {{#if model.subscribers}}
+        <span class='subscribers'>
+          <span class='number'>{{model.subscribers}}</span>
+          <span class='word'>readers</span>
+        </span>
+      {{/if}}
+      {{#if model.accounts_active}}
+        <p class='users-online' title='logged-in users viewing this subreddit in the past 15 minutes'>
+          <span class='number'>{{model.accounts_active}}</span>
+          <span class='word'>users here now</span>
+        </p>
+      {{/if}}
       <div class='tagline'></div>
       <form class='usertext'>
         <div class='usertext-body md-container'>
