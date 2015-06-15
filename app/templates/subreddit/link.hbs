@@ -16,6 +16,6 @@
       </div>
     </div>
   </div>
-  {{#if model.user}}{{reply-form thing=model.link cancel=false}}{{/if}}
+  {{#if snoocore.user}}{{reply-form thing=model.link comments=model.comments cancel=false}}{{/if}}
   {{reddit-listing content=model.comments classNames="nestedlisting"}}
 </div>

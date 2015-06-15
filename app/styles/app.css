@@ -114,3 +114,7 @@
 .side {
   z-index: 8000;
 }
+
+.usertext textarea {
+  color: white;
+}

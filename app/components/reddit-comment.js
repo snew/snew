@@ -6,6 +6,8 @@ export default Ember.Component.extend(ItemComponentMixin, {
   classNames: 'thing comment'.w(),
   timeupdater: Ember.inject.service(),
 
+  isReplying: false,
+
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
 
   link_id: function() {
@@ -28,6 +30,15 @@ export default Ember.Component.extend(ItemComponentMixin, {
     var content = Ember.get(this, 'content');
     if (content) {
       return Ember.get(content, key);
+    }
+  },
+
+  actions: {
+    reply: function() {
+      this.set('isReplying', true);
+    },
+    cancelReply: function() {
+      this.set('isReplying', false);
     }
   }
 });

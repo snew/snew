@@ -28,7 +28,12 @@
   </form>
   <ul class='flat-list buttons'>
     {{#if link_id}}
-    <li class='first'>{{link-to 'permalink' 'subreddit.link' subreddit link_id '_'}}</li>
+      <li class='first'>{{link-to 'permalink' 'subreddit.link' subreddit link_id '_'}}</li>
+    {{/if}}
+    {{#if snoocore.user}}
+      {{#if isComment}}
+        <li class='reply-button'><a href='javascript:function(){}();'{{action 'reply'}}>reply</a></li>
+      {{/if}}
     {{/if}}
     {{!--<li class='comment-save-button save-button'><a>save</a></li>--}}
     {{!--<li class='report-button'><a>report</a></li>--}}
@@ -36,9 +41,13 @@
     {{!--<li><a>reply</a></li>--}}
   </ul>
 </div>
-{{#if children.length}}
-  <div class='child'>
-    {{reddit-listing content=children classNames="listing"}}
-  </div>
+<div class='child'>
+{{#if isReplying}}
+  {{reply-form thing=content comments=children cancel='cancelReply' success='cancelReply'}}
 {{/if}}
+{{#if children.length}}
+    {{reddit-listing content=children classNames="listing"}}
+{{/if}}
+</div>
+
 <div class='clearleft'></div>

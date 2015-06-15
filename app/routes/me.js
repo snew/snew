@@ -4,20 +4,24 @@ export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
 
   model: function(params) {
-    if (this.get('snoocore.isLoggedIn')) {
+    var self = this;
+    return Ember.RSVP.resolve(this.modelFor('application')).then(function(user) {
+      console.log('user', user);
+      if (user) {
+        return {
+          name: 'me',
+          display_name: 'me',
+          subreddits: [],
+          url: '/'
+        };
+      }
       return {
         name: 'me',
-        display_name: 'me',
+        display_name: 'reddit',
         subreddits: [],
         url: '/'
       };
-    }
-    return {
-      name: 'me',
-      display_name: 'reddit',
-      subreddits: [],
-      url: '/'
-    };
+    });
   },
 
   afterModel: function() {
