@@ -28,7 +28,7 @@
     submitted <time {{bind-attr
       datetime=created_utc
     }} class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
-    by <a>{{author}}</a>
+    by {{link-to author 'catchall' authorPath}}
     to {{#link-to 'subreddit.index' subreddit}}/r/{{subreddit}}{{/link-to}}
   </p>
   <ul class='flat-list buttons'>

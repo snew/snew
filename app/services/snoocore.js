@@ -52,14 +52,13 @@ export default Ember.Service.extend({
 
   handleExpiredAuth: function() {
     var self = this;
-    if (!this.get('isLoggedIn')) {return;};
-    this.get('snoocore.client').on('access_token_expired', function(responseError) {
+    this.get('api').on('access_token_expired', function(responseError) {
       self.setProperties({
         user: null,
         isLoggedIn: false
       });
     });
-  }.observes('snoocore.client').on('init'),
+  }.observes('snoocore.api').on('init'),
 
   client: function() {
     if (this.get('isLoggedIn')) {

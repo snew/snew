@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   snoocore: Ember.inject.service(),
 
+  authorPath: function() {
+    return '/user/' + this.get('content.author');
+  }.property('content.author'),
+
   castVote: function(direction) {
     direction = direction || 0;
     if (!this.get('snoocore.isLoggedIn')) {return;}
