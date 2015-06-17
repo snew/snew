@@ -5,6 +5,13 @@ var Router = Ember.Router.extend({
   location: config.locationType
 });
 
+Ember.Route.reopen({
+  activate: function() {
+    this._super();
+    window.scrollTo(0,0);
+  }
+});
+
 Router.map(function() {
   this.resource('redditRedirect', {path: '/r/reddit'});
   this.resource('me', {path: '/r/me'}, function() {
