@@ -77,6 +77,7 @@ export default Ember.Service.extend({
         mobile: false,
         duration: 'temporary',
         key: config.consumerKey,
+        throttle: 0,
         redirectUri: config.redirectUrl,
         scope: this.get('fullScope')
       }
@@ -92,6 +93,7 @@ export default Ember.Service.extend({
         mobile: false,
         duration: 'temporary',
         key: config.consumerKey,
+        throttle: 0,
         redirectUri: config.redirectUrl,
         scope: this.get('fullScope').concat(['modconfig'])
       }
