@@ -53,7 +53,7 @@ export default Ember.Component.extend(ItemComponentMixin, {
   },
 
   isDirectImageUrl: function() {
-    return this.get('url').match(/\.(jpg|jpeg|png|gif)$/i);
+    return (this.get('url') || '').match(/\.(jpg|jpeg|png|gif)$/i);
   }.property('url'),
 
   imageUrl: function() {

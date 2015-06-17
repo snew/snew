@@ -109,8 +109,6 @@
 .profs-gradio .link.thing .rank {display: none;}
 .profs-gradio .link.thing .midcol {width: auto;}
 
-.side .profs-gradio .link.thing {display: none;}
-
 .side {
   z-index: 8000;
 }
