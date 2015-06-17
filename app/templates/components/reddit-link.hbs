@@ -18,7 +18,7 @@
       <span class='linkflairlabel'>{{link_flair_text}}</span>
     {{/if}}
     <a class='title' {{bind-attr href=url}} target='_new'>{{title}}</a>
-    <span class='domain'>(<a>{{domain}}</a>)</span>
+    <span class='domain'>({{link-to domain 'catchall' domainPath}})</span>
   </p>
   {{#if expandable}}
     <div {{action "toggleExpand"}} title="toggle" {{bind-attr

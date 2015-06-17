@@ -29,6 +29,10 @@ export default Ember.Component.extend(ItemComponentMixin, {
     return this.get('media.oembed.type') || 'selftext';
   }.property('media.oembed.type'),
 
+  domainPath: function() {
+    return '/domain/' + this.get('domain');
+  }.property('domain'),
+
   even: function() {
     return this.get('rank') % 2 === 0;
   }.property('rank'),
