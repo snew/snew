@@ -6,7 +6,6 @@ export default Ember.Route.extend({
   model: function(params) {
     var self = this;
     return Ember.RSVP.resolve(this.modelFor('application')).then(function(user) {
-      console.log('user', user);
       if (user) {
         return {
           name: 'me',

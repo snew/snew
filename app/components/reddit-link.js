@@ -11,6 +11,12 @@ export default Ember.Component.extend(ItemComponentMixin, {
 
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
 
+  expand: function(key, value) {
+    if (arguments.length > 1) {return value;}
+    if (this.get('isRemovedComment')) {return true;}
+    return false;
+  }.property('isRemovedComment'),
+
   expandable: function() {
     if (this.get('imageUrl')) {
       return true;
@@ -21,8 +27,22 @@ export default Ember.Component.extend(ItemComponentMixin, {
     if (this.get('media.oembed.type')) {
       return true;
     }
+    if (this.get('isRemovedComment')) {
+      return true;
+    }
     return false;
   }.property('imageUrl', 'media.oembed.type'),
+
+  isRemovedComment: function() {
+    var url = this.get('url');
+    var domain = this.get('domain');
+    var parts = url.split(domain);
+    if (domain !== 'rm.reddit.com') {return false;}
+    if (parts[1].match(/^\/user\//)) {
+      return true;
+    }
+    return false;
+  }.property('url', 'domain'),
 
   expandoClass: function() {
     return this.get('media.oembed.type') || 'selftext';
