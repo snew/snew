@@ -84,7 +84,6 @@ export default Ember.Service.extend(LiveSocketMixin, {
     try {
       var bot = this.get('snoocore.bot');
       var post = JSON.parse(data.body.trim());
-      console.log('post', post);
       var update = {
         post: post,
         ytid: this.get('lastUpdate.ytid')
