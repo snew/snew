@@ -12,7 +12,9 @@
       class='score dislikes'>{{downs}} points</span><span
       class='score unvoted'>{{content.score}} points</span><span
       class='score likes'>{{ups}} points</span>
-    <time datetime="{{unbound created_utc}}" class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+    {{#if created_utc}}
+      <time datetime="{{unbound created_utc}}" class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+    {{/if}}
 {{#if children.length}}
     <a class='numchildren'>({{children.length}} children)</a>
 {{/if}}
@@ -22,7 +24,7 @@
       {{#if body_html}}
         {{{body_html}}}
       {{else}}
-        {{body}}
+        <div class='md'>{{markdown-to-html markdown=body}}</div>
       {{/if}}
     </div>
   </form>

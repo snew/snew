@@ -1,3 +1,8 @@
+{{#if mock}}
+  {{#with mock as comment}}
+    {{reddit-comment content=comment}}
+  {{/with}}
+{{/if}}
 <div class='usertext-edit md-container' style='width: 500px;'>
   {{#if isPosting}}
     <h2 class='loading working'><div class='throbber'></div> Loading...</h2>

@@ -27,7 +27,7 @@ export default Ember.Mixin.create({
   },
 
   normalizeResponse: function(response) {
-    return (response.children || []).getEach('data');
+    return (response.allChildren || response.children || []).getEach('data');
   },
 
   renderTemplate: function() {

@@ -6,6 +6,16 @@ export default Ember.Component.extend({
   classNames: 'usertext cloneable'.w(),
   body: '',
 
+  mock: function() {
+    var body = this.get('body');
+    if (!body) {return;}
+    return {
+      author: this.get('snoocore.user.name'),
+      body: this.get('body'),
+      score: 1
+    };
+  }.property('body', 'snoocore.user.name'),
+
   actions: {
     save: function() {
       var self = this;

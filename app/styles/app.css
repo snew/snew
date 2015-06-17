@@ -116,3 +116,12 @@
 .usertext textarea {
   color: white;
 }
+
+.growl-manager {
+  position: fixed;
+  left: 0px;
+  bottom: -30px;
+  top: auto;
+  right: auto;
+  margin-left: 0px;
+}
