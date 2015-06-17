@@ -32,6 +32,11 @@
     to {{#link-to 'subreddit.index' subreddit}}/r/{{subreddit}}{{/link-to}}
   </p>
   <ul class='flat-list buttons'>
+  {{#if content.over_18}}
+    <li class='rounded nsfw-stamp stamp'>
+      <acronym title="Adult content: Not Safe For Work">NSFW</acronym>
+    </li>
+  {{/if}}
     <li class='first'>
       {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
         {{num_comments}} comments

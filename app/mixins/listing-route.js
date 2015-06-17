@@ -22,7 +22,7 @@ export default Ember.Mixin.create({
 
   makeApiCall: function(params) {
     var sub = this.modelFor(this.get('listingClass'));
-    var path = sub.url + this.get('listingType');
+    var path = sub.url + this.get('listingType') + '.json';
     return this.get('snoocore.client')(path).listing(params);
   },
 
