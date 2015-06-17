@@ -4,7 +4,6 @@ import ItemComponentMixin from 'snew/mixins/item-component';
 
 export default Ember.Component.extend(ItemComponentMixin, {
   timeupdater: Ember.inject.service(),
-  expand: false,
   tagName: 'div',
   classNameBindings: 'type even odd linkflairclass'.w(),
   fixedExpand: 'fixedExpando',
