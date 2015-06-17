@@ -6,7 +6,6 @@ export default Ember.Component.extend(ItemComponentMixin, {
   timeupdater: Ember.inject.service(),
   expand: false,
   tagName: 'div',
-  classNames: 'thing'.w(),
   classNameBindings: 'type even odd linkflairclass'.w(),
   fixedExpand: 'fixedExpando',
 

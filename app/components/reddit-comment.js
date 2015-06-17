@@ -3,7 +3,7 @@ import Ember from 'ember';
 import ItemComponentMixin from 'snew/mixins/item-component';
 
 export default Ember.Component.extend(ItemComponentMixin, {
-  classNames: 'thing comment'.w(),
+  classNames: 'comment'.w(),
   timeupdater: Ember.inject.service(),
 
   isReplying: false,

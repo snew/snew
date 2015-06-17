@@ -1,7 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  classNames: 'thing'.w(),
+  classNameBindings: 'isSpam:spam'.w(),
   snoocore: Ember.inject.service(),
+
+  isSpam: function() {
+    return !!this.get('content.banned_by')
+  }.property('content.banned_by'),
 
   authorPath: function() {
     return '/user/' + this.get('content.author');
