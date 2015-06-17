@@ -14,6 +14,7 @@
   playing="ytPlaying" ended="ytEnded" width=300
   autoplay=gradio.autoplay showControls=false}}
 {{/if}}
+{{#if updates.length}}<h1>New Submissions</h1>{{/if}}
 {{#each update in updates}}
   {{#if update.post}}{{reddit-link content=update.post}}{{/if}}
   {{#if update.comment}}{{reddit-comment content=update.comment}}{{/if}}
@@ -21,6 +22,6 @@
   {{#if gradio.lastUpdate.comment}}
     <h4>Nothing to see here.</h4>
   {{else}}
-    <h2 class='loading working'><div class='throbber'></div> Waiting for new items...</h2>
+    <h2 class='loading working'><div class='throbber'></div> Waiting for new submissions...</h2>
   {{/if}}
 {{/if}}{{/each}}

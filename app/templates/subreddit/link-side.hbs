@@ -2,7 +2,7 @@
   <h1>{{model.others.length}} Others{{#if model.removed.length}} {{model.removed.length}} [removed]{{/if}}</h1>
   {{#each link in model.others}}
   <div id='siteTable' class='sitetable linklisting'>
-    {{reddit-link content=link expand=true}}
+    {{reddit-link content=link}}
   </div>
   {{/each}}
 {{/if}}
