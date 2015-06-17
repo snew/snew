@@ -49,6 +49,11 @@ export default Ember.Service.extend({
     this.get('timeupdater');
   }.on('init'),
 
+  userPath: function() {
+    var name = this.get('user.name');
+    if (!name) {return;}
+    return '/user/' + name;
+  }.property('user.name'),
 
   handleExpiredAuth: function() {
     var self = this;

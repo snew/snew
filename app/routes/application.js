@@ -42,7 +42,7 @@ export default Ember.Route.extend({
         route.growl.info([
           '<h1>Logged in as',route.get('snoocore.user.name'),'</h1>',
           '<div class="message">',
-          'Only voting is currently supported',
+          'This is still an early and incomplete alpha!',
           '</div>'
         ].join('\n'));
         return route.get('snoocore.user');
