@@ -19,10 +19,19 @@
     {{link-to 'rising' 'me.rising'}}
   {{/link-to}}
   {{#link-to 'me.controversial' tagName='li' activeClass='selected'}}
-    {{link-to 'controversial' 'me.controversial'}}
+    {{link-to 'contro' 'me.controversial'}}
   {{/link-to}}
   {{#link-to 'me.top' tagName='li' activeClass='selected'}}
     {{link-to 'top' 'me.top'}}
+  {{/link-to}}
+  {{#link-to 'catchall' 'domain/rm.reddit.com' tagName='li' activeClass='selected'}}
+    {{link-to 'rm' 'catchall' 'domain/rm.reddit.com'}}
+  {{/link-to}}
+  {{#link-to 'catchall' 'domain/pu.reddit.com' tagName='li' activeClass='selected'}}
+    {{link-to 'pu' 'catchall' 'domain/pu.reddit.com'}}
+  {{/link-to}}
+  {{#link-to 'catchall' 'domain/np.reddit.com' tagName='li' activeClass='selected'}}
+    {{link-to 'np' 'catchall' 'domain/np.reddit.com'}}
   {{/link-to}}
   {{!--{{#link-to 'radio' tagName='li' activeClass='selected'}}
     {{link-to 'radio' 'radio'}}

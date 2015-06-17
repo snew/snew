@@ -10,5 +10,19 @@ export default Ember.Route.extend(ListingRouteMixin, {
     }
     if (!path) {path = 'hot';}
     return client('/' + path).listing(params);
+  },
+  
+  renderTemplate: function() {
+    this._super.apply(this, arguments);
+    this.render('sidebar', {
+      into: 'application',
+      outlet: 'sidebar',
+      controller: 'subreddit'
+    });
+    this.render('subreddit/tabmenu', {
+      into: 'application',
+      outlet: 'tabmenu',
+      controller: 'subreddit'
+    });
   }
 });

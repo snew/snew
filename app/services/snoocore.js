@@ -52,7 +52,7 @@ export default Ember.Service.extend({
   userPath: function() {
     var name = this.get('user.name');
     if (!name) {return;}
-    return '/user/' + name;
+    return 'user/' + name;
   }.property('user.name'),
 
   handleExpiredAuth: function() {

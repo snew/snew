@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
   }.property('content.banned_by'),
 
   authorPath: function() {
-    return '/user/' + this.get('content.author');
+    return 'user/' + this.get('content.author');
   }.property('content.author'),
 
   castVote: function(direction) {
