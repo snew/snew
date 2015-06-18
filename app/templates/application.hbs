@@ -27,8 +27,8 @@
     {{#if snoocore.user}}
       {{#with snoocore.user as user}}
       <span class='user'>{{link-to user.name 'catchall' snoocore.userPath}}</span>&nbsp;(<span class='userkarma'>{{user.link_karma}}</span>)<span class='separator'>|</span><a
-        id='mail' href='/message/inbox' {{bind-attr class="user.has_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
-        id='modmail' href='/message/moderator' {{bind-attr class="user.has_mod_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span><a
+        id='mail' href='/message/inbox' {{bind-attr class="user.has_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span>{{!--<a
+        id='modmail' href='/message/moderator' {{bind-attr class="user.has_mod_mail:havemail:nohavemail"}}>messages</a><span class='separator'>|</span>--}}<a
         {{action 'logout'}} title='Logout' style='cursor: pointer;'>logout {{time-ahead-in-words snoocore.loginExpiry}}</a>
       {{/with}}
     {{else}}
