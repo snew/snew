@@ -23,6 +23,9 @@ export default Ember.Route.extend({
       }
       if (t && t.href && !Ember.$(t).hasClass('dontintercept') && !Ember.$(t).hasClass('ember-view')){
         var parts = t.href.split(window.location.origin, 2);
+        if (!(parts.length > 1)) {
+          parts = t.href.split('reddit.com', 2);
+        }
         if (parts.length > 1) {
           e.preventDefault();
           try {

@@ -4,9 +4,9 @@ export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
 
   model: function(params) {
-    var path = '/r/' + params.subreddit + '/about/';
+    var path = '/r/' + params.subreddit + '/about';
     if (params.subreddit === 'all') {return {url: '/r/all/'};}
-    return this.get('snoocore.client')(path).get().then(function(result) {
+    return this.get('snoocore.client')(path + '.json').get().then(function(result) {
       return result.data;
     }).catch(function(error) {
       console.error(error);
