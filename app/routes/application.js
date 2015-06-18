@@ -21,6 +21,9 @@ export default Ember.Route.extend({
         route.get('gradio').playUrl(t.href);
         return false;
       }
+      if (t.href.match(/reddit.com\/api\/v1\/authorize/)) {
+        return;
+      }
       if (t && t.href && !Ember.$(t).hasClass('dontintercept') && !Ember.$(t).hasClass('ember-view')){
         var parts = t.href.split(window.location.origin, 2);
         if (!(parts.length > 1)) {
