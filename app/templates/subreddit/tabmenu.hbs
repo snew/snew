@@ -10,10 +10,10 @@
       {{link-to 'new' 'subreddit.new'}}
     {{/link-to}}
     {{#link-to 'subreddit.rising' tagName='li' activeClass='selected'}}
-      {{link-to 'rising' 'subreddit.rising'}}
+      {{link-to 'ris' 'subreddit.rising'}}
     {{/link-to}}
     {{#link-to 'subreddit.controversial' tagName='li' activeClass='selected'}}
-      {{link-to 'contro' 'subreddit.controversial'}}
+      {{link-to 'con' 'subreddit.controversial'}}
     {{/link-to}}
     {{#link-to 'subreddit.top' tagName='li' activeClass='selected'}}
       {{link-to 'top' 'subreddit.top'}}
@@ -27,9 +27,6 @@
     {{#link-to 'catchall' 'domain/np.reddit.com' tagName='li' activeClass='selected'}}
       {{link-to 'np' 'catchall' 'domain/np.reddit.com'}}
     {{/link-to}}
-    {{!--{{#link-to 'radio' tagName='li' activeClass='selected'}}
-      {{link-to 'radio' 'radio'}}
-    {{/link-to}}--}}
   </ul>
 {{else}}
   <ul class='tabmenu'>
@@ -40,10 +37,6 @@
       {{#link-to 'me' tagName='li' activeClass='selected'}}
         {{link-to 'me' 'me'}}
       {{/link-to}}
-    {{else}}
-      {{#link-to 'me' tagName='li' activeClass='selected'}}
-        {{link-to "reddit" 'me'}}
-      {{/link-to}}
     {{/if}}
     {{#link-to 'index' tagName='li' activeClass='selected'}}
       {{link-to 'hot' 'index'}}
@@ -52,10 +45,10 @@
       {{link-to 'new' 'new'}}
     {{/link-to}}
     {{#link-to 'rising' tagName='li' activeClass='selected'}}
-      {{link-to 'rising' 'rising'}}
+      {{link-to 'ris' 'rising'}}
     {{/link-to}}
     {{#link-to 'controversial' tagName='li' activeClass='selected'}}
-      {{link-to 'contro' 'controversial'}}
+      {{link-to 'con' 'controversial'}}
     {{/link-to}}
     {{#link-to 'top' tagName='li' activeClass='selected'}}
       {{link-to 'top' 'top'}}
@@ -69,8 +62,5 @@
     {{#link-to 'catchall' 'domain/np.reddit.com' tagName='li' activeClass='selected'}}
       {{link-to 'np' 'catchall' 'domain/np.reddit.com'}}
     {{/link-to}}
-    {{!--{{#link-to 'radio' tagName='li' activeClass='selected'}}
-      {{link-to 'radio' 'radio'}}
-    {{/link-to}}--}}
   </ul>
 {{/if}}

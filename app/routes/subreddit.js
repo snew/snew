@@ -5,7 +5,12 @@ export default Ember.Route.extend({
 
   model: function(params) {
     var path = '/r/' + params.subreddit + '/about';
-    if (params.subreddit === 'all') {return {url: '/r/all/'};}
+    if (params.subreddit === 'all') {
+      return {
+        url: '/r/all/',
+        display_name: 'all'
+      };
+    }
     return this.get('snoocore.client')(path + '.json').get().then(function(result) {
       return result.data;
     }).catch(function(error) {

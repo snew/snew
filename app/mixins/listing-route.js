@@ -9,6 +9,9 @@ export default Ember.Mixin.create({
     },
     before: {
       refreshModel: true
+    },
+    limit: {
+      refreshModel: true
     }
   },
 

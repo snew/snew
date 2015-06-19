@@ -1,11 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-  queryParams: ['before', 'after', 'count'],
+  queryParams: ['before', 'after', 'count', 'limit'],
   before: '',
   after: '',
   count: 0,
-  limit: 25,
+  limit: 100,
   last: Ember.computed.alias('listing.lastObject'),
   first: Ember.computed.alias('listing.firstObject'),
   nextCount: function() {
