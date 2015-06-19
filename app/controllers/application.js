@@ -6,7 +6,9 @@ export default Ember.Controller.extend({
 
   autoplay: Ember.computed.alias('gradio.autoplay'),
   ytid: Ember.computed.alias('gradio.lastUpdate.ytid'),
-  queryParams: ['autoplay', 'ytid'],
+  queryParams: ['autoplay', 'ytid', 'autoexpando'],
+
+  autoexpando: false,
 
   willChangeFixedExpando: function() {
     var fixedExpando = this.get('fixedExpando');

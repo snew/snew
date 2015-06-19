@@ -6,6 +6,7 @@
 <div class='spacer'>
   <div class='nav-buttons'>
     <span class='nextprev'>
+      <label>{{input type='checkbox' checked=autoexpando}} autoexpando (<span class='rounded nsfw-stamp stamp'>NSFW</span>)</label>
       {{link-to 'view more' (query-params before='' after='' count=0)}}
       {{#if count}}
         {{#if prevCount}}
@@ -28,7 +29,7 @@
 </div>
 <div class='spacer'>
   <style>.ember-app >.content .link .rank, .rank-spacer { width: 3.3ex } .ember-app >.content .link .midcol, .midcol-spacer { width: 5.1ex }</style>
-  {{reddit-listing content=content classNames="linklisting" rankStart=count}}
+  {{reddit-listing content=content classNames="linklisting" rankStart=count autoExpand=autoexpando}}
   <div class='nav-buttons'>
     <span class='nextprev'>
       {{link-to 'view more' (query-params before='' after='' count=0)}}

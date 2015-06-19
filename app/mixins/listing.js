@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
+  needs: ['application'],
   queryParams: ['before', 'after', 'count', 'limit'],
+  autoexpando: Ember.computed.alias('controllers.application.autoexpando'),
   before: '',
   after: '',
   count: 0,

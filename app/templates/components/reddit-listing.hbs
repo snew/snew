@@ -1,6 +1,10 @@
 {{#each item in listing}}
   {{#if item.content.title}}
-    {{reddit-link content=item.content rank=item.rank}}
+    {{#if autoExpand}}
+      {{reddit-link content=item.content rank=item.rank expand=true}}
+    {{else}}
+      {{reddit-link content=item.content rank=item.rank expand=false}}
+    {{/if}}
   {{else}}
     {{#if item.content.body}}
       {{reddit-comment content=item.content}}
