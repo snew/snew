@@ -125,3 +125,34 @@
   right: auto;
   margin-left: 0px;
 }
+
+.snew-chat {
+  position: relative;
+  min-height: 250px;
+}
+
+.snew-chat .messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 13px;
+  overflow: scroll;
+  padding-bottom: 40px;
+}
+
+.snew-chat input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: block;
+}
+
+.snew-chat button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+}

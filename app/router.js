@@ -37,6 +37,7 @@ Router.map(function() {
   this.route('privacy');
   this.route('radio');
   this.route('catchall', {path: '/*path'});
+  this.route('chat');
 });
 
 export default Router;

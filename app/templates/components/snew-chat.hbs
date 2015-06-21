@@ -1,0 +1,11 @@
+<section class='messages'>
+  <h3>experimental chat {{#if chat.users.length}}({{chat.users.length}} on){{/if}}</h3>
+  Powered by <a href='http://www.freedomjs.org' target='_new'>freedomjs.org</a>
+  <hr>
+{{#each msg in messages}}
+  <label>{{msg.from.userId}}</label> says:
+  <div class='md'>{{markdown-to-html markdown=msg.message}}</div>
+  <hr>
+{{/each}}
+</section>
+{{input value=myMessage action='send' placeholder="Type message and press <enter> to send"}}

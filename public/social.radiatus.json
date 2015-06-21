@@ -1,0 +1,14 @@
+{
+  "name": "Radiatus Social",
+  "description": "Social provider using node.js WebSockets rendezvous",
+  "app": {
+    "script": "social.radiatus.js"
+  },
+  "default": "social",
+  "provides": [
+    "social"
+  ],
+  "permissions": [
+    "core.websocket"
+  ]
+}

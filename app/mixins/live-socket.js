@@ -32,7 +32,6 @@ export default Ember.Mixin.create(Ember.Evented, {
     var self = this;
     var id = this.get('liveThreadId');
     var api = this.get('snoocore.anon');
-    console.log('id', id);
     if (!id) {return;}
     return api('/live/' + id + '/about.json').get().then(function(result) {
       self.set('socketUrl', result.data.websocket_url);
