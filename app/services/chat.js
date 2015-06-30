@@ -1,18 +1,40 @@
+/* globals openpgp */
 import Ember from 'ember';
+window.openpgp.initWorker();
 
 export default Ember.Service.extend({
   initFreedom: function() {
-    freedom('/snew-chat.json', {
+    var url = 'https://snew.github.io/chat/snew-chat.json';
+    freedom(url, {
       'debug': 'log'
     }).then(function(klass) {
-      return new klass();
       console.log('loaded freedom');
+      return new klass();
     }).then(function(client) {
       this.set('client', client);
+      try {
+        var userId = 'foo <bar@example.com>';
+        return window.openpgp.generateKeyPair({
+          numBits: 2048,
+          userId: userId,
+          passphrase: '',
+          unlocked: true
+        }).then(function(keypair) {
+          return client.importKeypair('foobar', userId, keypair.privateKeyArmored);
+        }.bind(this), function(error) {
+          logger.log('key error', error.stack || error);
+        });
+      } catch(e) {
+        console.error('setup error', e.stack || e);
+      }
     }.bind(this));
   }.on('init'),
 
   messages: function() {return []}.property(),
+
+  messagesDidChange: function() {
+    window.openpgp.crypto.random.randomBuffer.init(4096 * 16);
+  }.observes('messages.@each'),
 
   users: [],
 
@@ -42,7 +64,6 @@ export default Ember.Service.extend({
   sendMessage: function(message) {
     var client = this.get('client');
     if (!client) {return;}
-    console.log('sending', message, client);
     client.send(message);
   }
 });
