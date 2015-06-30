@@ -28,6 +28,9 @@ Router.map(function() {
     this.route('controversial');
     this.route('top');
     this.route('gilded');
+    this.resource('wiki', function() {
+      this.route('page', {path: '/:page'});
+    });
   });
   this.route('new');
   this.route('rising');

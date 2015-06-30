@@ -1,0 +1,16 @@
+<h4>
+  {{#link-to 'wiki.page' model.title}}
+    /r/{{model.subreddit.display_name}}/wiki/{{model.title}}
+  {{/link-to}}
+</h4><hr>
+{{{model.content_html}}}
+
+<hr>
+<h1>Things in this page</h1>
+{{#each item in things}}
+  {{#if item.title}}
+    {{reddit-link content=item expand=false}}
+  {{else}}
+    {{reddit-comment content=item}}
+  {{/if}}
+{{/each}}
