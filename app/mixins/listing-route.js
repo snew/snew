@@ -12,6 +12,15 @@ export default Ember.Mixin.create({
     },
     limit: {
       refreshModel: true
+    },
+    q: {
+      refreshModel: true
+    },
+    t: {
+      refreshModel: true
+    },
+    sort: {
+      refreshModel: true
     }
   },
 

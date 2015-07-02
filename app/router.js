@@ -39,6 +39,7 @@ Router.map(function() {
   this.route('gilded');
   this.route('privacy');
   this.route('radio');
+  this.route('search');
   this.route('catchall', {path: '/*path'});
   this.route('chat');
 });
