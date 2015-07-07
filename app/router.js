@@ -40,6 +40,7 @@ Router.map(function() {
   this.route('privacy');
   this.route('radio');
   this.route('search');
+  this.route('commentSearch', {path: '/commentsearch'});
   this.route('catchall', {path: '/*path'});
   this.route('chat');
 });
