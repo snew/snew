@@ -10,6 +10,8 @@ export default Ember.Controller.extend({
 
   autoexpando: false,
 
+  showLiveThreads: false,
+
   willChangeFixedExpando: function() {
     var fixedExpando = this.get('fixedExpando');
     if (!fixedExpando) {
@@ -21,5 +23,11 @@ export default Ember.Controller.extend({
     if (this.get('autoplay') && this.get('fixedExpando')) {
       this.set('fixedExpando', null);
     }
-  }.observes('autoplay')
+  }.observes('autoplay'),
+
+  actions: {
+    toggleLiveThreads: function() {
+      this.toggleProperty('showLiveThreads');
+    }
+  }
 });
