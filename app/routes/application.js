@@ -1,5 +1,13 @@
 import Ember from 'ember';
 
+function getParamByName(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.hash.replace(/^#/, '?'));
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+
 function escapeRegExp(string){
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -72,7 +80,8 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
-    this.get('snoocore.anon')('/r/carbon/about/stylesheet').get().then(function(result) {
+    var theme = getParamByName('theme') || 'carbon';
+    this.get('snoocore.anon')('/r/' + theme + '/about/stylesheet.json').get().then(function(result) {
       var data = result.data || {};
       var css = data.stylesheet || '';
       var images = data.images || [];
