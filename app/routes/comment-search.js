@@ -12,7 +12,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
     return Ember.RSVP.resolve(Ember.$.ajax({
       url: "https://api.pushshift.io/reddit/search?" + Ember.$.param(params)
     })).then(function(data) {
-      return data.map(function(item) {
+      return (data.data || []).map(function(item) {
         item.body_html = $('<textarea />').html(item.body_html).text();
         return item;
       });
