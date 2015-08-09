@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend(Ember.Evented, {
+  snoocore: Ember.inject.service(),
   url: "https://api.pushshift.io/stream?match=%22over_18%22:true",
   classNames: 'sitetable stream-listing',
   maxUpdates: 100,
@@ -14,6 +15,17 @@ export default Ember.Component.extend(Ember.Evented, {
     return this.get('sortedItems').slice(0, this.get('maxUpdates'));
   }.property('sortedItems.@each', 'maxUpdates'),
 
+  fetchInitialContent: function() {
+    return this.get('snoocore.client')('/user/PoliticBot/m/gasthesnoo.json')
+      .listing({limit:100})
+      .then(function(response) {
+        return (response.allChildren || response.children || []).getEach('data');
+      })
+      .then(function(items) {
+        this.get('items').addObjects(items);
+      }.bind(this));
+  }.on('init'),
+
   eventStream: function() {
     var source = new EventSource(this.get('url'));
     function handle(evt) {
@@ -24,7 +36,7 @@ export default Ember.Component.extend(Ember.Evented, {
       if (data.selftext_html) {
         data.selftext_html = $('<textarea />').html(data.selftext_html).text();
       }
-
+      console.log('data', data);
       if (data.oembed && data.oembed.html) {
         data.oembed.html = $('<textarea />').html(data.oembed.html).text();
       }
@@ -49,6 +61,10 @@ export default Ember.Component.extend(Ember.Evented, {
   onReceiveItem: function(item) {
     this.get('items').pushObject(item);
   }.on('didReceiveItem'),
+
+  willDestroy: function() {
+    this.eventStreamWillChange();
+  },
 
   initStream: function() {this.get('eventStream');}.on('init')
 });
