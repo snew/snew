@@ -32,6 +32,7 @@ Router.map(function() {
       this.route('page', {path: '/:page'});
     });
   });
+  this.route('nsfa');
   this.route('new');
   this.route('rising');
   this.route('controversial');

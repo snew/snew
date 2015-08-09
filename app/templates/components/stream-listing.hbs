@@ -1,0 +1,16 @@
+{{#each item in listing}}
+  {{#if item.title}}
+    {{#if autoExpand}}
+      {{reddit-link content=item expand=true}}
+    {{else}}
+      {{reddit-link content=item expand=false}}
+    {{/if}}
+  {{else}}
+    {{#if item.body}}
+      {{reddit-comment content=item}}
+    {{/if}}
+  {{/if}}
+{{else}}
+  <h2>Waiting for content</h2>
+  <p>You shouldn't have to wait too long...</p>
+{{/each}}

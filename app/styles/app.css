@@ -38,7 +38,7 @@
   text-align: right;
 }
 
-#header-img.default-header {
+/*#header-img.default-header {
   background-position: left bottom;
   margin-bottom: 0px;
   background-repeat: no-repeat;
@@ -46,13 +46,15 @@
   left: 0px !important;
   background-image: url("http://i.imgur.com/NQfOq89.png") !important;
   text-align: center;
-  /*text-indent: 0px;*/
   line-height: 40px;
   font-size: 12pt;
   width: 105px !important;
   height: 40px !important;
+}*/
+#header-img.default-header {
+  background-image: none;
+  background-color: #EFF7FF;
 }
-
 .sr-interest-bar {
   background-image: none;
 }
@@ -67,8 +69,8 @@
 #header .interestbar input {
   border-width: 0px;
   position: absolute;
-  top: 25px;
-  left: 40px;
+  top: 20px;
+  left: 20px;
   padding: 3px 3px 3px 3px;
   /*right: 0px;*/
   width: 80px;

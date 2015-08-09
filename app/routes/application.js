@@ -80,7 +80,8 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
-    var theme = getParamByName('theme') || 'carbon';
+    var theme = getParamByName('theme');
+    if (!theme) {return;}
     this.get('snoocore.anon')('/r/' + theme + '/about/stylesheet.json').get().then(function(result) {
       var data = result.data || {};
       var css = data.stylesheet || '';
