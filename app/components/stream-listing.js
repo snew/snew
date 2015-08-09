@@ -4,25 +4,21 @@ export default Ember.Component.extend(Ember.Evented, {
   snoocore: Ember.inject.service(),
   url: "https://api.pushshift.io/stream?match=%22over_18%22:true",
   classNames: 'sitetable stream-listing',
-  maxUpdates: 100,
+  maxUpdates: 25,
   autoExpand: true,
   items: function() {return [];}.property(),
 
   itemSort: ['created:desc'],
-  sortedItems: Ember.computed.sort('items', 'itemSort'),
-
-  listing: function() {
-    return this.get('sortedItems').slice(0, this.get('maxUpdates'));
-  }.property('sortedItems.@each', 'maxUpdates'),
+  listing: Ember.computed.sort('items', 'itemSort'),
 
   fetchInitialContent: function() {
     return this.get('snoocore.client')('/user/PoliticBot/m/gasthesnoo.json')
-      .listing({limit:100})
+      .listing({limit:25})
       .then(function(response) {
         return (response.allChildren || response.children || []).getEach('data');
       })
       .then(function(items) {
-        this.get('items').addObjects(items);
+        this.get('items').addObjects(items.sortBy('created:desc'));
       }.bind(this));
   }.on('init'),
 
@@ -36,7 +32,6 @@ export default Ember.Component.extend(Ember.Evented, {
       if (data.selftext_html) {
         data.selftext_html = $('<textarea />').html(data.selftext_html).text();
       }
-      console.log('data', data);
       if (data.oembed && data.oembed.html) {
         data.oembed.html = $('<textarea />').html(data.oembed.html).text();
       }
@@ -59,7 +54,10 @@ export default Ember.Component.extend(Ember.Evented, {
   },
 
   onReceiveItem: function(item) {
-    this.get('items').pushObject(item);
+    this.get('items').insertAt(0, item);
+    while (this.get('items.length') > this.get('maxUpdates')) {
+      this.get('items').popObject();
+    }
   }.on('didReceiveItem'),
 
   willDestroy: function() {
