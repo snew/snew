@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend(Ember.Evented, {
   snoocore: Ember.inject.service(),
-  url: "https://api.pushshift.io/stream?match=%22over_18%22:true",
+  url: "https://api.pushshift.io/stream?event=t3&match=%22over_18%22:true",
   classNames: 'sitetable stream-listing',
   maxUpdates: 25,
   autoExpand: true,
