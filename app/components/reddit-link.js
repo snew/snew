@@ -85,7 +85,7 @@ export default Ember.Component.extend(ItemComponentMixin, {
     if (this.get('isDirectImageUrl')) {
       return this.get('url');
     }
-    if (this.get('url').match(/imgur\.com/) && !this.get('content.media.oembed.html')) {
+    if (this.get('url').match(/\/imgur\.com/) && !this.get('content.media.oembed.html')) {
       if (this.get('url').match(/imgur\.com\/a\//)) {return;}
       return this.get('url') + '.jpg';
     }
