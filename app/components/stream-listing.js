@@ -32,8 +32,8 @@ export default Ember.Component.extend(Ember.Evented, {
       if (data.selftext_html) {
         data.selftext_html = $('<textarea />').html(data.selftext_html).text();
       }
-      if (data.oembed && data.oembed.html) {
-        data.oembed.html = $('<textarea />').html(data.oembed.html).text();
+      if (data.media && data.media.oembed && data.media.oembed.html) {
+        data.media.oembed.html = $('<textarea />').html(data.media.oembed.html).text();
       }
       Ember.run(this, function() {
         try {

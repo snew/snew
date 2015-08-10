@@ -29,8 +29,11 @@ export default Ember.Component.extend(ItemComponentMixin, {
     if (this.get('isRemovedComment')) {
       return true;
     }
+    if (this.get('customEmbed')) {
+      return true;
+    }
     return false;
-  }.property('imageUrl', 'media.oembed.type'),
+  }.property('imageUrl', 'media.oembed.type', 'customEmbed'),
 
   isRemovedComment: function() {
     var url = this.get('url');
@@ -82,7 +85,11 @@ export default Ember.Component.extend(ItemComponentMixin, {
     if (this.get('isDirectImageUrl')) {
       return this.get('url');
     }
-  }.property('isDirectImageUrl', 'url'),
+    if (this.get('url').match(/imgur\.com/) && !this.get('content.media.oembed.html')) {
+      if (this.get('url').match(/imgur\.com\/a\//)) {return;}
+      return this.get('url') + '.jpg';
+    }
+  }.property('isDirectImageUrl', 'url', 'content.media.oembed.html'),
 
   type: function() {
     if (this.get('content.title')) {
@@ -95,6 +102,22 @@ export default Ember.Component.extend(ItemComponentMixin, {
   createdMoment: function() {
     return moment.utc(this.get('created_utc') * 1000);
   }.property('created_utc', 'timeupdater.currentMoment'),
+
+  embedHtml: function() {
+    return this.get('customEmbed') || this.get('content.media.oembed.html');
+  }.property('content.media.oembed.html', 'customEmbed'),
+
+  customEmbed: function() {
+    var url = this.get('url');
+    if (url.match(/gfycat\.com/) && !this.get('content.media.oembed.html')) {
+      url = url.replace("gfycat.com/", "gfycat.com/ifr/");
+      return [
+        '<iframe src="',
+        url,
+        '" frameborder="0" scrolling="no" width="1280" height="720" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>'
+      ].join('');
+    }
+  }.property('content.url'),
 
   actions: {
     toggleExpand: function() {

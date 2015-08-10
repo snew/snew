@@ -52,9 +52,7 @@
     <div class='expando'>{{#if imageUrl}}
       <img {{bind-attr src=imageUrl}} {{action "toggleExpand"}}/>
     {{else}}
-      {{#if media.oembed.html}}
-        {{{media.oembed.html}}}
-      {{/if}}
+      {{#if embedHtml}}{{{embedHtml}}}{{/if}}
     {{/if}}{{#if selftext_html}}
       <form class='usertext'>
         <div class='usertext-body md-container'>
