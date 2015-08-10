@@ -23,7 +23,7 @@ export default Ember.Component.extend(ItemComponentMixin, {
     if (this.get('selftext')) {
       return true;
     }
-    if (this.get('media.oembed.type')) {
+    if (this.get('content.media.oembed.html')) {
       return true;
     }
     if (this.get('isRemovedComment')) {
@@ -33,7 +33,7 @@ export default Ember.Component.extend(ItemComponentMixin, {
       return true;
     }
     return false;
-  }.property('imageUrl', 'media.oembed.type', 'customEmbed'),
+  }.property('imageUrl', 'content.media.oembed.type', 'customEmbed'),
 
   isRemovedComment: function() {
     var url = this.get('url');
@@ -49,6 +49,10 @@ export default Ember.Component.extend(ItemComponentMixin, {
   expandoClass: function() {
     return this.get('media.oembed.type') || 'selftext';
   }.property('media.oembed.type'),
+
+  jsonStr: function() {
+    return JSON.stringify(this.get('content'), null, 2);
+  }.property('content'),
 
   domainPath: function() {
     return '/domain/' + this.get('domain');
@@ -78,7 +82,8 @@ export default Ember.Component.extend(ItemComponentMixin, {
   },
 
   isDirectImageUrl: function() {
-    return (this.get('url') || '').match(/\.(jpg|jpeg|png|gif)$/i);
+    var url = (this.get('url') || '').split('?')[0];
+    return url.match(/\.(jpg|jpeg|png|gif)$/i);
   }.property('url'),
 
   imageUrl: function() {
@@ -111,11 +116,6 @@ export default Ember.Component.extend(ItemComponentMixin, {
     var url = this.get('url');
     if (url.match(/gfycat\.com/) && !this.get('content.media.oembed.html')) {
       url = url.replace("gfycat.com/", "gfycat.com/ifr/");
-      return [
-        '<iframe src="',
-        url,
-        '" frameborder="0" scrolling="no" width="1280" height="720" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" ></iframe>'
-      ].join('');
     }
   }.property('content.url'),
 
