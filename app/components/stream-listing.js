@@ -18,7 +18,7 @@ export default Ember.Component.extend(Ember.Evented, {
         return (response.allChildren || response.children || []).getEach('data');
       })
       .then(function(items) {
-        this.get('items').addObjects(items.sortBy('created:desc'));
+        this.get('items').addObjects(items.sortBy('created').reverse());
       }.bind(this));
   }.on('init'),
 
