@@ -162,3 +162,7 @@
 .wiki .toc {display: none;}
 
 .live-thread {height: 420px;}
+
+.advertiser-logo {
+  float: left;
+}

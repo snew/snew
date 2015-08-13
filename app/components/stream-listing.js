@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend(Ember.Evented, {
   snoocore: Ember.inject.service(),
-  url: "https://api.pushshift.io/stream?event=t3&match=%22over_18%22:true",
+  url: "http://stream.pushshift.io/?event=t3&over_18=1&previous=1000",
   classNames: 'sitetable stream-listing',
   maxUpdates: 25,
   autoExpand: true,
@@ -27,7 +27,7 @@ export default Ember.Component.extend(Ember.Evented, {
     function handle(evt) {
       var data = JSON.parse(evt.data);
       if (!data.over_18) {return;}
-      if (data.is_self) {return;}
+      //if (data.is_self) {return;}
       if (data.body_html) {
         data.body_html = $('<textarea />').html(data.body_html).text();
       }
