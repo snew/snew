@@ -26,7 +26,7 @@ export default Ember.Component.extend(Ember.Evented, {
     var source = new EventSource(this.get('url'));
     function handle(evt) {
       var data = JSON.parse(evt.data);
-      if (!data.over_18) {return;}
+      //if (!data.over_18) {return;}
       //if (data.is_self) {return;}
       if (data.body_html) {
         data.body_html = $('<textarea />').html(data.body_html).text();
