@@ -30,7 +30,7 @@
   </form>
   <ul class='flat-list buttons'>
     {{#if link_id}}
-      <li class='first'>{{link-to 'permalink' 'subreddit.link' subreddit link_id '_'}}</li>
+      <li class='first'><a href="{{unbound permalink}}">permalink</a></li>
     {{/if}}
     {{#if snoocore.user}}
       {{#if isComment}}

@@ -9,9 +9,15 @@ export default Ember.Route.extend(ListingRouteMixin, {
       path = path.slice(0, path.length - 1);
     }
     if (!path) {path = 'hot';}
-    return client('/' + path).listing(params);
+    return client('/' + path).listing(params, {
+      listingIndex: 1
+    });
   },
-  
+
+  afterModel: function(model) {
+    this.get('snoocore').restoreRemovedComments(model);
+  },
+
   renderTemplate: function() {
     this._super.apply(this, arguments);
     this.render('sidebar', {

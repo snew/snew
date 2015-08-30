@@ -15,24 +15,8 @@ export default Ember.Route.extend({
 
   afterModel: function(post) {
     var self = this;
-    var deletedComments = {};
     Ember.set(post, 'others', []);
     //if (post.link.is_self) {return;}
-
-    function walkComments(comments) {
-      (comments || []).forEach(function(item) {
-        if (item.author === '[deleted]') {
-          deletedComments[item.id] = item;
-        }
-        walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
-      });
-    }
-
-    console.log('comments', post.comments);
-    walkComments(post.comments);
-
-    console.log('deletedComments', deletedComments);
-
 
     this.get('snoocore.client')('/api/info').get({url: post.link.url, limit: 100}).then(function(result) {
       return (result.data.children || []).getEach('data');
@@ -60,31 +44,10 @@ export default Ember.Route.extend({
         Ember.set(post, 'removed', removed);
       });
     }).then(function() {
-      if (!Object.keys(deletedComments).length) {return;}
-      return Ember.$.ajax({
-        url: "https://api.pushshift.io/reddit/search?ids=" + Object.keys(deletedComments).join(',')
-      }).then(function(result) {
-        (result.data || []).forEach(function(item) {
-          deletedComments[item.id] = item;
-        });
-        function restoreComments(comments) {
-          (comments || []).forEach(function(item) {
-            var del = deletedComments[item.id];
-            if (del) {
-              delete del.replies;
-              delete del.likes;
-              del.body_html = $('<textarea />').html(del.body_html).text();
-              del.banned_by = true;
-              Ember.setProperties(item, del);
-              console.log('item', item, del);
-            }
-            restoreComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
-          });
-        }
-        restoreComments(post.comments);
-      })
+      self.get('snoocore').restoreRemovedComments(post.comments);
     });
   },
+
   renderTemplate: function() {
     this._super.apply(this, arguments);
     this.render('subreddit/linkSide', {

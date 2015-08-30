@@ -26,6 +26,17 @@ export default Ember.Component.extend(ItemComponentMixin, {
     return moment.utc(this.get('created_utc') * 1000);
   }.property('created_utc', 'timeupdater.currentMoment'),
 
+  permalink: function() {
+    return [
+      'https://reddit.com/r',
+      this.get('content.subreddit'),
+      'comments',
+      this.get('content.link_id').split('_').pop(),
+      '_',
+      this.get('content.id')
+    ].join('/');
+  }.property('content.link_id', 'content.id', 'content.subreddit'),
+
   unknownProperty: function (key) {
     var content = Ember.get(this, 'content');
     if (content) {

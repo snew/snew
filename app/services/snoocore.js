@@ -149,5 +149,41 @@ export default Ember.Service.extend({
       });
     }
     return Ember.RSVP.resolve(false);
+  },
+
+  restoreRemovedComments: function(items) {
+    var deletedComments = {};
+    function walkComments(comments) {
+      (comments || []).forEach(function(item) {
+        if (item.author === '[deleted]') {
+          deletedComments[item.id] = item;
+        }
+        walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+      });
+    }
+    walkComments(items);
+    if (!Object.keys(deletedComments).length) {return Ember.RSVP.resolve(items);}
+    return Ember.$.ajax({
+      url: "https://api.pushshift.io/reddit/search?ids=" + Object.keys(deletedComments).join(',')
+    }).then(function(result) {
+      (result.data || []).forEach(function(item) {
+        deletedComments[item.id] = item;
+      });
+      function restoreComments(comments) {
+        (comments || []).forEach(function(item) {
+          var del = deletedComments[item.id];
+          if (del) {
+            delete del.replies;
+            delete del.likes;
+            del.body_html = $('<textarea />').html(del.body_html).text();
+            del.banned_by = true;
+            Ember.setProperties(item, del);
+          }
+          restoreComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+        });
+      }
+      restoreComments(items);
+      return items;
+    });
   }
 });
