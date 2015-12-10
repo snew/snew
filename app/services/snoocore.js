@@ -155,7 +155,7 @@ export default Ember.Service.extend({
     var deletedComments = {};
     function walkComments(comments) {
       (comments || []).forEach(function(item) {
-        if (item.author === '[deleted]') {
+        if (item.author === '[deleted]' && item.body === '[removed]') {
           deletedComments[item.id] = item;
         }
         walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));

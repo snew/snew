@@ -1,5 +1,5 @@
 import IndexRoute from 'snew/routes/index';
 
 export default IndexRoute.extend({
-  listing: '/user/PoliticBot/m/snew/new.json'
+  listing: '/r/hot/new.json'
 });

@@ -12,6 +12,7 @@ export default Ember.Component.extend(Ember.Evented, {
   listing: Ember.computed.sort('items', 'itemSort'),
 
   fetchInitialContent: function() {
+    /*
     return this.get('snoocore.client')('/user/PoliticBot/m/gasthesnoo.json')
       .listing({limit:25})
       .then(function(response) {
@@ -20,6 +21,7 @@ export default Ember.Component.extend(Ember.Evented, {
       .then(function(items) {
         this.get('items').addObjects(items.sortBy('created').reverse());
       }.bind(this));
+    */
   }.on('init'),
 
   eventStream: function() {

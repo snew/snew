@@ -3,7 +3,7 @@ import ListingRouteMixin from 'snew/mixins/listing-route';
 import TabmenuMixin from 'snew/mixins/tabmenu-route';
 
 export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
-  listing: '/user/PoliticBot/m/snew/hot.json',
+  listing: '/r/all/hot.json',
 
   makeApiCall: function(params) {
     var client = this.get('snoocore.client');
