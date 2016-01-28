@@ -10,7 +10,7 @@ export default Ember.ArrayController.extend(ListingMixin, {
   }.property('q'),
 
   searchDidChange: function() {
-    Ember.run.debounce(this.doSearch.bind(this), 3000);
+    //Ember.run.debounce(this.doSearch.bind(this), 3000);
   }.observes('newSearch').on('init'),
 
   doSearch: function() {
