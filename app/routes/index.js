@@ -23,7 +23,7 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
       }
     });
 
-    return this.get('snoocore.client')('/r/undelete/new').listing({
+    this.get('snoocore.client')('/r/undelete/new').listing({
       limit: 100
     }).then(this.normalizeResponse.bind(this)).then(undelete => {
       return undelete.filter(item => {
