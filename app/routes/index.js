@@ -34,10 +34,15 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         );
       });
     }).then(undelete => {
-      undelete.reverse().forEach(item => {
+      return undelete.map(item => {
         var index = parseInt(item.title.slice(2, 20).split('|')[0]);
         item.banned_by = true;
-        listing.insertAt(index - 1, item);
+        item.index = index;
+        return item;
+      });
+    }).then(undelete => {
+      undelete.sortBy('index').reverse().forEach(item => {
+        listing.insertAt(item.index - 1, item);
       });
     });
   }
