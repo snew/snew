@@ -25,7 +25,11 @@ export default Ember.Mixin.create({
   },
 
   model: function(params) {
-    return this.makeApiCall(params).then(this.normalizeResponse.bind(this));
+    return this.makeApiCall(params).then(this.normalizeResponse.bind(this))
+      .then(result => {
+        result.params = params;
+        return result;
+      });
   },
 
   listingType: 'hot',

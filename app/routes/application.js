@@ -81,6 +81,7 @@ export default Ember.Route.extend({
 
   afterModel: function() {
     var theme = getParamByName('theme');
+    console.log('theme', theme);
     if (!theme) {return;}
     this.get('snoocore.anon')('/r/' + theme + '/about/stylesheet.json').get().then(function(result) {
       var data = result.data || {};
