@@ -2,9 +2,24 @@
 <div id='header' role='banner'>
   <a tabindex='1' href='#content' id='jumpToContent'>jump to content</a>
   <div id='sr-header-area'>
-    <STRONG>THIS IS NOT REDDIT!!!</STRONG>
+    <ul class='flat-list sr-bar hover' id='sr-bar'>
+      <li class='selected'>{{link-to 'r.go1dfish.me' 'index'}}</li>
+      <li><span class="separator">-</span>{{link-to 'Search Comments' 'commentSearch'}}</li>
+      <li><span class="separator">-</span><a class='choice' href='https://voat.co/v/MeanwhileOnReddit' target='_new'>/v/MeanwhileOnReddit</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/Blackout2015'>Blackout2015</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/SubredditCancer'>SubredditCancer</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/WatchRedditDie'>WatchRedditDie</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/undelete'>Undelete</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/RedditMinusMods'>RedditMinusMods</a></li>
+      <li><span class="separator">-</span><a class='choice' href='https://reddit.com/r/announcements+blog+modnews+changelog'>Announcements</a></li>
+    </ul>
     |
-    Welcome to the <strong>snew</strong> client.
+    {{#link-to 'nsfa'}}
+      <span class='nsfw-stamp stamp rounded'>
+        <acronym title="Adult content: Not Safe For Work">NSFW</acronym>
+      </span>
+      stream
+    {{/link-to}}
   </div>
   <div id='header-bottom-left'>
     {{#if subreddit.header_img}}
@@ -21,7 +36,7 @@
       {{/link-to}}
     {{/if}}
     {{outlet "tabmenu"}}
-    {{interest-bar placeholder="what's new?" action='navToMulti' hideResults=true}}
+    {{interest-bar placeholder="r.go1dfish.me" action='navToMulti' hideResults=true}}
   </div>
   <div id='header-bottom-right'>
     {{#if snoocore.user}}
@@ -39,21 +54,6 @@
 <div class='side'>
   {{outlet "sidebartop"}}
   {{outlet "sidebar"}}
-  <div class='spacer'>
-    <h1><a href="http://openthesafe.space" target="_new">openthesafe.space</a></h1>
-    <p>{{link-to 'r.go1dfish.me AKA snew.github.io' 'index'}} is developed by <a href="http://go1dfish.me" target="_new">go1dfish</a></p>
-    <hr>
-    <h2>This site is not affiliated with Reddit Inc.</h2>
-    <hr>
-    <h3>
-      {{#link-to 'nsfa'}}
-      <span class='nsfw-stamp stamp rounded'>
-        <acronym title="Adult content: Not Safe For Work">NSFW</acronym>
-      </span>
-      Reddit is Not Safe For Advertisers
-      {{/link-to}}
-    </h3>
-  </div>
 </div>
 <div class='listing-chooser initialized'></div>
 <a name='content'></a>
@@ -72,6 +72,7 @@
   </div>
   <p class='bottommenu'>This is NOT reddit.com, It is the V for reddit client AKA snew {{link-to 'Privacy Policy' 'privacy' class='updated'}}</p>
   <p class='bottommenu'>REDDIT and the ALIEN Logo are registered trademarks of reddit inc.</p>
+  <p>{{link-to 'r.go1dfish.me AKA snew.github.io' 'index'}} is developed by <a href="http://go1dfish.me" target="_new">go1dfish</a></p>
 </div>
 
 <p class='debuginfo'>
@@ -100,7 +101,7 @@
   {{/with}}
   </div>
 {{/if}}
-<div {{bind-attr class="gradio.autoplay :fixed-gradio"}}>
+{{!--<div {{bind-attr class="gradio.autoplay :fixed-gradio"}}>
   {{profs-gradio class='container' maxUpdates=0 includeVideo=true}}
 <div class='gradio-controls'>
 {{#if gradio.playlist.length}}
@@ -113,6 +114,6 @@
   <button {{action 'playNext'}} class='btn btn-warning'><span class='glyphicon glyphicon-step-forward'></span>next</button>
 {{/if}}
 </div>
-</div>
+</div>--}}
 
 {{growl-manager notifications=growl.notifications}}

@@ -24,14 +24,14 @@ export default Ember.Route.extend({
       e = e || window.event;
       var t = e.target || e.srcElement;
       t = Ember.$(t).closest('a').get(0);
-      if (t && t.href && t.href.match(/youtu/)) {
+      /*if (t && t.href && t.href.match(/youtu/)) {
         if (t.href.index.location(window.location.origin) !== -1) {
           return;
         }
         e.preventDefault();
         route.get('gradio').playUrl(t.href);
         return false;
-      }
+      }*/
       if (t && t.href.match(/reddit.com\/api\/v1\/authorize/)) {
         return;
       }

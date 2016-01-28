@@ -3,8 +3,6 @@
   max-height: 70px;
 }
 
-#header {background-color: salmon !important;}
-
 .expando img {
   max-width: 100%;
   max-height: 720px;
@@ -52,7 +50,10 @@
 }*/
 #header-img.default-header {
   background-image: none;
-  background-color: #CEE3F8;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  bottom: 0px !important;
+  left: 0px !important;
 }
 .sr-interest-bar {
   background-image: none;
@@ -68,7 +69,7 @@
 #header .interestbar input {
   border-width: 0px;
   position: absolute;
-  top: 20px;
+  top: 40px;
   left: 20px;
   padding: 3px 3px 3px 3px;
   /*right: 0px;*/
@@ -93,8 +94,6 @@
   border-radius: 0.5em;
   width: 7em;
 }
-
-#sr-header-area {display: none;}
 
 .thumbnail.self {
   background-image: none;

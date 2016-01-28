@@ -17,5 +17,11 @@ export default Ember.ArrayController.extend(ListingMixin, {
     this.set('q', this.get('newSearch'));
   },
 
-  listing: Ember.computed.alias('arrangedContent')
+  listing: Ember.computed.alias('arrangedContent'),
+
+  actions: {
+    doSearch() {
+      this.doSearch();
+    }
+  }
 });
