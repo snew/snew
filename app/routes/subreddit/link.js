@@ -15,17 +15,35 @@ export default Ember.Route.extend({
 
   afterModel: function(post) {
     var self = this;
+    var allOthers = [];
     Ember.set(post, 'others', []);
     //if (post.link.is_self) {return;}
+
+    self.get('snoocore').restoreRemovedComments(post.comments);
 
     this.get('snoocore.client')('/api/info').get({url: post.link.url, limit: 100}).then(function(result) {
       return (result.data.children || []).getEach('data');
     }).then(function(known) {
-      return known.filter(function(item) {return item.author !== '[deleted]';});
-    }).then(function(known) {
-      return known.filter(function(item) {
+      allOthers = known.filter(function(item) {
         return item.id !== post.link.id;
       });
+
+      if (allOthers.length) {
+        const other = allOthers[0];
+        self.get('snoocore.client')('/duplicates/$article').listing({
+          $article: other.id, limit: 100
+        }, {listingIndex: 1}).then(dupes => {
+          return dupes.allChildren.getEach('data');
+        }).then(dupes => {
+          if (!dupes.findProperty('id', post.link.id)) {
+            Ember.set(post.link, 'banned_by', true);
+          }
+        });
+      }
+
+      return allOthers;
+    }).then(function(known) {
+      return known.filter(function(item) {return item.author !== '[deleted]';});
     }).then(function(others) {
       if (!others.length) {return;}
       Ember.set(post, 'others', others);
@@ -43,8 +61,6 @@ export default Ember.Route.extend({
         });
         Ember.set(post, 'removed', removed);
       });
-    }).then(function() {
-      self.get('snoocore').restoreRemovedComments(post.comments);
     });
   },
 

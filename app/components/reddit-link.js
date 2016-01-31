@@ -55,7 +55,7 @@ export default Ember.Component.extend(ItemComponentMixin, {
   }.property('content'),
 
   domainPath: function() {
-    return '/domain/' + this.get('domain');
+    return 'domain/' + this.get('domain');
   }.property('domain'),
 
   even: function() {
