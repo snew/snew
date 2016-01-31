@@ -19,16 +19,21 @@ export default Ember.Route.extend({
     Ember.set(post, 'others', []);
     //if (post.link.is_self) {return;}
 
+    if (post.link.is_self && post.link.selftext === "[removed]") {
+      Ember.set(post.link, 'banned_by', true);
+    }
+
     self.get('snoocore').restoreRemovedComments(post.comments);
 
     this.get('snoocore.client')('/api/info').get({url: post.link.url, limit: 100}).then(function(result) {
       return (result.data.children || []).getEach('data');
     }).then(function(known) {
+
       allOthers = known.filter(function(item) {
         return item.id !== post.link.id;
       });
 
-      if (allOthers.length) {
+      if (allOthers.length && !post.link.is_self) {
         const other = allOthers[0];
         self.get('snoocore.client')('/duplicates/$article').listing({
           $article: other.id, limit: 100
