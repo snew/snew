@@ -14,7 +14,13 @@ export default Ember.Mixin.create({
   last: Ember.computed.alias('listing.lastObject'),
   first: Ember.computed.alias('listing.firstObject'),
   nextCount: function() {
-    return this.get('count') + this.get('listing.length');
+    var listingLength = this.get('listing.length');
+    var listingLimit = this.get('limit');
+
+    if (listingLength > listingLimit) {
+      listingLength = listingLimit;
+    }
+    return this.get('count') + listingLength;
   }.property('count', 'listing.length'),
   prevCount: function() {
     return this.get('count') - this.get('listing.length');
