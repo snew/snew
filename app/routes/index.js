@@ -11,6 +11,10 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
   },
 
   afterModel(listing) {
+    const idIndexMap = {};
+    const undeleteMap = {};
+    const client = this.get('snoocore.client');
+    const listingIds = {}
     var oldest = 0;
 
     if (listing.params.before || listing.params.after) {
@@ -18,12 +22,13 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     }
 
     listing.forEach(item => {
+      listingIds[item.id] = true;
       if (!oldest || item.created < oldest) {
         oldest = item.created;
       }
     });
 
-    this.get('snoocore.client')('/r/undelete/new').listing({
+    client('/r/undelete/new').listing({
       limit: 100
     }).then(this.normalizeResponse.bind(this)).then(undelete => {
       return undelete.filter(item => {
@@ -32,16 +37,28 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
           item.author === 'FrontpageWatch' &&
           item.title.match(/^\[#.*\] .*\[\/r/)
         );
-      });
+      }).map(item => {
+        let index = parseInt(item.title.slice(2, 20).split('|')[0]);
+        let parts = item.url.split('/').filter(i => !!i);
+        let id;
+        parts.pop();
+        id = parts.pop();
+        idIndexMap[id] = index;
+        undeleteMap[id] = item;
+        return id;
+      }).filter(id => !listingIds[id]);
+    }).then(ids => {
+      return client('/api/info').listing({
+        id: ids.map(id => 't3_' + id).join(',')
+      }).then(this.normalizeResponse.bind(this));
     }).then(undelete => {
-      return undelete.map(item => {
-        var index = parseInt(item.title.slice(2, 20).split('|')[0]);
+      undelete.map(item => {
+        const index = idIndexMap[item.id];
         item.banned_by = true;
         item.index = index;
+        item.undelete = undeleteMap[item.id];
         return item;
-      });
-    }).then(undelete => {
-      undelete.sortBy('index').reverse().forEach(item => {
+      }).sortBy('index').reverse().forEach(item => {
         listing.insertAt(item.index - 1, item);
       });
     });

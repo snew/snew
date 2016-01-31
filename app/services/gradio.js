@@ -16,7 +16,6 @@ var playlist = shuffle(["YylGLV_nANU","jE7Zv6d-HUA","m3dicKNdKa8","E0E0ynyIUsg",
 
 export default Ember.Service.extend(LiveSocketMixin, {
   snoocore: Ember.inject.service(),
-  liveThreadId: 'v6d0vi6c8veb',
 
   lastUpdate: {
     ytid: playlist[0]

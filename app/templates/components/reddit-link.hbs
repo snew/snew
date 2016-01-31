@@ -14,6 +14,7 @@
 {{/if}}--}}
 <div class='entry unvoted'>
   <p class='title'>
+    {{#if content.locked}}<span class='linkflairlabel'>LOCKED</span>{{/if}}
     {{#if link_flair_text}}
       <span class='linkflairlabel'>{{link_flair_text}}</span>
     {{/if}}
@@ -39,8 +40,15 @@
   {{/if}}
     <li class='first'>
       {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
-        {{num_comments}} comments
+        {{num_comments}} comments {{#if content.locked}}(locked){{/if}}
       {{/link-to}}
+
+      {{#if content.undelete}} |
+        {{#link-to 'subreddit.link' subreddit content.undelete.id '_' class='comments'}}
+          {{content.undelete.score}} points and
+          {{content.undelete.num_comments}} comments on /r/undelete
+        {{/link-to}}
+      {{/if}}
     </li>{{!--<li class='share'>
     </li><li class='link-save-button save-button'>
       <a>save</a>

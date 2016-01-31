@@ -8,28 +8,13 @@ export default Ember.Component.extend(Ember.Evented, {
   autoExpand: true,
   items: function() {return [];}.property(),
 
-  itemSort: ['created:desc'],
+  itemSort: ['created_utc:desc'],
   listing: Ember.computed.sort('items', 'itemSort'),
-
-  fetchInitialContent: function() {
-    /*
-    return this.get('snoocore.client')('/user/PoliticBot/m/gasthesnoo.json')
-      .listing({limit:25})
-      .then(function(response) {
-        return (response.allChildren || response.children || []).getEach('data');
-      })
-      .then(function(items) {
-        this.get('items').addObjects(items.sortBy('created').reverse());
-      }.bind(this));
-    */
-  }.on('init'),
 
   eventStream: function() {
     var source = new EventSource(this.get('url'));
     function handle(evt) {
       var data = JSON.parse(evt.data);
-      //if (!data.over_18) {return;}
-      //if (data.is_self) {return;}
       if (data.body_html) {
         data.body_html = $('<textarea />').html(data.body_html).text();
       }
@@ -58,9 +43,9 @@ export default Ember.Component.extend(Ember.Evented, {
   },
 
   onReceiveItem: function(item) {
-    this.get('items').insertAt(0, item);
-    while (this.get('items.length') > this.get('maxUpdates')) {
-      this.get('items').popObject();
+    this.get('items').pushObject(item);
+    if (this.get('items.length') > this.get('maxUpdates')) {
+      this.get('items').removeObject(this.get('listing.lastObject'));
     }
   }.on('didReceiveItem'),
 

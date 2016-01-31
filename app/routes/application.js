@@ -65,7 +65,7 @@ export default Ember.Route.extend({
       } else {
         route.growl.info([
           '<h1>Welcome to <em>snew</em></h1><div class="message">',
-          '<p>This is still an early and incomplete alpha!</p></div>'
+          '<p>An anti-censorship reddit client in JavaScript.</p></div>'
         ].join('\n'), {
           closeIn: 6000
         });
