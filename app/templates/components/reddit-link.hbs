@@ -44,7 +44,7 @@
       {{/link-to}}
 
       {{#if content.undelete}} |
-        {{#link-to 'subreddit.link' subreddit content.undelete.id '_' class='comments'}}
+        {{#link-to 'subreddit.link' content.undelete.subreddit content.undelete.id '_' class='comments'}}
           {{content.undelete.score}} points and
           {{content.undelete.num_comments}} comments on /r/undelete
         {{/link-to}}

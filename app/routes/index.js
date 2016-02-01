@@ -59,6 +59,10 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         item.undelete = undeleteMap[item.id];
         return item;
       }).sortBy('index').reverse().forEach(item => {
+        if (item.author === '[deleted]') {
+          return;
+        }
+        
         listing.insertAt(item.index - 1, item);
       });
     });
