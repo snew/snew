@@ -33,7 +33,6 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     }).then(this.normalizeResponse.bind(this)).then(undelete => {
       return undelete.filter(item => {
         return (
-          item.created > oldest &&
           item.author === 'FrontpageWatch' &&
           item.title.match(/^\[#.*\] .*\[\/r/)
         );
@@ -59,10 +58,10 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         item.undelete = undeleteMap[item.id];
         return item;
       }).sortBy('index').reverse().forEach(item => {
-        if (item.author === '[deleted]') {
+        if (item.author === '[deleted]' || item.created < oldest) {
           return;
         }
-        
+
         listing.insertAt(item.index - 1, item);
       });
     });
