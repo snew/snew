@@ -23,7 +23,7 @@ export default Ember.Route.extend({
       Ember.set(post.link, 'banned_by', true);
     }
 
-    self.get('snoocore').restoreRemovedComments(post.comments);
+    self.get('snoocore').restoreRemovedComments(post.comments, post.link.id);
 
     this.get('snoocore.client')('/api/info').get({url: post.link.url, limit: 100}).then(function(result) {
       return (result.data.children || []).getEach('data');

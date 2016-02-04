@@ -18,4 +18,7 @@
   </div>
   {{#if snoocore.user}}{{reply-form thing=model.link comments=model.comments cancel=false}}{{/if}}
   {{reddit-listing content=model.comments classNames="nestedlisting"}}
+  {{#if model.comments.isLoading}}
+    <h2 class='loading working'><div class='throbber'></div>Finding removed comments...</h2>
+  {{/if}}
 </div>

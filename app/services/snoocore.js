@@ -151,39 +151,103 @@ export default Ember.Service.extend({
     return Ember.RSVP.resolve(false);
   },
 
-  restoreRemovedComments: function(items) {
+  restoreRemovedComments: function(items, postId) {
+    var allComments = {}
     var deletedComments = {};
+
     function walkComments(comments) {
       (comments || []).forEach(function(item) {
         if (item.author === '[deleted]' && item.body === '[removed]') {
           deletedComments[item.id] = item;
         }
+        allComments[item.id] = item;
         walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
       });
     }
     walkComments(items);
-    if (!Object.keys(deletedComments).length) {return Ember.RSVP.resolve(items);}
-    return Ember.$.ajax({
-      url: "https://api.pushshift.io/reddit/search?ids=" + Object.keys(deletedComments).join(',')
-    }).then(function(result) {
-      (result.data || []).forEach(function(item) {
-        deletedComments[item.id] = item;
-      });
-      function restoreComments(comments) {
-        (comments || []).forEach(function(item) {
-          var del = deletedComments[item.id];
-          if (del) {
-            delete del.replies;
-            delete del.likes;
-            del.body_html = $('<textarea />').html(del.body_html).text();
-            del.banned_by = true;
-            Ember.setProperties(item, del);
-          }
-          restoreComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+
+    function findEasyRemovals() {
+      if (!Object.keys(deletedComments).length) {return Ember.RSVP.resolve(items);}
+      return Ember.$.ajax({
+        url: "https://api.pushshift.io/reddit/search?ids=" + Object.keys(deletedComments).join(',')
+      }).then(function(result) {
+        (result.data || []).forEach(function(item) {
+          deletedComments[item.id] = item;
         });
+        function restoreComments(comments) {
+          (comments || []).forEach(function(item) {
+            var del = deletedComments[item.id];
+            if (del) {
+              delete del.replies;
+              delete del.likes;
+              del.body_html = $('<textarea />').html(del.body_html).text();
+              del.banned_by = true;
+              Ember.setProperties(item, del);
+            }
+            restoreComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+          });
+        }
+        restoreComments(items);
+        return items;
+      });
+    }
+
+    Ember.set(items, 'isLoading', true);
+
+    return findEasyRemovals().then(() => {
+      if (!postId) {
+        console.log('postId', postId);
+        return;
       }
-      restoreComments(items);
-      return items;
-    });
+
+      return Ember.$.ajax({
+        url: "https://api.pushshift.io/reddit/search/comment?limit=50000&link_id=" + postId
+      }).then(result => result.data).then(availableComments => {
+        const missing = availableComments.filter(comment => !allComments[comment.id]);
+        const ids = missing.map(item => item.id);
+
+        missing.forEach(item => {
+          allComments[item.id] = item;
+        });
+
+        return fetchIds(this.get('api'), ids.map(id => 't1_' + id))
+          .then(results => {
+            results.filter(item => item.author === '[deleted]' && item.body === '[removed]')
+              .forEach(item => {
+                const comment = allComments[item.id];
+                Ember.set(comment, 'banned_by', true);
+
+                if (comment.body === '[removed]') {
+                  comment.body = '[likely removed by automoderator]';
+                }
+
+                items.pushObject(comment);
+              });
+          });
+      });
+    }).finally(() => Ember.set(items, 'isLoading', false));
   }
 });
+
+function fetchIds(client, ids) {
+  const batches = [];
+  ids = ids.slice();
+
+  while (ids.length) {
+    batches.push(ids.splice(0, 100));
+  }
+
+  if (!batches.length) {
+    return Ember.RSVP.resolve([]);
+  }
+
+  return Ember.RSVP.resolve(Ember.RSVP.all(batches.map(batch => {
+    return client('/api/info.json').listing({
+      id: batch.join(',')
+    }).then(response => (response.children || []).getEach('data'));
+  })).then(results => {
+    let allItems = [];
+    results.forEach(result => allItems = allItems.concat(result));
+    return allItems;
+  }));
+}
