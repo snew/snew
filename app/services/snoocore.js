@@ -209,7 +209,7 @@ export default Ember.Service.extend({
           allComments[item.id] = item;
         });
 
-        return fetchIds(this.get('api'), ids.map(id => 't1_' + id))
+        return fetchIds(this.get('anon'), ids.map(id => 't1_' + id))
           .then(results => {
             results.filter(item => item.author === '[deleted]' && item.body === '[removed]')
               .forEach(item => {
@@ -224,6 +224,8 @@ export default Ember.Service.extend({
               });
           });
       });
+    }).catch(error => {
+      console.error(error.stack || error);
     }).finally(() => Ember.set(items, 'isLoading', false));
   }
 });
@@ -241,7 +243,7 @@ function fetchIds(client, ids) {
   }
 
   return Ember.RSVP.resolve(Ember.RSVP.all(batches.map(batch => {
-    return client('/api/info.json').listing({
+    return client('/api/info').listing({
       id: batch.join(',')
     }).then(response => (response.children || []).getEach('data'));
   })).then(results => {

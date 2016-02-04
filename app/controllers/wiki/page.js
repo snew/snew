@@ -42,7 +42,7 @@ export default Ember.Controller.extend({
   }),
 
   fetchBatch: function(ids) {
-    return this.get('snoocore.client')('/api/info.json').listing({
+    return this.get('snoocore.client')('/api/info').listing({
       id: ids.join(',')
     }).then(function(response) {
       return (response.children || []).getEach('data');
