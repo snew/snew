@@ -168,9 +168,9 @@ export default Ember.Service.extend({
 
     function findEasyRemovals() {
       if (!Object.keys(deletedComments).length) {return Ember.RSVP.resolve(items);}
-      return Ember.$.ajax({
+      return Ember.RSVP.resolve(Ember.$.ajax({
         url: "https://api.pushshift.io/reddit/search?ids=" + Object.keys(deletedComments).join(',')
-      }).then(function(result) {
+      })).then(function(result) {
         (result.data || []).forEach(function(item) {
           deletedComments[item.id] = item;
         });
@@ -196,13 +196,12 @@ export default Ember.Service.extend({
 
     return findEasyRemovals().then(() => {
       if (!postId) {
-        console.log('postId', postId);
         return;
       }
 
-      return Ember.$.ajax({
+      return Ember.RSVP.resolve(Ember.$.ajax({
         url: "https://api.pushshift.io/reddit/search/comment?limit=50000&link_id=" + postId
-      }).then(result => result.data).then(availableComments => {
+      })).then(result => result.data).then(availableComments => {
         const missing = availableComments.filter(comment => !allComments[comment.id]);
         const ids = missing.map(item => item.id);
 
