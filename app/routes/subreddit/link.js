@@ -21,6 +21,19 @@ export default Ember.Route.extend({
 
     if (post.link.is_self && post.link.selftext === "[removed]") {
       Ember.set(post.link, 'banned_by', true);
+      Ember.$.ajax('https://api.pushshift.io/reddit/search/submission?ids=' + post.link.id)
+        .then(result => {
+          const psPost = result.data.findBy('id', post.link.id);
+          if (psPost) {
+            const converter = new Showdown.converter();
+            const html = converter.makeHtml(psPost.selftext);
+            Ember.setProperties(post.link, {
+              selftext_html: html,
+              selftext: psPost.selftext
+            });
+            Ember.set(post.link, 'selftext_html', html);
+          }
+        });
     }
 
     self.get('snoocore').restoreRemovedComments(post.comments, post.link.id);
