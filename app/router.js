@@ -42,6 +42,7 @@ Router.map(function() {
   this.route('radio');
   this.route('search');
   this.route('commentSearch', {path: '/commentsearch'});
+  this.route('pushshift', {path: '/pushshift/*path'});
   this.route('catchall', {path: '/*path'});
   this.route('chat');
 });
