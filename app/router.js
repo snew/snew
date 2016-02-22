@@ -42,6 +42,8 @@ Router.map(function() {
   this.route('radio');
   this.route('search');
   this.route('commentSearch', {path: '/commentsearch'});
+  this.route('pushshiftStream', {path: '/stream/*path'});
+  this.route('pushshiftStreamRedirect', {path: '/stream'});
   this.route('pushshift', {path: '/pushshift/*path'});
   this.route('catchall', {path: '/*path'});
   this.route('chat');

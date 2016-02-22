@@ -40,7 +40,7 @@ export default Ember.Component.extend(Ember.Evented, {
   eventStreamWillChange: function() {
     var stream = this.get('eventStream');
     if (stream) {stream.close();}
-  },
+  }.observesBefore('eventStream'),
 
   onReceiveItem: function(item) {
     this.get('items').pushObject(item);
