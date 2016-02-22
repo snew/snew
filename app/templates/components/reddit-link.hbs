@@ -67,6 +67,14 @@
           {{{content.selftext_html}}}
         </div>
       </form>
+    {{else}}
+      {{#if content.selftext}}
+        <form class='usertext'>
+          <div class='usertext-body md-container'>
+            <div class='md'>{{markdown-to-html markdown=content.selftext}}</div>
+          </div>
+        </form>
+      {{/if}}
     {{/if}}{{#if isRemovedComment}}
       {{removed-comment post=content}}
     {{/if}}</div>
