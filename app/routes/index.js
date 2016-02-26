@@ -64,6 +64,25 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
 
         listing.insertAt(item.index - 1, item);
       });
+
+      return undelete.filter(post => post.selftext === '[removed]');
+    }).then(selfposts => {
+      if (!selfposts.length) {return;}
+
+      const url = 'https://api.pushshift.io/reddit/search/submission?ids=' + selfposts.getEach('id').join(',');
+      return Ember.RSVP.resolve(Ember.$.ajax(url))
+        .then(result => {
+          result.data.forEach(restored => {
+            const post = selfposts.findBy('id', restored.id);
+
+            if (post) {
+              Ember.setProperties(post, {
+                selftext: restored.selftext,
+                selftext_html: null
+              });
+            }
+          });
+        });
     });
   }
 });
