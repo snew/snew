@@ -1,4 +1,13 @@
-<p class='parent'><a></a></p>
+<p class='parent'>
+  <a></a>
+  {{#if content.link_title}}
+    {{link-to content.link_title 'subreddit.link' content.subreddit content.link_id class='title'}}
+    {{#if content.link_author}}
+      by <a href="https://www.reddit.com/user/{{content.link_author}}" class='author may-blank'>{{content.link_author}}</a>
+    {{/if}}
+    in {{link-to content.subreddit 'subreddit' content.subreddit class='subreddit hover'}}
+  {{/if}}
+</p>
 {{#if isComment}}
   <div class='midcol unvoted'>
     <div {{bind-attr class=":arrow upmod:upmod:up"}} {{action 'upmod'}} role='button' aria-label='upvote' tabindex='0'></div>
