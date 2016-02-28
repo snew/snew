@@ -29,7 +29,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
             selfpost.selftext = postsById[selfpost.id].selftext;
           });
           restored.forEach(post => post.banned_by = true);
-          restored = restored.sortBy('id');
+          restored = restored.filter(post => post.author !== '[deleted]').sortBy('id');
           restored.forEach(restoredPost => {
             let position = posts.indexOf(posts.find(post => post.id < restoredPost.id));
 
