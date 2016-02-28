@@ -1,7 +1,7 @@
 <p class='parent'>
   <a></a>
   {{#if content.link_title}}
-    {{link-to content.link_title 'subreddit.link' content.subreddit content.link_id class='title'}}
+    {{link-to content.link_title 'subreddit.link' content.subreddit link_id '_' class='title'}}
     {{#if content.link_author}}
       by <a href="https://www.reddit.com/user/{{content.link_author}}" class='author may-blank'>{{content.link_author}}</a>
     {{/if}}
