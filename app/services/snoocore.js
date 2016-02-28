@@ -230,7 +230,7 @@ export default Ember.Service.extend({
   }
 });
 
-function fetchIds(client, ids) {
+export function fetchIds(client, ids) {
   const batches = [];
   ids = ids.slice();
 
