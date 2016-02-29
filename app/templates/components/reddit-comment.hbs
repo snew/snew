@@ -16,7 +16,7 @@
 {{/if}}
 <div class='entry unvoted'>
   <p class='tagline'>
-    {{!==<a class='expand'>[-]</a>--}}
+    <a class='expand' {{action 'toggleCollapse'}}>{{if isCollapsed '[+]' '[-]'}}</a>
     {{link-to content.author 'catchall' authorPath}} <span class='userattrs'></span><span
       class='score dislikes'>{{downs}} points</span><span
       class='score unvoted'>{{content.score}} points</span><span

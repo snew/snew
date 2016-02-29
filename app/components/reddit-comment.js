@@ -4,9 +4,12 @@ import ItemComponentMixin from 'snew/mixins/item-component';
 
 export default Ember.Component.extend(ItemComponentMixin, {
   classNames: 'comment'.w(),
+  classNameBindings: ['isCollapsed:collapsed'],
   timeupdater: Ember.inject.service(),
 
   isReplying: false,
+
+  isCollapsed: false,
 
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
 
@@ -45,11 +48,16 @@ export default Ember.Component.extend(ItemComponentMixin, {
   },
 
   actions: {
-    reply: function() {
+    reply() {
       this.set('isReplying', true);
     },
-    cancelReply: function() {
+
+    cancelReply() {
       this.set('isReplying', false);
+    },
+
+    toggleCollapse() {
+      this.toggleProperty('isCollapsed');
     }
   }
 });
