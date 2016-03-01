@@ -1,5 +1,7 @@
-import IndexRoute from 'snew/routes/index';
+import Ember from 'ember';
 
-export default IndexRoute.extend({
-  listing: '/r/all/new.json'
+export default Ember.Route.extend({
+  redirect() {
+    this.transitionTo('subreddit.new', 'all');
+  }
 });

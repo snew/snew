@@ -50,5 +50,13 @@ export default Ember.Mixin.create({
     this.render(this.get('listingClass') + '/index', {
       controller: this.controller
     });
+  },
+
+  resetController() {
+    this.controller.setProperties({
+      after: '',
+      before: '',
+      count: 0
+    });
   }
 });

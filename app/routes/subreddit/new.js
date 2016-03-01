@@ -6,8 +6,13 @@ export default Ember.Route.extend(ListingRouteMixin, {
   listingType: 'new',
 
   afterModel(posts) {
+    let subreddit = this.modelFor('subreddit').display_name;
+
+    if (subreddit === 'all') {
+      subreddit = '';
+    }
+
     const client = this.get('snoocore.client');
-    const subreddit = this.modelFor('subreddit').display_name;
     const newest = posts.get('firstObject');
     const oldest = posts.get('lastObject');
     const url = [
