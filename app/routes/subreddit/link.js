@@ -27,9 +27,11 @@ export default Ember.Route.extend({
         comments: Ember.RSVP.resolve(Ember.$.ajax(commentsUrl))
           .then(result => result.data) // TODO build tree structure
           .then(data => {
+            const known = {};
             data.forEach(comment => comment.banned_by = true);
             const topLevel = data.filterBy('parent_id', `t3_${params.id}`);
-            topLevel.forEach(comment => {
+            data.forEach(comment => {
+              known[`t1_${comment.id}`] = true;
               comment.replies = {
                 data: {
                   children: data.filterBy('parent_id', `t1_${comment.id}`)
@@ -37,7 +39,7 @@ export default Ember.Route.extend({
                 }
               };
             });
-            return topLevel;
+            return topLevel.concat(data.filter(comment => !known[`t1_${comment.id}`]));
           })
       });
     });
