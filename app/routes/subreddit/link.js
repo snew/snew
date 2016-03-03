@@ -10,6 +10,36 @@ export default Ember.Route.extend({
         link: result[0].data.children[0].data,
         comments: result[1].data.children.getEach('data')
       };
+    }).catch(error => {
+      const linkUrl = `https://api.pushshift.io/reddit/search/submission?ids=${params.id}`;
+      const commentsUrl = `https://api.pushshift.io/reddit/search/comment?limit=50000&link_id=${params.id}`;
+
+
+      return Ember.RSVP.hash({
+        link: Ember.RSVP.resolve(Ember.$.ajax(linkUrl)).then(result => (result.data || [])[0])
+          .then(post => {
+            if (!post) {
+              throw 'Post not found';
+            }
+            post.banned_by = true;
+            return post;
+          }),
+        comments: Ember.RSVP.resolve(Ember.$.ajax(commentsUrl))
+          .then(result => result.data) // TODO build tree structure
+          .then(data => {
+            data.forEach(comment => comment.banned_by = true);
+            const topLevel = data.filterBy('parent_id', `t3_${params.id}`);
+            topLevel.forEach(comment => {
+              comment.replies = {
+                data: {
+                  children: data.filterBy('parent_id', `t1_${comment.id}`)
+                    .map(data => {return {data};})
+                }
+              };
+            });
+            return topLevel;
+          })
+      });
     });
   },
 

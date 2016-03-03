@@ -15,11 +15,16 @@ export default Ember.Route.extend({
       return result.data;
     }).catch(function(error) {
       console.error(error);
+      const subreddits = params.subreddit.split('+');
+      let display_name = 'multi';
+
+      if (subreddits.length === 1) {
+        display_name = subreddits[0];
+      }
+
       return {
         name: params.subreddit,
-        display_name: 'multi',
-        subreddits: params.subreddit.split('+'),
-        url: '/r/' + params.subreddit + '/'
+        display_name, subreddits
       };
     });
   },

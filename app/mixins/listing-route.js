@@ -29,6 +29,12 @@ export default Ember.Mixin.create({
       .then(result => {
         result.params = params;
         return result;
+      })
+      .catch(error => {
+        const sub = this.modelFor('subreddit');
+        const url = `https://api.pushshift.io/reddit/search/submission?subreddit=${sub.name}&limit=500`;
+
+        return Ember.RSVP.resolve(Ember.$.ajax(url)).then(result => result.data);
       });
   },
 
