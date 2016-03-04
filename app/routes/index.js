@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ListingRouteMixin from 'snew/mixins/listing-route';
 import TabmenuMixin from 'snew/mixins/tabmenu-route';
+import hotScore from 'snew/util/hot-score';
 
 export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
   listing: '/r/all/hot.json',
@@ -17,18 +18,19 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     const listingIds = {}
     var oldest = 0;
 
-    if (listing.params.before || listing.params.after) {
+    if (this.get('listing') !== '/r/all/hot.json') {
       return;
     }
 
     listing.forEach(item => {
+      item.hotness = hotScore(item);
       listingIds[item.id] = true;
-      if (!oldest || item.created < oldest) {
-        oldest = item.created;
+      if (!oldest || item.created_utc < oldest) {
+        oldest = item.created_utc;
       }
     });
 
-    client('/r/undelete/new').listing({
+    return client('/r/undelete/new').listing({
       limit: 100
     }).then(this.normalizeResponse.bind(this)).then(undelete => {
       return undelete.filter(item => {
@@ -51,19 +53,42 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         id: ids.map(id => 't3_' + id).join(',')
       }).then(this.normalizeResponse.bind(this));
     }).then(undelete => {
-      undelete.map(item => {
+      return undelete.map(item => {
         const index = idIndexMap[item.id];
+        item.hotness = hotScore(item);
         item.banned_by = true;
         item.index = index;
         item.undelete = undeleteMap[item.id];
         return item;
-      }).sortBy('index').reverse().forEach(item => {
-        if (item.author === '[deleted]' || item.created < oldest) {
-          return;
-        }
-
-        listing.insertAt(item.index - 1, item);
       });
+    }).then(undelete => {
+      if (listing.params.before || listing.params.after) {
+        const minHot = listing.get('lastObject').hotness;
+        const maxHot = listing.get('firstObject').hotness;
+
+        undelete.filter(post => {
+          return post.hotness > minHot && post.hotness < maxHot
+        })
+          .sortBy('hotness').forEach(item => {
+            let position = 0;
+
+            const nextItem = listing.find(post => {
+              return post.hotness < item.hotness
+            });
+
+            if (nextItem) {
+              position = listing.indexOf(nextItem);
+            }
+
+            listing.insertAt(position, item);
+          });
+      } else {
+        undelete
+          .filter(post => post.created_utc > oldest)
+          .sortBy('index').reverse().forEach(item => {
+            listing.insertAt(item.index - 1, item);
+          });
+      }
 
       return undelete.filter(post => post.selftext === '[removed]');
     }).then(selfposts => {
