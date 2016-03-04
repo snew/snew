@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import hotScore from 'snew/util/hot-score';
 
 export default Ember.Mixin.create({
   classNames: 'thing'.w(),
@@ -31,6 +32,10 @@ export default Ember.Mixin.create({
   downmod: function() {
     return this.get('content.likes') === false;
   }.property('content.likes'),
+
+  hotScore: function() {
+    return hotScore(this.get('content'));
+  }.property('content.score', 'content.created_utc'),
 
   actions: {
     upmod: function() {
