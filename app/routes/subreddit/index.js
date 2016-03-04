@@ -4,7 +4,7 @@ import hotScore from 'snew/util/hot-score';
 
 export default Ember.Route.extend(ListingRouteMixin, {
   afterModel(listing) {
-    let subreddit = this.modelFor('subreddit').display_name;
+    let subreddit = this.modelFor('subreddit').display_name.toLowerCase();
 
     if (subreddit === 'all') {
       return;
@@ -79,7 +79,11 @@ export default Ember.Route.extend(ListingRouteMixin, {
       }))
       .then(undelete => {
         return undelete.filter(post => {
-          return post.author !== '[deleted]' && post.hotness > minHot && (!maxHot || post.hotness < maxHot)
+          return (
+            post.author !== '[deleted]' &&
+            post.hotness > minHot && (!maxHot || post.hotness < maxHot) &&
+            post.subreddit.toLowerCase() === subreddit
+          );
         }).sortBy('hotness');
       })
       .then(undelete => {
