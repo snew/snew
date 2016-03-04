@@ -6,7 +6,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
   afterModel(listing) {
     let subreddit = this.modelFor('subreddit').display_name.toLowerCase();
 
-    if (subreddit === 'all') {
+    if (subreddit === 'all' || !listing.params) {
       return;
     }
 
