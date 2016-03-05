@@ -30,7 +30,7 @@ export default Ember.Route.extend({
 
     //return Ember.RSVP.resolve(Ember.$.ajax(url))
 
-    return Ember.RSVP.resolve(Ember.$.ajax('http://query.yahooapis.com/v1/public/yql?' + Ember.$.param({
+    return Ember.RSVP.resolve(Ember.$.ajax('https://query.yahooapis.com/v1/public/yql?' + Ember.$.param({
       q: `select * from json where url="${url}"`,
       format: 'json'
     })))
