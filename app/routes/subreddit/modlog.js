@@ -45,6 +45,14 @@ export default Ember.Route.extend({
               action.createdMoment = moment.utc(action.created_utc * 1000);
               action.name = action.id;
 
+              if (action.description === 'null') {
+                action.description = null;
+              }
+
+              if (action.details === 'null') {
+                action.details = null;
+              }
+
               if (action.target_body && action.item) {
                 action.item.body = action.target_body;
                 action.item.body_html = null;
