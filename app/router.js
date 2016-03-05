@@ -31,6 +31,7 @@ Router.map(function() {
     this.resource('wiki', function() {
       this.route('page', {path: '/:page'});
     });
+    this.route('modlog', {path: '/about/log'});
   });
   this.route('nsfa');
   this.route('new');

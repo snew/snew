@@ -6,8 +6,8 @@
       {{reddit-link content=item.content rank=item.rank expand=false}}
     {{/if}}
   {{else}}
-    {{#if item.content.body}}
-      {{reddit-comment content=item.content}}
+    {{#if item.thing.body}}
+      {{reddit-comment content=item.thing}}
     {{/if}}
   {{/if}}
 {{/each}}

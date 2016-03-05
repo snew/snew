@@ -13,6 +13,16 @@ export default Ember.Route.extend({
     }
     return this.get('snoocore.client')(path + '.json').get().then(function(result) {
       return result.data;
+    }).then(info => {
+      return this.get('snoocore.client')(`${path}/moderators.json`).get()
+        .then(result => result.data.children)
+        .then(moderators => {
+          info.moderators = moderators
+          if (moderators.findBy('name', 'publicmodlogs')) {
+            info.hasPublicModLogs = true;
+          }
+        })
+        .then(() => info);
     }).catch(function(error) {
       console.error(error);
       const subreddits = params.subreddit.split('+');

@@ -51,4 +51,19 @@
       </form>
     </div>
   </div>
+
+  <div class="spacer">
+    <div class="sidecontentbox">
+      {{!--<a class="helplink access-required" href="/message/compose?to=%2Fr%2FAskReddit" data-fullname="t5_2qh1i" data-event-action="compose" data-type="subreddit">message the moderators</a>--}}
+      <div class="title"><h1>{{model.moderators.length}} MODERATORS</h1></div>
+      <ul class="content">
+      {{#if model.hasPublicModLogs}}
+        <li><h1>{{link-to 'View Public Mod Logs' 'subreddit.modlog'}}</h1></li>
+      {{/if}}
+      {{#each model.moderators as |mod|}}
+        <li><a href="https://www.reddit.com/user/{{unbound mod.name}}" class="author may-blank id-t2_35gvu">{{unbound mod.name}}</a><span class="userattrs"></span></li>
+      {{/each}}
+      </ul>
+    </div>
+  </div>
 {{/if}}

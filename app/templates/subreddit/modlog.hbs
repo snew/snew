@@ -1,0 +1,58 @@
+<h1>Public Moderation Log</h1>
+<hr>
+<div class='sitetable'>
+  {{#each model as |action|}}
+    <h2>
+      {{action.action}} by
+      <a href="https://www.reddit.com/user/{{action.mod}}" class='author may-blank'>{{action.mod}}</a>
+
+      {{#if action.created_utc}}
+        <time datetime="{{unbound action.created_utc}}" class='live-timestamp'>{{time-ago-in-words action.createdMoment}}</time>
+      {{/if}}
+
+      {{#if action.description}}
+        {{action.description}}
+      {{/if}}
+
+      {{#if action.details}}
+        {{action.details}}
+      {{/if}}
+
+      {{#if action.target_author}}
+        :
+        <a href="https://www.reddit.com/user/{{action.target_author}}" class='author may-blank'>{{action.target_author}}</a>
+      {{/if}}
+    </h2>
+    {{#if action.item.title}}
+      {{reddit-link content=action.item}}
+    {{else}}
+      {{#if action.item.body}}
+        {{reddit-comment content=action.item}}
+      {{/if}}
+    {{/if}}
+    <hr>
+  {{/each}}
+
+  <div class='nav-buttons'>
+    <span class='nextprev'>
+      {{link-to 'view more' (query-params before='' after='' count=0)}}
+      {{#if count}}
+        {{#if prevCount}}
+          {{link-to '‹ prev'
+            (query-params before=first.name after='' count=prevCount)
+            class='prev'}}
+        {{else}}
+          {{link-to '< prev'
+            (query-params before='' after='' count=0)
+            class='prev'}}
+        {{/if}}
+      {{/if}}
+      {{#if hasMore}}
+        {{link-to 'next ›'
+          (query-params after=last.name before='' count=nextCount)
+          class='next'}}
+      {{/if}}
+    </span>
+  </div>
+
+</div>
