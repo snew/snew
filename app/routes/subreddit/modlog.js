@@ -13,6 +13,12 @@ export default Ember.Route.extend({
     },
     limit: {
       refreshModel: true
+    },
+    type: {
+      refreshModel: true
+    },
+    mod: {
+      refreshModel: true
     }
   },
 
