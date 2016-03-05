@@ -13,8 +13,13 @@ export default Ember.Route.extend(ListingRouteMixin, {
     }
 
     const client = this.get('snoocore.client');
-    const newest = posts.get('firstObject');
     const oldest = posts.get('lastObject');
+    let newest = posts.get('firstObject');
+
+    if (!posts.params.after) {
+      newest = {id: ''};
+    }
+
     const url = [
       'https://api.pushshift.io/reddit/search/submission?limit=500&sort=desc&',
       `subreddit=${subreddit}&afterid=${oldest.id}&beforeid=${newest.id}`
