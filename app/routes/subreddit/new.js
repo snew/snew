@@ -16,7 +16,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
     const oldest = posts.get('lastObject');
     let newest = posts.get('firstObject');
 
-    if (!posts.params.after && subreddit !== 'all') {
+    if (!posts.params.after && subreddit) {
       newest = {id: ''};
     }
 
