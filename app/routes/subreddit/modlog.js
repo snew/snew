@@ -26,20 +26,34 @@ export default Ember.Route.extend({
     const sub = this.modelFor('subreddit');
     const key = 'c7b83b457469643f1912d5fee30e18dba808f351';
     const user = 'publicmodlogs';
+    console.log('sub', sub);
     const logUrl = `https://www.reddit.com/r/${sub.display_name}/about/log/.json?feed=${key}&user=${user}&`;
-    const url = logUrl + Ember.$.param(args);
     const itemsByName = {};
+
+    Object.keys(args).forEach(key => {
+      if (!args[key]) {
+        delete args[key];
+      }
+    });
+
+    const url = logUrl + Ember.$.param(args);
+
+    console.log('url', url);
 
     if (!sub.hasPublicModLogs) {
       return;
     }
 
     //return Ember.RSVP.resolve(Ember.$.ajax(url))
+    function fetchViaYahoo() {
+      return Ember.RSVP.resolve(Ember.$.ajax('https://query.yahooapis.com/v1/public/yql?' + Ember.$.param({
+        q: `select * from json where url="${url}"`,
+        format: 'json'
+      })))
+    }
 
-    return Ember.RSVP.resolve(Ember.$.ajax('https://query.yahooapis.com/v1/public/yql?' + Ember.$.param({
-      q: `select * from json where url="${url}"`,
-      format: 'json'
-    })))
+    return fetchViaYahoo()
+      .catch(fetchViaYahoo)
       .then(result => result.query.results.json.data.children.map(child => child.data))
       .then(actions => {
         const ids = actions.getEach('target_fullname').uniq();
