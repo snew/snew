@@ -28,9 +28,13 @@
       <h1 class='hover redditname'>
         {{link-to model.display_name 'subreddit.index'}}
       </h1>
-      {{#each sub in model.subreddits}}
-        <h4>{{#link-to 'subreddit.index' sub}}/r/{{sub}}{{/link-to}}</h4>
-      {{/each}}
+      {{#if model.isBanned}}
+        <h2>Banned Subreddit?</h2>
+      {{else}}
+        {{#each sub in model.subreddits}}
+          <h4>{{#link-to 'subreddit.index' sub}}/r/{{sub}}{{/link-to}}</h4>
+        {{/each}}
+      {{/if}}
       {{#if model.subscribers}}
         <span class='subscribers'>
           <span class='number'>{{model.subscribers}}</span>
@@ -52,6 +56,7 @@
     </div>
   </div>
 
+{{#if model.moderators.length}}
   <div class="spacer">
     <div class="sidecontentbox">
       {{!--<a class="helplink access-required" href="/message/compose?to=%2Fr%2FAskReddit" data-fullname="t5_2qh1i" data-event-action="compose" data-type="subreddit">message the moderators</a>--}}
@@ -66,4 +71,5 @@
       </ul>
     </div>
   </div>
+{{/if}}
 {{/if}}

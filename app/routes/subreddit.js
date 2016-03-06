@@ -23,18 +23,22 @@ export default Ember.Route.extend({
           }
         })
         .then(() => info);
-    }).catch(function(error) {
+    }, error => {
       console.error(error);
       const subreddits = params.subreddit.split('+');
       let display_name = 'multi';
+      let isBanned = false;
 
       if (subreddits.length === 1) {
         display_name = subreddits[0];
+        isBanned = true;
       }
 
       return {
         name: params.subreddit,
-        display_name, subreddits
+        display_name, subreddits,
+        url: `/r/${params.subreddit}/`,
+        isBanned
       };
     });
   },

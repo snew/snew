@@ -21,7 +21,11 @@
       class='score unvoted'>{{content.score}} points</span><span
       class='score likes'>{{ups}} points</span>
     {{#if created_utc}}
-      <time datetime="{{unbound created_utc}}" class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+      <time
+        title="{{unbound createdMoment}}"
+        datetime="{{unbound created_utc}}"
+        class='live-timestamp'
+      >{{time-ago-in-words createdMoment}}</time>
     {{/if}}
 {{#if children.length}}
     <a class='numchildren'>({{children.length}} children)</a>

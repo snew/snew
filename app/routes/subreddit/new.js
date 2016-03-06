@@ -5,8 +5,31 @@ import {fetchIds} from 'snew/services/snoocore';
 export default Ember.Route.extend(ListingRouteMixin, {
   listingType: 'new',
 
+  model(params) {
+    console.log('params', params);
+    return this.makeApiCall(params).then(this.normalizeResponse.bind(this))
+      .then(result => {
+        result.params = params;
+        return result;
+      })
+      .catch(error => {
+        const sub = this.modelFor('subreddit');
+        const url = `https://api.pushshift.io/reddit/search/submission?subreddit=${sub.name}&limit=${params.limit}&beforeid=${params.after.split('_').pop()}`;
+
+        return Ember.RSVP.resolve(Ember.$.ajax(url)).then(result => result.data)
+          .then(posts => {
+            posts.forEach(post => post.banned_by = true);
+            return posts;
+          });
+      });
+  },
+
   afterModel(posts) {
     let subreddit = this.modelFor('subreddit').display_name;
+
+    if (!posts || !posts.params || subreddit === 'multi') {
+      return;
+    }
 
     if (subreddit === 'all') {
       subreddit = '';

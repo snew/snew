@@ -31,11 +31,15 @@ export default Ember.Mixin.create({
         return result;
       })
       .catch(error => {
-        const sub = this.modelFor('subreddit');
-        const url = `https://api.pushshift.io/reddit/search/submission?subreddit=${sub.name}&limit=500`;
-
-        return Ember.RSVP.resolve(Ember.$.ajax(url)).then(result => result.data);
+        console.error(error.stack || error);
+        return;
       });
+  },
+
+  redirect(model) {
+    if (!model) {
+      this.transitionTo('subreddit.new');
+    }
   },
 
   listingType: 'hot',

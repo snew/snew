@@ -16,7 +16,7 @@
   <p class='title'>
     {{#if content.locked}}<span class='linkflairlabel'>LOCKED</span>{{/if}}
     {{#if link_flair_text}}
-      <span class='linkflairlabel'>{{link_flair_text}}</span>
+      <span class='linkflairlabel' title="{{link_flair_text}}">{{link_flair_text}}</span>
     {{/if}}
     <a class='title' {{bind-attr href=url}} target='_new'>{{title}}</a>
     <span class='domain'>({{link-to domain 'catchall' domainPath}})</span>
@@ -26,9 +26,10 @@
       class=':expando-button expand:expanded:collapsed expandoClass'}}></div>
   {{/if}}
   <p class='tagline'>
-    submitted <time {{bind-attr
-      datetime=created_utc
-    }} class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
+    submitted <time
+      datetime="{{unbound created_utc}}"
+      title="{{unbound createdMoment}}"
+      class='live-timestamp'>{{time-ago-in-words createdMoment}}</time>
     by {{link-to author 'catchall' authorPath}}
     to {{#link-to 'subreddit.index' subreddit}}/r/{{subreddit}}{{/link-to}}
   </p>
