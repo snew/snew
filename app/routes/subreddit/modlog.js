@@ -49,12 +49,16 @@ export default Ember.Route.extend({
       return Ember.RSVP.resolve(Ember.$.ajax('https://query.yahooapis.com/v1/public/yql?' + Ember.$.param({
         q: `select * from json where url="${url}"`,
         format: 'json'
-      })))
+      }))).then(result => result.query.results.json.data.children.map(child => child.data));
+    }
+
+    function fetchViaCrossoriginMe() {
+      return Ember.RSVP.resolve(Ember.$.ajax(`https://crossorigin.me/${logUrl}`))
+        .then(result => result.data.children.map(child => child.data));
     }
 
     return fetchViaYahoo()
-      .catch(fetchViaYahoo)
-      .then(result => result.query.results.json.data.children.map(child => child.data))
+      .catch(fetchViaCrossoriginMe) // Both of these services can be unreliable
       .then(actions => {
         const ids = actions.getEach('target_fullname').uniq();
         return fetchIds(this.get('snoocore.client'), ids)
