@@ -26,7 +26,6 @@ export default Ember.Route.extend({
     const sub = this.modelFor('subreddit');
     const key = 'c7b83b457469643f1912d5fee30e18dba808f351';
     const user = 'publicmodlogs';
-    console.log('sub', sub);
     const logUrl = `https://www.reddit.com/r/${sub.display_name}/about/log/.json?feed=${key}&user=${user}&`;
     const itemsByName = {};
 
@@ -37,8 +36,6 @@ export default Ember.Route.extend({
     });
 
     const url = logUrl + Ember.$.param(args);
-
-    console.log('url', url);
 
     if (!sub.hasPublicModLogs) {
       return;
@@ -53,7 +50,7 @@ export default Ember.Route.extend({
     }
 
     function fetchViaCrossoriginMe() {
-      return Ember.RSVP.resolve(Ember.$.ajax(`https://crossorigin.me/${logUrl}`))
+      return Ember.RSVP.resolve(Ember.$.ajax(`https://crossorigin.me/${url}`))
         .then(result => result.data.children.map(child => child.data));
     }
 
