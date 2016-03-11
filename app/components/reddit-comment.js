@@ -22,8 +22,8 @@ export default Ember.Component.extend(ItemComponentMixin, {
   }.property('content.name'),
 
   children: function() {
-    return (this.get('replies.data.children') || []).getEach('data');
-  }.property('replies.data.children'),
+    return (this.get('content.replies.data.children') || []).getEach('data');
+  }.property('content.replies.data.children.[]'),
 
   createdMoment: function() {
     return moment.utc(this.get('created_utc') * 1000);

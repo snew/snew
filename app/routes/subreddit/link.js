@@ -31,7 +31,8 @@ export default Ember.Route.extend({
             data.forEach(comment => comment.banned_by = true);
             const topLevel = data.filterBy('parent_id', `t3_${params.id}`);
             data.forEach(comment => {
-              known[`t1_${comment.id}`] = true;
+              comment.name = `t1_${comment.id}`
+              known[comment.name] = true;
               comment.replies = {
                 data: {
                   children: data.filterBy('parent_id', `t1_${comment.id}`)

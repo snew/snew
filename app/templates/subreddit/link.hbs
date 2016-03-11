@@ -4,7 +4,18 @@
 </div>
 <div class='commentarea'>
   <div class='panestack-title'>
-    <span class='title'>all {{model.link.num_comments}} comments</span>
+    {{#if model.comments.isLoading}}
+      <span class='loading working title'><span class='throbber'></span></span>
+    {{/if}}
+    <span class='title'>
+      {{model.link.num_comments}} comments
+      |
+      {{#if model.comments.isLoading}}
+        finding [removed]
+      {{else}}
+        {{model.comments.removedCount}} [removed]
+      {{/if}}
+    </span>
   </div>
   <div class='menuarea'>
     <div class='spacer'>
@@ -18,7 +29,4 @@
   </div>
   {{#if snoocore.user}}{{reply-form thing=model.link comments=model.comments cancel=false}}{{/if}}
   {{reddit-listing content=model.comments classNames="nestedlisting"}}
-  {{#if model.comments.isLoading}}
-    <h2 class='loading working'><div class='throbber'></div>Finding removed comments...</h2>
-  {{/if}}
 </div>

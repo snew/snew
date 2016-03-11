@@ -1,6 +1,7 @@
 /* globals Snoocore,moment */
 import Ember from 'ember';
 import config from 'snew/config/environment';
+import hotScore from 'snew/util/hot-score';
 
 function getParamByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -161,6 +162,7 @@ export default Ember.Service.extend({
           deletedComments[item.id] = item;
         }
         allComments[item.id] = item;
+        item.hotness = hotScore(item);
         walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
       });
     }
@@ -210,19 +212,53 @@ export default Ember.Service.extend({
         });
 
         return fetchIds(this.get('anon'), ids.map(id => 't1_' + id))
-          .then(results => {
-            results.filter(item => item.author === '[deleted]' && item.body === '[removed]')
-              .forEach(item => {
-                const comment = allComments[item.id];
-                Ember.set(comment, 'banned_by', true);
+          .then(results =>results
+            .filter(item => item.author === '[deleted]' && item.body === '[removed]')
+            .map(item => {
+              const comment = allComments[item.id];
+              Ember.set(comment, 'banned_by', true);
 
-                if (comment.body === '[removed]') {
-                  comment.body = '[likely removed by automoderator]';
-                }
+              comment.name = `t1_${item.id}`;
+              comment.score = item.score;
+              comment.banned_by = true;
+              comment.parent_id = item.parent_id;
+              comment.replies = {data: {children: []}};
+              comment.hotness = hotScore(comment);
 
-                items.pushObject(comment);
+              if (comment.body === '[removed]') {
+                comment.body = '[likely removed by automoderator]';
+              }
+
+              return comment;
+            })
+          )
+          .then(missing => missing.sortBy('score').reverse())
+          .then(missing => missing.forEach(comment => {
+            const parentId = comment.parent_id.split('_').pop();
+            const parent = allComments[parentId];
+
+            if (parent) {
+              const replies = {data: {children: []}} || Ember.get(parent, 'replies');
+              Ember.set(parent, 'replies', replies);
+              parent.replies.data.children.pushObject({data: comment});
+            } else {
+              const nextItem = items.find(item => {
+                return !item.stickied && (comment.hotness > item.hotness)
               });
-          });
+
+              if (nextItem) {
+                items.insertAt(items.indexOf(nextItem), comment);
+              } else {
+                items.pushObject(comment);
+              }
+            }
+          }));
+      }).then(() => {
+        const removedCount = Object.keys(allComments)
+          .map(id => allComments[id])
+          .filter(comment => !!comment.banned_by)
+          .length;
+        Ember.set(items, 'removedCount', removedCount);
       });
     }).catch(error => {
       console.error(error.stack || error);
