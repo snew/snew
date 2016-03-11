@@ -4,7 +4,7 @@ import ItemComponentMixin from 'snew/mixins/item-component';
 
 export default Ember.Component.extend(ItemComponentMixin, {
   classNames: 'comment'.w(),
-  classNameBindings: ['isCollapsed:collapsed'],
+  classNameBindings: ['isCollapsed:collapsed', 'content.stickied:stickied', 'content.score_hidden:score-hidden'],
   timeupdater: Ember.inject.service(),
 
   isReplying: false,

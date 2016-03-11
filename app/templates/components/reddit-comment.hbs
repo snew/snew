@@ -16,16 +16,20 @@
 {{/if}}
 <div class='entry unvoted'>
   <p class='tagline'>
-    <a class='expand' {{action 'toggleCollapse'}}>{{if isCollapsed '[+]' '[-]'}}</a>{{link-to content.author 'catchall' authorPath}} <span class='userattrs'></span><span
-      class='score dislikes'>{{downs}} points</span><span
-      class='score unvoted'>{{content.score}} points</span><span
-      class='score likes'>{{ups}} points</span>
+    <a class='expand' {{action 'toggleCollapse'}}>{{if isCollapsed '[+]' '[-]'}}</a><a
+      href="/user/{{content.author}}" class="{{content.distinguished}}">{{content.author}}</a>
+      <span class='userattrs'></span>{{#if content.score_hidden}}<span
+        class="score-hidden" title="scores for stickied comments are visible to mods only"
+        >[score hidden]</span>{{else}}<span
+        class='score unvoted'>{{content.score}} points</span>{{/if}}
     {{#if created_utc}}
       <time
         title="{{unbound createdMoment}}"
         datetime="{{unbound created_utc}}"
         class='live-timestamp'
       >{{time-ago-in-words createdMoment}}</time>
+    {{/if}}{{#if content.stickied}}
+      <span class="stickied-tagline" title="selected by this subreddit's moderators">stickied comment</span>
     {{/if}}
   {{#if children.length}}
     <a class='numchildren'>({{children.length}} children)</a>
