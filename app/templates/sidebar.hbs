@@ -30,6 +30,7 @@
       </h1>
       {{#if model.isBanned}}
         <h2>Banned Subreddit?</h2>
+        <p>This subreddit is banned or the reddit API is not responding properly</p>
       {{else}}
         {{#each sub in model.subreddits}}
           <h4>{{#link-to 'subreddit.index' sub}}/r/{{sub}}{{/link-to}}</h4>
