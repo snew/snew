@@ -2,13 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   needs: ['application'],
-  queryParams: ['before', 'after', 'count', 'limit', 'q', 't', 'sort'],
+  queryParams: ['before', 'after', 'count', 'limit', 'q', 't', 'sort', 'context'],
   autoexpando: Ember.computed.alias('controllers.application.autoexpando'),
   before: '',
   after: '',
   sort: '',
   q: '',
   t: '',
+  context: '',
   count: 0,
   limit: 100,
   last: Ember.computed.alias('listing.lastObject'),

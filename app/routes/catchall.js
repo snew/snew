@@ -9,8 +9,26 @@ export default Ember.Route.extend(ListingRouteMixin, {
       path = path.slice(0, path.length - 1);
     }
     if (!path) {path = 'hot';}
-    return client('/' + path).listing(params, {
-      listingIndex: 1
+
+    return Ember.RSVP.hash({
+      firstListing: client('/' + path).listing(params, {
+        listingIndex: 0
+      }),
+
+      secondListing: client('/' + path).listing(params, {
+        listingIndex: 1
+      })
+    }).then(hash => {
+      const first = hash.firstListing.allChildren || hash.firstListing.children || [];
+      const second = hash.secondListing.allChildren || hash.secondListing.children || [];
+
+      if (first.length === 1) {
+        return {
+          allChildren: first.concat(second)
+        };
+      }
+
+      return hash.secondListing;
     });
   },
 

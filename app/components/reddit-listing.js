@@ -5,9 +5,27 @@ export default Ember.Component.extend({
   attributeBindings: 'id'.w(),
   rankStart: 0,
   fixedExpando: 'fixedExpando',
+  submissions: Ember.computed.filter('content', item => !!item.title),
+
+  includeRank: function(key, value) {
+    if (arguments.length > 1) {return value;}
+    return this.get('submissions.length') !== 1;
+  }.property('submissions.length'),
+
+  autoExpand: function(key, value) {
+    if (arguments.length > 1) {return value;}
+    return this.get('submissions.length') === 1;
+  }.property('submissions.length'),
+
   listing: Ember.computed.map('content', function(item, index) {
+    let rank = index+this.get('rankStart') + 1;
+
+    if (!this.get('includeRank')) {
+      rank = null;
+    }
+
     return {
-      rank: index+this.get('rankStart') + 1,
+      rank: rank,
       content: item
     };
   }),

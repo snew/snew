@@ -21,6 +21,9 @@ export default Ember.Mixin.create({
     },
     sort: {
       refreshModel: true
+    },
+    context: {
+      refreshModel: true
     }
   },
 

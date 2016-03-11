@@ -44,6 +44,12 @@
   <ul class='flat-list buttons'>
     {{#if link_id}}
       <li class='first'><a href="{{unbound permalink}}">permalink</a></li>
+      {{#if parentUrl}}
+        <li><a href="{{unbound parentUrl}}">parent</a></li>
+        {{#if content.link_title}}
+          <li><a href="{{unbound parentUrl}}?context=3">context</a></li>
+        {{/if}}
+      {{/if}}
     {{/if}}
     {{#if snoocore.user}}
       {{#if isComment}}

@@ -25,6 +25,15 @@ export default Ember.Component.extend(ItemComponentMixin, {
     return (this.get('content.link_id') || '').split('_').pop();
   }.property(),
 
+  parentUrl: function() {
+    const parentId = (this.get('content.parent_id') || '').split('_');
+    const linkId = this.get('link_id');
+
+    if (parentId[0] === 't1') {
+      return `/r/${this.get('content.subreddit')}/comments/${linkId}/_/${parentId[1]}`;
+    }
+  }.property('content'),
+
   isComment: function() {
     return (this.get('content.name') || '').slice(0, 2) === 't1';
   }.property('content.name'),
