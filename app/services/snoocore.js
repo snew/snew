@@ -206,31 +206,39 @@ export default Ember.Service.extend({
       })).then(result => result.data).then(availableComments => {
         const missing = availableComments.filter(comment => !allComments[comment.id]);
         const ids = missing.map(item => item.id);
+        const missingComments = {};
 
         missing.forEach(item => {
           allComments[item.id] = item;
+          missingComments[item.id] = item;
         });
 
         return fetchIds(this.get('anon'), ids.map(id => 't1_' + id))
           .then(results =>results
-            .filter(item => item.author === '[deleted]' && item.body === '[removed]')
             .map(item => {
-              const comment = allComments[item.id];
-              Ember.set(comment, 'banned_by', true);
-
-              comment.name = `t1_${item.id}`;
+              const comment = missingComments[item.id];
               comment.score = item.score;
-              comment.banned_by = true;
+              comment.name = `t1_${item.id}`;
               comment.parent_id = item.parent_id;
               comment.replies = {data: {children: []}};
               comment.hotness = hotScore(comment);
 
-              if (comment.body === '[removed]') {
-                comment.body = '[likely removed by automoderator]';
+              if (item.author === '[deleted]' && item.body === '[removed]') {
+                comment.banned_by = true;
+
+                if (comment.body === '[removed]') {
+                  comment.body = '[likely removed by automoderator]';
+                }
+
+                delete missingComments[comment.id];
+                allComments[comment.id] = comment;
+              } else {
+                //comment.isCollapsed = true;
               }
 
               return comment;
             })
+            //.filter(item => item.author === '[deleted]' && item.body === '[removed]')
           )
           .then(missing => missing.sortBy('score').reverse())
           .then(missing => missing.forEach(comment => {
@@ -257,6 +265,9 @@ export default Ember.Service.extend({
         const removedCount = Object.keys(allComments)
           .map(id => allComments[id])
           .filter(comment => !!comment.banned_by)
+          .map(comment => {
+            return comment;
+          })
           .length;
         Ember.set(items, 'removedCount', removedCount);
       });

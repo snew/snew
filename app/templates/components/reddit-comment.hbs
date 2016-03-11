@@ -31,6 +31,7 @@
     <a class='numchildren'>({{children.length}} children)</a>
   {{/if}}
   </p>
+{{#unless isCollapsed}}
   <form class='usertext'>
     <div class='usertext-body md-container'>
       {{#if content.body_html}}
@@ -54,14 +55,17 @@
     {{!--<li><a class='give-gold'>give gold</a></li>--}}
     {{!--<li><a>reply</a></li>--}}
   </ul>
+{{/unless}}
 </div>
 <div class='child'>
 {{#if isReplying}}
   {{reply-form thing=content comments=children cancel='cancelReply' success='cancelReply'}}
 {{/if}}
-{{#if children.length}}
-    {{reddit-listing content=children classNames="listing"}}
-{{/if}}
+{{#unless isCollapsed}}
+  {{#if children.length}}
+      {{reddit-listing content=children classNames="listing"}}
+  {{/if}}
+{{/unless}}
 </div>
 
 <div class='clearleft'></div>

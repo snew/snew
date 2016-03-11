@@ -11,6 +11,14 @@ export default Ember.Component.extend(ItemComponentMixin, {
 
   isCollapsed: false,
 
+  isCollapsed: function(key, value) {
+    if (arguments.length > 1) {
+      return value;
+    }
+
+    return this.get('content.isCollapsed');
+  }.property('content.isCollapsed'),
+
   setup: function() {this.get('timeupdater.currentMoment');}.on('init'),
 
   link_id: function() {
