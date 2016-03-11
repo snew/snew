@@ -238,7 +238,7 @@ export default Ember.Service.extend({
             const parent = allComments[parentId];
 
             if (parent) {
-              const replies = {data: {children: []}} || Ember.get(parent, 'replies');
+              const replies = Ember.get(parent, 'replies') || {data: {children: []}};
               Ember.set(parent, 'replies', replies);
               parent.replies.data.children.pushObject({data: comment});
             } else {
