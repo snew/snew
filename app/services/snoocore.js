@@ -220,6 +220,7 @@ export default Ember.Service.extend({
             .map(item => {
               const comment = missingComments[item.id];
               comment.score = item.score;
+              comment.score_hidden = item.score_hidden;
               comment.name = `t1_${item.id}`;
               comment.parent_id = item.parent_id;
               comment.replies = {data: {children: []}};
@@ -252,9 +253,11 @@ export default Ember.Service.extend({
               Ember.set(parent, 'replies', replies);
               parent.replies.data.children.pushObject({data: comment});
             } else {
-              const nextItem = items.find(item => {
-                return !item.stickied && (comment.hotness > item.hotness)
-              });
+              const nextItem = items.find(item => (
+                !item.stickied &&
+                !item.score_hidden &&
+                comment.hotness > item.hotness
+              ));
 
               if (nextItem) {
                 items.insertAt(items.indexOf(nextItem), comment);
