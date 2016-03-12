@@ -236,6 +236,9 @@ export default Ember.Service.extend({
                 delete missingComments[comment.id];
                 allComments[comment.id] = comment;
               } else {
+                comment.author = item.author;
+                comment.body = item.body;
+                comment.body_html = item.body_html;
                 //comment.isCollapsed = true;
               }
 
