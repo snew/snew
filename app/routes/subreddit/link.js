@@ -58,10 +58,8 @@ export default Ember.Route.extend({
         .then(result => {
           const psPost = result.data.findBy('id', post.link.id);
           if (psPost) {
-            const converter = new Showdown.converter();
-            const html = converter.makeHtml(psPost.selftext);
             Ember.setProperties(post.link, {
-              selftext_html: html,
+              selftext_html: null,
               selftext: psPost.selftext
             });
             Ember.set(post.link, 'selftext_html', html);

@@ -185,6 +185,7 @@ export default Ember.Service.extend({
               delete del.replies;
               delete del.likes;
               del.body_html = $('<textarea />').html(del.body_html).text();
+              del.body_html = `<div class="md">${del.body_html}</div>`;
               del.banned_by = true;
               Ember.setProperties(item, del);
             }
