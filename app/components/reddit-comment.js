@@ -39,7 +39,8 @@ export default Ember.Component.extend(ItemComponentMixin, {
   }.property('content.name'),
 
   children: function() {
-    return (this.get('content.replies.data.children') || []).getEach('data');
+    return (this.get('content.replies.data.children') || []).getEach('data')
+      .filter(comment => !!(comment.body || comment.body_html));
   }.property('content.replies.data.children.[]'),
 
   createdMoment: function() {

@@ -161,9 +161,11 @@ export default Ember.Service.extend({
         if (item.author === '[deleted]' && item.body === '[removed]') {
           deletedComments[item.id] = item;
         }
-        allComments[item.id] = item;
-        item.hotness = hotScore(item);
-        walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+        if (item.body) {
+          allComments[item.id] = item;
+          item.hotness = hotScore(item);
+          walkComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
+        }
       });
     }
     walkComments(items);
