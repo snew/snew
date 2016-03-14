@@ -62,7 +62,7 @@
       <img {{bind-attr src=imageUrl}} {{action "toggleExpand"}}/>
     {{else}}
       {{#if embedHtml}}{{{embedHtml}}}{{/if}}
-    {{/if}}{{#if content.selftext_html}}
+    {{/if}}{{#if content.is_self}}{{#if content.selftext_html}}
       <form class='usertext'>
         <div class='usertext-body md-container'>
           {{{content.selftext_html}}}
@@ -76,7 +76,7 @@
           </div>
         </form>
       {{/if}}
-    {{/if}}{{#if isRemovedComment}}
+    {{/if}}{{/if}}{{#if isRemovedComment}}
       {{removed-comment post=content}}
     {{/if}}</div>
   {{/if}}

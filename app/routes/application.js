@@ -63,12 +63,12 @@ export default Ember.Route.extend({
         ].join('\n'));
         return route.get('snoocore.user');
       } else {
-        route.growl.info([
+        /*route.growl.info([
           '<h1>Welcome to <em>snew</em></h1><div class="message">',
           '<p>An anti-censorship reddit client in JavaScript.</p></div>'
         ].join('\n'), {
           closeIn: 6000
-        });
+        });*/
       }
     });
   },
@@ -80,7 +80,7 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
-    var theme = getParamByName('theme');
+    var theme = getParamByName('theme') || 'carbon';
     if (!theme) {return;}
     this.get('snoocore.anon')('/r/' + theme + '/about/stylesheet.json').get().then(function(result) {
       var data = result.data || {};

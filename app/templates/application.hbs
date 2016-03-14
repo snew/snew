@@ -1,4 +1,8 @@
-{{#if stylesheet}}<style>{{{stylesheet}}}</style>{{/if}}
+{{#if stylesheet}}
+  <style>{{{stylesheet}}}</style>
+{{else}}
+  <link rel="stylesheet" href="https://b.thumbs.redditmedia.com/wXhCAge5vsSrCwuzF5XdIS9bFXHRIj6obAETxr_XkvQ.css">
+{{/if}}
 <div id='header' role='banner'>
   <a tabindex='1' href='#content' id='jumpToContent'>jump to content</a>
   <div id='sr-header-area'>
@@ -23,7 +27,7 @@
     {{/link-to}}
   </div>
   <div id='header-bottom-left'>
-    {{#if subreddit.header_img}}
+    {{!--{{#if subreddit.header_img}}
       {{#link-to 'index' id='header-img-a'}}
         <img id='header-img' {{bind-attr
           src=subreddit.header_img
@@ -35,9 +39,8 @@
       {{#link-to 'index' id='header-img' class='default-header'}}
         snew
       {{/link-to}}
-    {{/if}}
+    {{/if}}--}}
     {{outlet "tabmenu"}}
-    {{interest-bar placeholder="r.go1dfish.me" action='navToMulti' hideResults=true}}
   </div>
 </div>
 <div class='side'>
@@ -48,29 +51,25 @@
 <a name='content'></a>
 <div class='content' role='main'>{{outlet}}</div>
 <div class='footer-parent'>
-  <div class='footer rounded'>
-    <h1>
-      {{link-to "this app claims no affiliation with reddit inc. nor does reddit inc. endorse it." "subreddit.link" "POLITIC" "37ovia" "shadowban"}}
-    </h1>
-    <h1><strong>NO CONTENT OR DATA IS HOSTED HERE!!!</strong>  This is just an API client written in javascript.</h1>
-    <h1>
-      {{link-to 'Privacy Policy' 'privacy'}}
-      All <a target='github' href='https://github.com/snew/snew'>code</a>
-      is licensed under <a href='http://www.wtfpl.net' target='license'>WTFPLv2</a>.
-    </h1>
-  </div>
+  <p class='bottommenu'>
+    <strong>NO CONTENT OR DATA IS HOSTED HERE!!!</strong>  This is an API client written in javascript.
+  </p>
   <p class='bottommenu'>This is NOT reddit.com, It is the V for reddit client AKA snew {{link-to 'Privacy Policy' 'privacy' class='updated'}}</p>
   <p class='bottommenu'>REDDIT and the ALIEN Logo are registered trademarks of reddit inc.</p>
-  <p>{{link-to 'r.go1dfish.me AKA snew.github.io' 'index'}} is developed by <a href="http://go1dfish.me" target="_new">go1dfish</a></p>
-  <hr>
-  <h1><a href="javascript:if (window.location.hostname.match(/reddit/)) {window.location = 'https://r.go1dfish.me' + window.location.pathname + window.location.search;}">
+  <p class='bottommenu'>{{link-to 'r.go1dfish.me AKA snew.github.io' 'index'}} is developed by <a href="http://go1dfish.me" target="_new">go1dfish</a></p>
+  <p class='bottommenu'>
+    {{link-to 'Privacy Policy' 'privacy'}}
+    All <a target='github' href='https://github.com/snew/snew'>code</a>
+    is licensed under <a href='http://www.wtfpl.net' target='license'>WTFPLv2</a>.
+  </p>
+  <p class='bottommenu'><a href="javascript:if (window.location.hostname.match(/reddit/)) {window.location = 'https://r.go1dfish.me' + window.location.pathname + window.location.search;}">
     r.go1dfish.me bookmarklet
-  </a></h1>
+  </a></p>
 </div>
 
-<p class='debuginfo'>
+{{!--<p class='debuginfo'>
   <span class='icon'>π</span>
-</p>
+</p>--}}
 
 {{#if fixedExpando}}
   <div class='fixed-expando'>

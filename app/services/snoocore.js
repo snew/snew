@@ -156,6 +156,10 @@ export default Ember.Service.extend({
     var allComments = {}
     var deletedComments = {};
 
+    if (!items) {
+      return Ember.RSVP.resolve(items);
+    }
+
     function walkComments(comments) {
       (comments || []).forEach(function(item) {
         if (item.author === '[deleted]' && item.body === '[removed]') {

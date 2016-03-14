@@ -50,6 +50,7 @@ export default Ember.Route.extend({
     var self = this;
     var allOthers = [];
     Ember.set(post, 'others', []);
+    Ember.set(post, 'others.isLoading', true);
     //if (post.link.is_self) {return;}
 
     if (post.link.is_self && post.link.selftext === "[removed]") {
@@ -110,7 +111,7 @@ export default Ember.Route.extend({
         });
         Ember.set(post, 'removed', removed);
       });
-    });
+    }).finally(() => Ember.set(post, 'others.isLoading', false));
   },
 
   renderTemplate: function() {
