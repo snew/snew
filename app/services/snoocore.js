@@ -228,6 +228,7 @@ export default Ember.Service.extend({
               comment.score_hidden = item.score_hidden;
               comment.name = `t1_${item.id}`;
               comment.parent_id = item.parent_id;
+              comment.controversiality = item.controversiality;
               comment.replies = {data: {children: []}};
               comment.hotness = hotScore(comment);
 
