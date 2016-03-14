@@ -1,12 +1,30 @@
+<div class="spacer"><div class="linkinfo">
+  <div class="date"><span>this post was submitted on  </span><time
+    datetime="{{unbound model.link.created_utc}}"
+    title="{{unbound model.createdMoment}}"
+  >{{unbound model.postedAt}}</time></div>
+  {{#if model.link.upvote_ratio}}
+    <div class="score">
+      <span class="number">{{model.link.score}}</span> <span class="word">points</span>
+      ({{model.upvotePercent}}% upvoted)
+    </div>
+  {{/if}}
+  <div class="shortlink">shortlink:  <input type="text" value="https://r.go1dfish.me/r/{{model.link.subreddit}}/comments/{{model.link.id}}/_/" readonly="readonly" id="shortlink-text"></div>
+</div></div>
+
 {{#unless model.others.isLoading}}
-  {{!--
-  <h1>{{model.others.length}} Others{{#if model.removed.length}} {{model.removed.length}} [removed]{{/if}}</h1>
-  --}}
-  {{#each link in model.others}}
-  <div id='siteTable' class='sitetable linklisting'>
-    {{reddit-link content=link}}
-  </div>
-  {{/each}}
+  {{#if model.others.length}}
+    <div class='spacer'>
+      <div class='titlebox'>
+        <h1>{{model.others.length}} Cross Posts{{#if model.removed.length}} {{model.removed.length}} [removed]{{/if}}</h1>
+      </div>
+      {{#each link in model.others}}
+      <div id='siteTable' class='sitetable linklisting'>
+        {{reddit-link content=link}}
+      </div>
+      {{/each}}
+    </div>
+  {{/if}}
 {{else}}
   <div class='spacer'>
     <h2 class='loading working'><div class='throbber'></div> Loading Cross Posts...</h2>

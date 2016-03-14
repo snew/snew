@@ -53,6 +53,11 @@ export default Ember.Route.extend({
     Ember.set(post, 'others.isLoading', true);
     //if (post.link.is_self) {return;}
 
+    post.createdMoment = moment.utc(post.link.created_utc * 1000);
+    post.postedAt = post.createdMoment.format('D MMM YYYY');
+
+    post.upvotePercent = Math.round(post.link.upvote_ratio * 100);
+
     if (post.link.is_self && post.link.selftext === "[removed]") {
       Ember.set(post.link, 'banned_by', true);
       Ember.$.ajax('https://api.pushshift.io/reddit/search/submission?ids=' + post.link.id)
