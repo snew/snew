@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="https://www.redditstatic.com/liveupdate.Ns_7VcLpAW0.css">
+<header id='liveupdate-header'>
+  <h1 id='liveupdate-title'>{{about.title}}</h1>
+  <div id='liveupdate-description' class='md-container'>{{{about.description_html}}}</div>
+  <div id='liveupdate-statusbar' class='status-bar {{about.state}} connected'>
+    <p class='state'>{{about.state}}</p>
+    <p class='viewer-count'>{{#if about.viewer_count_fuzzed}}~{{/if}}{{about.viewer_count}} viewers</p>
+  </div>
+</header>
+<div class='main-content'>
+  <aside class='sidebar side md-container'>
+    <section id='liveupdate-resources'>
+      <h2>resources</h2>
+      {{{about.resources_html}}}
+    </section>
+  </aside>
+  {{live-thread liveThreadId=id updates=updates socketUrl=about.websocket_url}}
+</div>

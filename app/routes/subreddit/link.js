@@ -54,7 +54,7 @@ export default Ember.Route.extend({
     //if (post.link.is_self) {return;}
 
     post.createdMoment = moment.utc(post.link.created_utc * 1000);
-    post.postedAt = post.createdMoment.format('D MMM YYYY');
+    post.postedAt = moment(post.createdMoment.toDate()).format('D MMM YYYY');
 
     post.upvotePercent = Math.round(post.link.upvote_ratio * 100);
 

@@ -34,6 +34,7 @@ Router.map(function() {
     });
     this.route('modlog', {path: '/about/log'});
   });
+  this.route('live', {path: '/live/:thread_id'});
   this.route('nsfa');
   this.route('new');
   this.route('rising');

@@ -9,7 +9,11 @@
       ({{model.upvotePercent}}% upvoted)
     </div>
   {{/if}}
-  <div class="shortlink">shortlink:  <input type="text" value="https://r.go1dfish.me/r/{{model.link.subreddit}}/comments/{{model.link.id}}/_/" readonly="readonly" id="shortlink-text"></div>
+  {{#if model.link.permalink}}
+    <div class="shortlink">shortlink:  <input type="text" value="https://r.go1dfish.me/{{model.link.permalink}}" readonly="readonly" id="shortlink-text"></div>
+  {{else}}
+    <div class="shortlink">shortlink:  <input type="text" value="https://r.go1dfish.me/r/{{model.link.subreddit}}/comments/{{model.link.id}}/_/" readonly="readonly" id="shortlink-text"></div>
+  {{/if}}
 </div></div>
 
 {{#unless model.others.isLoading}}

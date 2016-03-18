@@ -26,16 +26,5 @@ export default Ember.Mixin.create(Ember.Evented, {
     return ws;
   }.property('socketUrl'),
 
-  socketUrl: '',
-
-  fetchSocketUrl: function() {
-    var self = this;
-    var id = this.get('liveThreadId');
-    var api = this.get('snoocore.anon');
-    if (!id) {return;}
-    return api('/live/' + id + '/about.json').get().then(function(result) {
-      self.set('socketUrl', result.data.websocket_url);
-      self.get('socket');
-    });
-  }.on('init').observes('snoocore.isLoggedIn', 'liveThreadId')
+  socketUrl: ''
 });

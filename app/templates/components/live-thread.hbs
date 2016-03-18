@@ -1,0 +1,9 @@
+{{#each formattedUpdates as |update|}}
+  <li class='liveupdate'>
+    <a><time>{{update.postedAt}}</time></a>
+    <div class='body'>
+      {{{update.body_html}}}
+      <a href="/user/{{update.author}}" class='author'>/u/{{update.author}}</a>
+    </div>
+  </li>
+{{/each}}
