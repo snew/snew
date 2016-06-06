@@ -6,6 +6,12 @@ export default Ember.Component.extend({
   rankStart: 0,
   fixedExpando: 'fixedExpando',
   submissions: Ember.computed.filter('content', item => !!item.title),
+  comments: Ember.computed.filter('content', item => !!item.body),
+  hasComments: Ember.computed.bool('comments.length'),
+
+  classNameBindings: [
+    'hasComments:nestedlisting:linklisting'
+  ],
 
   includeRank: function(key, value) {
     if (arguments.length > 1) {return value;}
