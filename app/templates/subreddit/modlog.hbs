@@ -1,9 +1,9 @@
-<h1>Public Moderation Log</h1>
+<h1>{{link-to "Public Moderation Log" (query-params type="" before="" after="")}}</h1>
 <hr>
 <div class='sitetable'>
   {{#each model as |action|}}
     <h2>
-      {{action.action}} by
+      {{link-to action.action (query-params type=action.action)}} by
       <a href="https://www.reddit.com/user/{{action.mod}}" class='author may-blank'>{{action.mod}}</a>
 
       {{#if action.created_utc}}
@@ -24,7 +24,11 @@
       {{/if}}
     </h2>
     {{#if action.item.title}}
-      {{reddit-link content=action.item}}
+      {{#if action.item.selftext}}
+        {{reddit-link content=action.item expand=true}}
+      {{else}}
+        {{reddit-link content=action.item}}
+      {{/if}}
     {{else}}
       {{#if action.item.body}}
         {{reddit-comment content=action.item}}

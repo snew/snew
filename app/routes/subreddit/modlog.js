@@ -75,8 +75,14 @@ export default Ember.Route.extend({
               }
 
               if (action.target_body && action.item) {
-                action.item.body = action.target_body;
-                action.item.body_html = null;
+                if (action.item.title) {
+                  action.item.selftext = (action.target_body) === "null" ? "" : action.target_body;
+                  action.item.selftext_html = null;
+                } else {
+                  action.item.body = action.target_body;
+                  action.item.body_html = null;
+                }
+
                 action.item.author = action.target_author;
               }
 
