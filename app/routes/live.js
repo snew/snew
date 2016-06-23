@@ -21,4 +21,4 @@ export default Ember.Route.extend({
     this.controllerFor('application').set('stylesheet', ' ');
     return this._super.apply(this, arguments);
   }
-})
+});

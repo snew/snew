@@ -3,8 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
 
-  model: function(params) {
-    var self = this;
+  model: function() {
     return Ember.RSVP.resolve(this.modelFor('application')).then(function(user) {
       if (user) {
         return {

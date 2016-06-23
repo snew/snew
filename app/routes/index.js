@@ -15,7 +15,7 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     const idIndexMap = {};
     const undeleteMap = {};
     const client = this.get('snoocore.client');
-    const listingIds = {}
+    const listingIds = {};
     var oldest = 0;
 
     if (this.get('listing') !== '/r/all/hot.json') {
@@ -67,13 +67,13 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         const maxHot = listing.get('firstObject').hotness;
 
         undelete.filter(post => {
-          return post.hotness > minHot && post.hotness < maxHot
+          return post.hotness > minHot && post.hotness < maxHot;
         })
           .sortBy('hotness').forEach(item => {
             let position = 0;
 
             const nextItem = listing.find(post => {
-              return post.hotness < item.hotness
+              return post.hotness < item.hotness;
             });
 
             if (nextItem) {

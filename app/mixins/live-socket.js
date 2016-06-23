@@ -22,7 +22,7 @@ export default Ember.Mixin.create(Ember.Evented, {
         if (!data || !data.payload ||  !data.payload.data) {return;}
         self.trigger('didReceiveSocketEvent', data.payload.data);
       });
-    }
+    };
     return ws;
   }.property('socketUrl'),
 

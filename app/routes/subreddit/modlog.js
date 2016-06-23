@@ -1,3 +1,4 @@
+/* globals moment */
 import Ember from 'ember';
 import {fetchIds} from 'snew/services/snoocore';
 
@@ -87,7 +88,7 @@ export default Ember.Route.extend({
               }
 
               return action;
-            })
+            });
           });
       });
   },
@@ -97,4 +98,4 @@ export default Ember.Route.extend({
       this.transitionTo('subreddit.index');
     }
   }
-})
+});

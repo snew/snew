@@ -14,8 +14,6 @@ export default Ember.Component.extend(ItemComponentMixin, {
 
   isReplying: false,
 
-  isCollapsed: false,
-
   isCollapsed: function(key, value) {
     if (arguments.length > 1) {
       return value;

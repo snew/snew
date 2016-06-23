@@ -3,6 +3,8 @@ import Ember from 'ember';
 import config from 'snew/config/environment';
 import hotScore from 'snew/util/hot-score';
 
+const $ = Ember.$;
+
 function getParamByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -58,7 +60,7 @@ export default Ember.Service.extend({
 
   handleExpiredAuth: function() {
     var self = this;
-    this.get('api').on('access_token_expired', function(responseError) {
+    this.get('api').on('access_token_expired', function() {
       self.setProperties({
         user: null,
         isLoggedIn: false
@@ -139,7 +141,7 @@ export default Ember.Service.extend({
         'loginExpires',
         moment().add(parseInt(getParamByName('expires_in')), 'second')
       );
-      return snoo.auth(code).then(function(result) {
+      return snoo.auth(code).then(function() {
         return snoo('/api/v1/me').get();
       }).then(function(res) {
         self.setProperties({
@@ -153,7 +155,7 @@ export default Ember.Service.extend({
   },
 
   restoreRemovedComments: function(items, postId) {
-    var allComments = {}
+    var allComments = {};
     var deletedComments = {};
 
     if (!items) {
@@ -253,39 +255,56 @@ export default Ember.Service.extend({
             //.filter(item => item.author === '[deleted]' && item.body === '[removed]')
           )
           .then(missing => missing.sortBy('score').reverse())
-          .then(missing => missing.forEach(comment => {
-            const parentId = comment.parent_id.split('_').pop();
-            const parent = allComments[parentId];
+          .then(() => {
+            console.log("Got to removedCount");
+            const removedCount = Object.keys(allComments)
+              .map(id => allComments[id])
+              .filter(comment => !!comment.banned_by)
+              .map(comment => {
+                return comment;
+              })
+              .length;
+            Ember.run(() => Ember.setProperties(items, {
+              removedCount, isLoading: false
+            }));
+            return missing;
+          })
+          .then(missing => {
 
-            if (parent) {
-              const replies = Ember.get(parent, 'replies') || {data: {children: []}};
-              Ember.set(parent, 'replies', replies);
-              parent.replies.data.children.pushObject({data: comment});
-            } else {
-              const nextItem = items.find(item => (
-                !item.stickied &&
-                !item.score_hidden &&
-                comment.hotness > item.hotness
-              ));
+            function renderMissing(comments = []) {
+              comments.forEach(comment => {
+                const parentId = comment.parent_id.split('_').pop();
+                const parent = allComments[parentId];
 
-              if (nextItem) {
-                items.insertAt(items.indexOf(nextItem), comment);
-              } else {
-                items.pushObject(comment);
+                if (parent) {
+                  const replies = Ember.get(parent, 'replies') || {data: {children: []}};
+                  Ember.set(parent, 'replies', replies);
+                  parent.replies.data.children.pushObject({data: comment});
+                } else {
+                  const nextItem = items.find(item => (
+                    !item.stickied &&
+                    !item.score_hidden &&
+                    comment.hotness > item.hotness
+                  ));
+
+                  if (nextItem) {
+                    items.insertAt(items.indexOf(nextItem), comment);
+                  } else {
+                    items.pushObject(comment);
+                  }
+                }
+              });
+
+              if (missing.length) {
+                Ember.run.later(() => renderMissing(missing.splice(0, 1000)), 100);
               }
             }
-          }));
-      }).then(() => {
-        const removedCount = Object.keys(allComments)
-          .map(id => allComments[id])
-          .filter(comment => !!comment.banned_by)
-          .map(comment => {
-            return comment;
-          })
-          .length;
-        Ember.set(items, 'removedCount', removedCount);
+
+            Ember.run.later(() => renderMissing(missing.splice(0, missing.length)), 500);
+          });
       });
     }).catch(error => {
+      console.log("Yo error loading comments", error.stack || error);
       console.error(error.stack || error);
     }).finally(() => Ember.set(items, 'isLoading', false));
   }

@@ -1,4 +1,6 @@
+/* globals EventSource */
 import Ember from 'ember';
+const $ = Ember.$;
 
 export default Ember.Component.extend(Ember.Evented, {
   snoocore: Ember.inject.service(),

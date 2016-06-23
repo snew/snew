@@ -17,7 +17,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
     const idIndexMap = {};
     const undeleteMap = {};
     const client = this.get('snoocore.client');
-    const listingIds = {}
+    const listingIds = {};
     let minHot = 0;
     let maxHot = 0;
 
@@ -91,7 +91,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
           let position = 0;
 
           const nextItem = listing.find(post => {
-            return !post.stickied && (post.hotness < item.hotness)
+            return !post.stickied && (post.hotness < item.hotness);
           });
 
           if (nextItem) {

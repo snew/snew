@@ -8,4 +8,4 @@ export default Ember.Route.extend({
   redirect(args) {
     this.replaceWith('subreddit.link', args.id, '_');
   }
-})
+});

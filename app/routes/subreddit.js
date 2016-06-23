@@ -17,7 +17,7 @@ export default Ember.Route.extend({
       return this.get('snoocore.client')(`${path}/moderators.json`).get()
         .then(result => result.data.children)
         .then(moderators => {
-          info.moderators = moderators
+          info.moderators = moderators;
           if (moderators.findBy('name', 'publicmodlogs')) {
             info.hasPublicModLogs = true;
           }

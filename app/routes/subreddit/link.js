@@ -1,3 +1,4 @@
+/* globals moment */
 import Ember from 'ember';
 
 export default Ember.Route.extend({
@@ -10,7 +11,7 @@ export default Ember.Route.extend({
         link: result[0].data.children[0].data,
         comments: result[1].data.children.getEach('data')
       };
-    }).catch(error => {
+    }).catch(() => {
       const linkUrl = `https://api.pushshift.io/reddit/search/submission?ids=${params.id}`;
       const commentsUrl = `https://api.pushshift.io/reddit/search/comment?limit=50000&link_id=${params.id}`;
 
@@ -31,7 +32,7 @@ export default Ember.Route.extend({
             data.forEach(comment => comment.banned_by = true);
             const topLevel = data.filterBy('parent_id', `t3_${params.id}`);
             data.forEach(comment => {
-              comment.name = `t1_${comment.id}`
+              comment.name = `t1_${comment.id}`;
               known[comment.name] = true;
               comment.replies = {
                 data: {
@@ -68,7 +69,6 @@ export default Ember.Route.extend({
               selftext_html: null,
               selftext: psPost.selftext
             });
-            Ember.set(post.link, 'selftext_html', html);
           }
         });
     }

@@ -12,7 +12,7 @@ export default Ember.Route.extend(ListingRouteMixin, {
         result.params = params;
         return result;
       })
-      .catch(error => {
+      .catch(() => {
         const sub = this.modelFor('subreddit');
         const url = `https://api.pushshift.io/reddit/search/submission?subreddit=${sub.name}&limit=${params.limit}&beforeid=${params.after.split('_').pop()}`;
 

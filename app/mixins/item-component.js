@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
   snoocore: Ember.inject.service(),
 
   isSpam: function() {
-    return !!this.get('content.banned_by')
+    return !!this.get('content.banned_by');
   }.property('content.banned_by'),
 
   authorPath: function() {

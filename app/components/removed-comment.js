@@ -1,4 +1,3 @@
-/* globals moment */
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -10,10 +9,9 @@ export default Ember.Component.extend({
     if (post) {
       var titleParts = post.title.split(' ');
       var id = titleParts[2].slice(0, 7);
-      var url = post.url.split('#')[0];
       var domain = post.domain;
       var path = post.url.split(domain)[1];
-      var params = (path.split('?')[1]).split("&").reduce(function(prev, curr, i, arr) {
+      var params = (path.split('?')[1]).split("&").reduce(function(prev, curr) {
           var p = curr.split("=");
           prev[decodeURIComponent(p[0])] = decodeURIComponent(p[1]);
           return prev;

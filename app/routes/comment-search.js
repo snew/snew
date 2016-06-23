@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ListingRouteMixin from 'snew/mixins/listing-route';
 import {fetchIds} from 'snew/services/snoocore';
 
+const $ = Ember.$;
+
 export default Ember.Route.extend(ListingRouteMixin, {
   queryParams: {
     search: {refreshModel: true},

@@ -1,3 +1,4 @@
+/* globals moment */
 import Ember from 'ember';
 import LiveSocketMixin from 'snew/mixins/live-socket';
 
@@ -15,7 +16,6 @@ export default Ember.Component.extend(LiveSocketMixin, {
 
   receiveSocketEvent: function(data) {
     try {
-      var bot = this.get('snoocore.bot');
       console.log('data', data);
       this.get('updates').insertAt(0, data);
     } catch(e) {console.error(e);}

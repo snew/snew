@@ -23,7 +23,7 @@ Router.map(function() {
   });
   this.resource('subreddit', {path: '/r/:subreddit'}, function() {
     this.route('link', {path: '/comments/:id/:slug'});
-    this.route('linkWithoutSlug', {path: '/comments/:id'}),
+    this.route('linkWithoutSlug', {path: '/comments/:id'});
     this.route('new');
     this.route('rising');
     this.route('controversial');

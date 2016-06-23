@@ -31,9 +31,8 @@ export default Ember.Controller.extend({
   }.property('ids'),
 
   idsDidChange: function() {
-    var ids = this.get('ids').slice();
     this.get('batches').forEach(function(ids) {
-      this.fetchBatch(ids)
+      this.fetchBatch(ids);
     }.bind(this));
   }.observes('batches').on('init'),
 
