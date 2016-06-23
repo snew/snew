@@ -23,8 +23,8 @@
         <h1>{{model.others.length}} Cross Posts{{#if model.removed.length}} {{model.removed.length}} [removed]{{/if}}</h1>
       </div>
       {{#each link in model.others}}
-      <div id='siteTable' class='sitetable linklisting'>
-        {{reddit-link content=link}}
+      <div class='sitetable linklisting'>
+        {{reddit-link content=link disableThumbnail=true}}
       </div>
       {{/each}}
     </div>
