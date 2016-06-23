@@ -7,11 +7,21 @@
   <div class='score likes'>{{ups}}</div>
   <div {{bind-attr class=":arrow downmod:downmod:down"}} {{action 'downmod'}} role='button' aria-label='downvote'></div>
 </div>
-{{!--{{#if is_self}}
+{{#if is_self}}
   <a class='thumbnail self' {{bind-attr href=url}} target='_new'></a>
 {{else}}
-  {{#if thumbnail}}<a class='thumbnail may-blank' {{bind-attr href=url}} target='_new'><img {{bind-attr src=thumbnail}}/></a>{{/if}}
-{{/if}}--}}
+  {{#if thumbnail}}
+    {{#if (eq thumbnail "default")}}
+      <a class='thumbnail default may-blank' {{bind-attr href=url}} target='_new'></a>
+    {{else}}
+      {{#if (eq thumbnail "nsfw")}}
+        <a class='thumbnail nsfw may-blank' {{bind-attr href=url}} target='_new'></a>
+      {{else}}
+        <a class='thumbnail may-blank' {{bind-attr href=url}} target='_new'><img {{bind-attr src=thumbnail}}/></a>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+{{/if}}
 <div class='entry unvoted'>
   <p class='title'>
     {{#if content.locked}}<span class='linkflairlabel'>LOCKED</span>{{/if}}

@@ -37,5 +37,8 @@
     "ember-cli-growl": "^1.0.3",
     "ember-cli-dates": "^1.1.2",
     "ember-cli-showdown": "^2.2.0"
+  },
+  "dependencies": {
+    "ember-truth-helpers": "^1.2.0"
   }
 }

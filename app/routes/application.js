@@ -90,6 +90,11 @@ export default Ember.Route.extend({
         var regex = new RegExp(link, 'g');
         css = css.replace(regex, 'url("'+img.url+'")');
       });
+
+      if (theme === "politics") { // Custom styling as this sub has no removal indication
+        css = css + "\n\n .linklisting .spam, .spam > .entry {background-color: salmon !important;}\n";
+      }
+
       this.controllerFor('application').set('stylesheet', css);
     }.bind(this));
   },
