@@ -27,19 +27,21 @@
     {{/link-to}}
   </div>
   <div id='header-bottom-left'>
-    {{!--{{#if subreddit.header_img}}
-      {{#link-to 'index' id='header-img-a'}}
-        <img id='header-img' {{bind-attr
-          src=subreddit.header_img
-          alt=subreddit.display_name
-          title=subreddit.header_title
-        }}>
-      {{/link-to}}
-    {{else}}
-      {{#link-to 'index' id='header-img' class='default-header'}}
-        snew
-      {{/link-to}}
-    {{/if}}--}}
+  {{#if isPhantom}}
+      {{#if subreddit.header_img}}
+        {{#link-to 'index' id='header-img-a'}}
+          <img id='header-img' {{bind-attr
+            src=subreddit.header_img
+            alt=subreddit.display_name
+            title=subreddit.header_title
+          }}>
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'index' id='header-img' class='default-header'}}
+          snew
+        {{/link-to}}
+      {{/if}}
+    {{/if}}
     {{outlet "tabmenu"}}
   </div>
 </div>

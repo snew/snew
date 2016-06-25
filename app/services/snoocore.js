@@ -2,6 +2,7 @@
 import Ember from 'ember';
 import config from 'snew/config/environment';
 import hotScore from 'snew/util/hot-score';
+import isPhantom from "snew/util/is-phantom";
 
 const $ = Ember.$;
 
@@ -270,6 +271,11 @@ export default Ember.Service.extend({
             return missing;
           })
           .then(missing => {
+
+            if (isPhantom()) {
+              // Reduce render load to avoid crashing archivers
+              missing = missing.filter(item => !!item.banned_by);
+            }
 
             function renderMissing(comments = []) {
               comments.forEach(comment => {

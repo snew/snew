@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import isPhantom from "snew/util/is-phantom";
 
 export default Ember.Route.extend({
   snoocore: Ember.inject.service(),
@@ -43,10 +44,18 @@ export default Ember.Route.extend({
     });
   },
 
-  afterModel: function() {
-    /*
+  afterModel: function(model) {
+    if (!isPhantom()) {
+      return;
+    }
+
     if (!model.display_name) {return;}
-    return this.get('snoocore.client')(model.url + 'about/stylesheet').get().then(function(result) {
+
+    function escapeRegExp(str) {
+      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+
+    return this.get('snoocore.client')(model.url + 'about/stylesheet').get().then(result => {
       var data = result.data || {};
       var css = data.stylesheet || '';
       var images = data.images || [];
@@ -57,7 +66,8 @@ export default Ember.Route.extend({
       });
       model.stylesheet = css;
       model.about = data;
-    });*/
+      this.controllerFor("application").set("stylesheet", css);
+    });
   },
 
   exit: function() {

@@ -6,7 +6,6 @@ export default Ember.Route.extend(ListingRouteMixin, {
   listingType: 'new',
 
   model(params) {
-    console.log('params', params);
     return this.makeApiCall(params).then(this.normalizeResponse.bind(this))
       .then(result => {
         result.params = params;

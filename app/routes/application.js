@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import isPhantom from "snew/util/is-phantom";
 
 function getParamByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -79,6 +80,10 @@ export default Ember.Route.extend({
   },
 
   afterModel: function() {
+    if (isPhantom()) {
+      return this.controllerFor('application').set('stylesheet', " ");
+    }
+
     var theme = getParamByName('theme') || 'fffuck';
     if (!theme) {return;}
     this.get('snoocore.anon')('/r/' + theme + '/about/stylesheet.json').get().then(function(result) {
