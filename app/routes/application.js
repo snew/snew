@@ -96,7 +96,7 @@ export default Ember.Route.extend({
         css = css.replace(regex, 'url("'+img.url+'")');
       });
 
-      if (theme === "politics") { // Custom styling as this sub has no removal indication
+      if (["politics", "science"].contains("theme")) { // Custom styling as this sub has no removal indication
         css = css + "\n\n .linklisting .spam, .spam > .entry {background-color: salmon !important;}\n";
       }
 

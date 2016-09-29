@@ -206,6 +206,12 @@ export default Ember.Service.extend({
 
     Ember.set(items, 'isLoading', true);
 
+    Ember.setProperties(items, {
+      isLoading: true,
+      progress: 0,
+      removedCount: 0
+    });
+
     return findEasyRemovals().then(() => {
       if (!postId) {
         return;
@@ -217,14 +223,20 @@ export default Ember.Service.extend({
         const missing = availableComments.filter(comment => !allComments[comment.id]);
         const ids = missing.map(item => item.id);
         const missingComments = {};
+        let totalFetchCount = ids.length / 100;
+        let fetchCount = 0;
+
+        if (ids % 100) { totalFetchCount++; }
 
         missing.forEach(item => {
           allComments[item.id] = item;
           missingComments[item.id] = item;
         });
 
-        return fetchIds(this.get('anon'), ids.map(id => 't1_' + id))
-          .then(results =>results
+        return fetchIds(
+          this.get('anon'),
+          ids.sort().map(id => 't1_' + id),
+          results => Ember.RSVP.resolve(results
             .map(item => {
               const comment = missingComments[item.id];
               comment.score = item.score;
@@ -250,14 +262,16 @@ export default Ember.Service.extend({
                 comment.body_html = item.body_html;
                 //comment.isCollapsed = true;
               }
-
               return comment;
             })
-            //.filter(item => item.author === '[deleted]' && item.body === '[removed]')
           )
-          .then(missing => missing.sortBy('score').reverse())
-          .then(() => {
-            console.log("Got to removedCount");
+          .then(missing => missing.sortBy('id'))
+          .then(missing => {
+            fetchCount++;
+            items.set("progress", Math.round((fetchCount/totalFetchCount) * 100));
+            return missing.filter(item => !!item.banned_by);
+          })
+          .then(missing => {
             const removedCount = Object.keys(allComments)
               .map(id => allComments[id])
               .filter(comment => !!comment.banned_by)
@@ -266,17 +280,11 @@ export default Ember.Service.extend({
               })
               .length;
             Ember.run(() => Ember.setProperties(items, {
-              removedCount, isLoading: false
+              removedCount
             }));
             return missing;
           })
           .then(missing => {
-
-            if (isPhantom()) {
-              // Reduce render load to avoid crashing archivers
-              missing = missing.filter(item => !!item.banned_by);
-            }
-
             function renderMissing(comments = []) {
               comments.forEach(comment => {
                 const parentId = comment.parent_id.split('_').pop();
@@ -300,14 +308,11 @@ export default Ember.Service.extend({
                   }
                 }
               });
-
-              if (missing.length) {
-                Ember.run.later(() => renderMissing(missing.splice(0, 1000)), 100);
-              }
             }
 
-            Ember.run.later(() => renderMissing(missing.splice(0, missing.length)), 500);
-          });
+            renderMissing(missing);
+            return missing;
+          }));
       });
     }).catch(error => {
       console.log("Yo error loading comments", error.stack || error);
@@ -316,7 +321,7 @@ export default Ember.Service.extend({
   }
 });
 
-export function fetchIds(client, ids) {
+export function fetchIds(client, ids, cb) {
   const batches = [];
   ids = ids.slice();
 
@@ -331,7 +336,12 @@ export function fetchIds(client, ids) {
   return Ember.RSVP.resolve(Ember.RSVP.all(batches.map(batch => {
     return client('/api/info').listing({
       id: batch.join(',')
-    }).then(response => (response.children || []).getEach('data'));
+    })
+      .then(response => (response.children || []).getEach('data'))
+      .then(cb || (r => r))
+      .then(results => {
+        return results;
+      });
   })).then(results => {
     let allItems = [];
     results.forEach(result => allItems = allItems.concat(result));

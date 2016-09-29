@@ -64,6 +64,11 @@ export default Ember.Route.extend({
         var regex = new RegExp(link, 'g');
         css = css.replace(regex, 'url("'+img.url+'")');
       });
+
+      if (['politics', 'science'].contains(model.display_name)) { // Custom styling as this sub has no removal indication
+        css = css + "\n\n .linklisting .spam, .spam > .entry {background-color: salmon !important;}\n";
+      }
+
       model.stylesheet = css;
       model.about = data;
       this.controllerFor("application").set("stylesheet", css);

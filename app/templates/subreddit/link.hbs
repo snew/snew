@@ -4,18 +4,14 @@
 </div>
 <div class='commentarea'>
   <div class='panestack-title'>
+    <span class='title'>
+      {{model.link.num_comments}} comments |
+      {{#if model.comments.isLoading}}&gt;{{/if}}{{model.comments.removedCount}} [removed]
+    </span>
     {{#if model.comments.isLoading}}
       <span class='loading working title'><span class='throbber'></span></span>
+      {{model.comments.progress}}% scanned
     {{/if}}
-    <span class='title'>
-      {{model.link.num_comments}} comments
-      |
-      {{#if model.comments.isLoading}}
-        finding [removed]
-      {{else}}
-        {{model.comments.removedCount}} [removed]
-      {{/if}}
-    </span>
   </div>
   <div class='menuarea'>
     <div class='spacer'>
