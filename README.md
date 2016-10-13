@@ -1,7 +1,6 @@
 # Snew
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Snew is a javascript frontend to the Reddit API, showing deleted threads and comments in red. 
 
 ## Prerequisites
 
