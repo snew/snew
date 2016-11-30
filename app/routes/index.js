@@ -74,7 +74,7 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
           const maxHot = listing.get('firstObject').hotness;
 
           donald.filter(post => {
-            return post.hotness > minHot && post.hotness < maxHot;
+            return post.hotness > minHot && post.hotness < maxHot && !idIndexMap[post.id];
           })
             .sortBy('hotness').forEach(item => {
               let position = 0;
