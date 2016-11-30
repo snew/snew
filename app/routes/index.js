@@ -16,6 +16,7 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     const undeleteMap = {};
     const client = this.get('snoocore.client');
     const listingIds = {};
+    const subs = {};
     var oldest = 0;
 
     if (this.get('listing') !== '/r/all/hot.json') {
@@ -25,6 +26,9 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
     listing.forEach(item => {
       item.hotness = hotScore(item);
       listingIds[item.id] = true;
+      if (!item.over_18) {
+        subs[item.subreddit] = true;
+      }
       if (!oldest || item.created_utc < oldest) {
         oldest = item.created_utc;
       }
@@ -62,34 +66,49 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         return item;
       });
     }).then(undelete => {
-      return client("/r/The_Donald").listing({limit: 100})
-        .then(this.normalizeResponse.bind(this))
-        .then(donald => donald.map(item => {
+
+      const uniqSubs = Object.keys(subs);
+      const batches = [];
+      while (uniqSubs.length) {
+        batches.push(uniqSubs.splice(0, 10));
+      }
+
+      return Ember.RSVP.all(batches.map(batch => {
+        return client(`/r/${batch.join("+")}/`).listing({limit: 100})
+          .then(this.normalizeResponse.bind(this));
+      })).then(results => {
+        let allSubResults = [];
+        results.forEach(result => allSubResults = allSubResults.concat(result));
+
+        return allSubResults;
+      }).then(hotItems => {
+        return hotItems.map(item => {
             item.hotness = hotScore(item);
+            item.missingFromAll = true;
             //item.banned_by = true;
             //item.undelete = item;
             return item;
-        })).then(donald => {
-          const minHot = listing.get('lastObject').hotness;
-          const maxHot = listing.get('firstObject').hotness;
+        });
+      }).then(hotItems => {
+        const minHot = listing.get('lastObject').hotness;
+        const maxHot = listing.get('firstObject').hotness;
 
-          donald.filter(post => {
-            return post.hotness > minHot && post.hotness < maxHot && !listingIds[post.id];
-          })
-            .sortBy('hotness').forEach(item => {
-              let position = 0;
+        hotItems.filter(post => {
+          return post.hotness > minHot && post.hotness < maxHot && !listingIds[post.id];
+        }).sortBy('hotness').forEach(item => {
+          let position = 0;
 
-              const nextItem = listing.find(post => {
-                return post.hotness < item.hotness;
-              });
+          const nextItem = listing.find(post => {
+            return post.hotness < item.hotness;
+          });
 
-              if (nextItem) {
-                position = listing.indexOf(nextItem);
-              }
+          if (nextItem) {
+            position = listing.indexOf(nextItem);
+          }
 
-              listing.insertAt(position, item);
-            });
-        }).then(() => undelete);
+          listing.insertAt(position, item);
+        });
+      }).then(() => undelete);
     }).then(undelete => {
       if (listing.params.before || listing.params.after) {
         const minHot = listing.get('lastObject').hotness;

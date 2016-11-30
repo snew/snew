@@ -53,7 +53,7 @@
   {{/if}}
     <li class='first'>
       {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
-        {{num_comments}} comments {{#if content.locked}}(locked){{/if}} {{content.hotness}}
+        {{num_comments}} comments {{#if content.locked}}(locked){{/if}}
       {{/link-to}}
 
       {{#if content.undelete}} |
@@ -61,6 +61,13 @@
           {{content.undelete.score}} points and
           {{content.undelete.num_comments}} comments on /r/{{content.undelete.subreddit}}
         {{/link-to}}
+      {{/if}}
+
+      {{#if content.missingFromAll}} |
+        Filtered from /r/all
+        <span class='rounded nsfw-stamp stamp'>
+          <acronym title="Hotness says this should be in /r/all but it isn't">Filtered from /r/all</acronym>
+        </span>
       {{/if}}
     </li>{{!--<li class='share'>
     </li><li class='link-save-button save-button'>
