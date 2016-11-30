@@ -53,7 +53,7 @@
   {{/if}}
     <li class='first'>
       {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
-        {{num_comments}} comments {{#if content.locked}}(locked){{/if}}
+        {{num_comments}} comments {{#if content.locked}}(locked){{/if}} {{content.hotness}}
       {{/link-to}}
 
       {{#if content.undelete}} |

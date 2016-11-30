@@ -62,6 +62,35 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         return item;
       });
     }).then(undelete => {
+      return client("/r/The_Donald").listing({limit: 100})
+        .then(this.normalizeResponse.bind(this))
+        .then(donald => donald.map(item => {
+            item.hotness = hotScore(item);
+            //item.banned_by = true;
+            //item.undelete = item;
+            return item;
+        })).then(donald => {
+          const minHot = listing.get('lastObject').hotness;
+          const maxHot = listing.get('firstObject').hotness;
+
+          donald.filter(post => {
+            return post.hotness > minHot && post.hotness < maxHot;
+          })
+            .sortBy('hotness').forEach(item => {
+              let position = 0;
+
+              const nextItem = listing.find(post => {
+                return post.hotness < item.hotness;
+              });
+
+              if (nextItem) {
+                position = listing.indexOf(nextItem);
+              }
+
+              listing.insertAt(position, item);
+            });
+        }).then(() => undelete);
+    }).then(undelete => {
       if (listing.params.before || listing.params.after) {
         const minHot = listing.get('lastObject').hotness;
         const maxHot = listing.get('firstObject').hotness;
