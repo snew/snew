@@ -6,7 +6,7 @@
     </div>
   </form>
 </div>--}}
-{{#if model.display_name}}
+{{#if model.display_name}}{{#unless (eq model.display_name "all")}}
   {{!--<div class='spacer'>
     <div class='sidebox submit submit-link'>
       <div class='morelink'>
@@ -73,4 +73,4 @@
     </div>
   </div>
 {{/if}}
-{{/if}}
+{{/unless}}{{/if}}
