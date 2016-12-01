@@ -49,7 +49,7 @@ export default Ember.Route.extend({
       return;
     }
 
-    if (!model.display_name) {return;}
+    if (!model.display_name || model.display_name === "all") {return;}
 
     function escapeRegExp(str) {
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -72,7 +72,7 @@ export default Ember.Route.extend({
       model.stylesheet = css;
       model.about = data;
       this.controllerFor("application").set("stylesheet", css);
-    });
+    }).catch(e => console.error(e.stack || e));
   },
 
   exit: function() {
