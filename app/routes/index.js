@@ -66,7 +66,13 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
         return item;
       });
     }).then(undelete => {
-
+      return client("/subreddits/popular").listing({limit: 100})
+        .then(this.normalizeResponse.bind(this))
+        .then(result => {
+          result.forEach(sub => subs[sub.display_name] = true);
+        })
+        .then(() => undelete);
+    }).then(undelete => {
       const uniqSubs = Object.keys(subs);
       const batches = [];
       while (uniqSubs.length) {
@@ -74,8 +80,9 @@ export default Ember.Route.extend(ListingRouteMixin, TabmenuMixin, {
       }
 
       return Ember.RSVP.all(batches.map(batch => {
-        return client(`/r/${batch.join("+")}/`).listing({limit: 100})
-          .then(this.normalizeResponse.bind(this));
+        return client(`/r/${batch.join("+")}/`).listing({
+          limit: 100
+        }).then(this.normalizeResponse.bind(this));
       })).then(results => {
         let allSubResults = [];
         results.forEach(result => allSubResults = allSubResults.concat(result));
