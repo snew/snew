@@ -165,7 +165,7 @@ export default Ember.Service.extend({
 
     function walkComments(comments) {
       (comments || []).forEach(function(item) {
-        if (item.author === '[deleted]' && item.body === '[removed]') {
+        if ((item.author === '[deleted]' && item.body === '[removed]') || item.removal_reason) {
           deletedComments[item.id] = item;
         }
         if (item.body) {
@@ -191,9 +191,9 @@ export default Ember.Service.extend({
             if (del) {
               delete del.replies;
               delete del.likes;
-              del.body_html = $('<textarea />').html(del.body_html).text();
-              del.body_html = `<div class="md">${del.body_html}</div>`;
-              del.banned_by = true;
+              var tmp = $('<textarea />').html(del.body_html).text();
+              Ember.set(del, "body_html", `<div class="md">${tmp}</div>`);
+              Ember.set(del, "banned_by", true)
               Ember.setProperties(item, del);
             }
             restoreComments((Ember.get(item, 'replies.data.children') || []).getEach('data'));
@@ -247,8 +247,9 @@ export default Ember.Service.extend({
               comment.replies = {data: {children: []}};
               comment.hotness = hotScore(comment);
 
-              if (item.author === '[deleted]' && item.body === '[removed]') {
-                comment.banned_by = true;
+              if ((item.author === '[deleted]' && item.body === '[removed]') || item.removal_reason) {
+                Ember.set(comment, "banned_by",  true);
+                Ember.set(comment, "removal_reason", item.removal_reason);
 
                 if (comment.body === '[removed]') {
                   comment.body = '[likely removed by automoderator]';

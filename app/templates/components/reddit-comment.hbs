@@ -31,7 +31,9 @@
     {{/if}}{{#if content.stickied}}
       <span class="stickied-tagline" title="selected by this subreddit's moderators">stickied comment</span>
     {{/if}}{{#if content.banned_by}}
-      <span class="stickied-tagline" title="[removed] by moderators">[removed]</span>
+      <span class="stickied-tagline" title="[removed] by moderators">[removed]{{#if content.removal_reason}}
+        ({{content.removal_reason}})
+      {{/if}}</span>
     {{/if}}
   {{#if children.length}}
     <a class='numchildren'>({{children.length}} children)</a>

@@ -51,6 +51,11 @@
       <acronym title="Adult content: Not Safe For Work">NSFW</acronym>
     </li>
   {{/if}}
+  {{#if content.removal_reason}}
+    <li class='rounded nsfw-stamp stamp'>
+      <acronym title="{{content.removal_reason}}">[removed] ({{content.removal_reason}})</acronym>
+    </li>
+  {{/if}}
     <li class='first'>
       {{#link-to 'subreddit.link' subreddit id '_' class='comments'}}
         {{num_comments}} comments {{#if content.locked}}(locked){{/if}}
