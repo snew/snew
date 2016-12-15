@@ -6,5 +6,6 @@ export default Ember.Controller.extend(ListingMixin, {
   listing: Ember.computed.alias('model'),
   limit: 100,
   type: '',
-  mod: ''
+  mod: '',
+  c: true,
 });

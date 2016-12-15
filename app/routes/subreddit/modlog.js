@@ -20,6 +20,9 @@ export default Ember.Route.extend({
     },
     mod: {
       refreshModel: true
+    },
+    c: {
+      refreshModel: true
     }
   },
 
@@ -29,12 +32,14 @@ export default Ember.Route.extend({
     const user = 'publicmodlogs';
     const logUrl = `https://www.reddit.com/r/${sub.display_name}/about/log/.json?feed=${key}&user=${user}&`;
     const itemsByName = {};
+    const includeContent = args.c;
 
     Object.keys(args).forEach(key => {
       if (!args[key]) {
         delete args[key];
       }
     });
+    delete args.c;
 
     const url = logUrl + Ember.$.param(args);
 
@@ -75,7 +80,7 @@ export default Ember.Route.extend({
                 action.details = null;
               }
 
-              if (action.target_body && action.item) {
+              if (includeContent && action.target_body && action.item) {
                 if (action.item.title) {
                   action.item.selftext = (action.target_body) === "null" ? "" : action.target_body;
                   action.item.selftext_html = null;
