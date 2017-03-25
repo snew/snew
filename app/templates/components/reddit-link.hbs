@@ -27,6 +27,7 @@
 <div class='entry unvoted'>
   <p class='title'>
     {{#if content.locked}}<span class='linkflairlabel'>LOCKED</span>{{/if}}
+    {{#unless content.brand_safe}}<span class='linkflairlabel'>NOT BRAND_SAFE</span>{{/unless}}
     {{#if link_flair_text}}
       <span class='linkflairlabel' title="{{link_flair_text}}">{{link_flair_text}}</span>
     {{/if}}
