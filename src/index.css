@@ -1,0 +1,4 @@
+#header { background-color: gold; }
+#header-img.default-header, .thumbnail.nsfw, .thumbnail.self { background: black; background-image: none; }
+body > .content .link .rank, .rank-spacer { width: 3.3ex; }
+body > .content .link .midcol, .midcol-spacer { width: 6ex; }
