@@ -1,0 +1,39 @@
+{
+  "name": "snew",
+  "version": "2.0.0",
+  "private": true,
+  "dependencies": {
+    "es5-shim": "^4.5.9",
+    "es6-shim": "^0.35.3",
+    "freactal": "^1.1.1",
+    "html-entities": "^1.2.1",
+    "lodash": "^4.17.4",
+    "phantomjs-polyfill": "^0.0.2",
+    "query-string": "^5.0.1",
+    "raw-loader": "^0.5.1",
+    "react": "^16.0.0",
+    "react-body": "^0.2.0",
+    "react-dom": "^16.0.0",
+    "react-helmet": "^5.2.0",
+    "react-imgur-embed": "^0.0.4",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-spinkit": "^3.0.0",
+    "react-timeago": "^3.4.3",
+    "snew-classic-ui": "https://github.com/decred/snew-classic-ui.git",
+    "snoocore": "^3.3.1",
+    "snuownd": "https://github.com/JordanMilne/snuownd.git",
+    "urllite": "^0.5.0"
+  },
+  "dev-dependencies": {
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.9.0",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
