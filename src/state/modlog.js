@@ -9,7 +9,6 @@ export const initialize = (effects, {
   .then(() => effects.setIsLoading(true))
   .then(() => effects.setIsFetching(true))
   .then(() => effects.onFetchModLog(subreddit, queryString.parse(search)))
-  .then(state => console.log("state", state) || state)
   .then(() => effects.setIsLoading(false))
   .then(() => effects.setIsFetching(false))
   .then(() => state => console.log("state", state) || state)
