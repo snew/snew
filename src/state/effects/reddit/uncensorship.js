@@ -165,6 +165,8 @@ export const checkLinkRemoval = (effects, thing) => get(["data", "is_self"], thi
   .then(() => effects.onFetchThings("/api/info", { url: get(["data", "url"], thing) }))
   .then(get(["/api/info", "allChildren"]))
   .then(allLinks => {
+    allLinks.push(thing);
+    allLinks = uniqThings(allLinks);
     const other = find(compose(not(eq(get(["data", "id"], thing))), get(["data", "id"])), allLinks);
     if (!other) return { allLinks, approvedLinks: [thing] };
     const dupes1Path = get(["data", "permalink"], thing).replace("/comments/", "/duplicates/");
@@ -172,15 +174,15 @@ export const checkLinkRemoval = (effects, thing) => get(["data", "is_self"], thi
     return Promise.all([
       effects.onFetchThings(dupes1Path, {}, 1).then(get([dupes1Path, "allChildren"])),
       effects.onFetchThings(dupes2Path, {}, 1).then(get([dupes2Path, "allChildren"]))
-    ]).then(([dupes1, dupes2]) => uniqThings(dupes1.concat(dupes2)))
+    ]).then(([dupes1, dupes2]) => console.log({ dupes1, dupes2 }) || uniqThings(dupes1.concat(dupes2)))
       .then(approvedLinks => ({ allLinks, approvedLinks }));
   })
   .then(({ allLinks, approvedLinks }) => {
     const approved = reduce((a, l) => ({ ...a, [get(["data", "id"], l)]: true }), {}, approvedLinks);
     allLinks = allLinks.map(link => approved[get(["data", "id"], link)] ? link : ({
-      ...link, data: { ...link.data, banned_by: "moderators" }
+      ...link, data: { ...link.data, banned_by: !link.data.stickied && "moderators" }
     }));
-    const viewed = find(compose(eq(get(["data", "id"], thing)), get(["data", "id"])), allLinks);
+    const viewed = find(compose(eq(get(["data", "id"], thing)), get(["data", "id"])), allLinks) || thing;
     const others = filter(not(eq(viewed)), uniqThings(allLinks.concat(approvedLinks)));
     return { viewed, others };
   })
