@@ -117,8 +117,9 @@ export const crossreferencePushshiftComments = (effects) => effects.then()
           ...cMap, [id]: {
             ...existing, data: {
               ...existing.data,
-              body: existing.data.body,
-              body_html: null, //compose(eq("[removed]"), get(["data", "body"]))(c) ? null : existing.data.body_html,
+              author: compose(eq("[removed]"), get(["data", "body"]))(c) ? existing.data.author : c.data.author,
+              body: compose(eq("[removed]"), get(["data", "body"]))(c) ? existing.data.body : c.data.body,
+              body_html: compose(eq("[removed]"), get(["data", "body"]))(c) ? null : existing.data.body_html,
               banned_by: (compose(eq("[removed]"), get(["data", "body"]))(c) && "moderators") || null,
               score: get(["data", "score"], c),
               score_hidden: get(["data", "score_hidden"], c),
@@ -174,8 +175,8 @@ export const checkLinkRemoval = (effects, thing) => get(["data", "is_self"], thi
     return Promise.all([
       effects.onFetchThings(dupes1Path, {}, 1).then(get([dupes1Path, "allChildren"])),
       effects.onFetchThings(dupes2Path, {}, 1).then(get([dupes2Path, "allChildren"]))
-    ]).then(([dupes1, dupes2]) => console.log({ dupes1, dupes2 }) || uniqThings(dupes1.concat(dupes2)))
-      .then(approvedLinks => ({ allLinks, approvedLinks }));
+    ]).then(([dupes1, dupes2]) => uniqThings(dupes1.concat(dupes2)))
+      .then(approvedLinks => ({ allLinks: uniqThings(allLinks.concat(approvedLinks)), approvedLinks }));
   })
   .then(({ allLinks, approvedLinks }) => {
     const approved = reduce((a, l) => ({ ...a, [get(["data", "id"], l)]: true }), {}, approvedLinks);
@@ -282,7 +283,10 @@ export const fetchFrontpageWatch = (effects, path="/r/undelete/new", params={}) 
         frontpageWatchMap[id] = item;
         return "t3_" + id;
       }),
-      filter(compose(eq("Frontpage-Watch"), get(["data", "author"]))),
+      filter(or(
+        compose(eq("Frontpage-Watch"), get(["data", "author"])),
+        compose(eq("FrontpageWatch"), get(["data", "author"]))
+      )),
       get([path, "allChildren"])
     )(state)
       .then(compose(

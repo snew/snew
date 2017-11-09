@@ -1,7 +1,6 @@
 {
   "name": "snew",
-  "version": "2.0.1",
-  "private": true,
+  "version": "2.0.2",
   "dependencies": {
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
