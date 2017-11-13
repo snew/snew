@@ -41,6 +41,12 @@ const SrHeaderArea = ({
               voat
             </a>
           </li>
+          <li>
+            <span className="separator">-</span>
+            <a className="random choice" href="https://raddle.me/">
+              raddle
+            </a>
+          </li>
         </ul>
         <span className="separator"> | </span>
         <ul className="flat-list sr-bar hover">

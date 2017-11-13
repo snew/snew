@@ -44,13 +44,13 @@ All content restored by snew is content that appears to have been removed by mod
 
 ###### Why are the listing numbers mixed up?
 
-Reddit no longer sorts hot in the same way or is [otherwise manipulating](/r/changelog/comments/5cysso/upcoming_experiments_the_relevance_team_and_front/) hot sorts and/or displayed post scores.
+Reddit no longer sorts hot in the same way or is [otherwise manipulating](https://snew.github.io/r/changelog/comments/5cysso/upcoming_experiments_the_relevance_team_and_front/) hot sorts and/or displayed post scores.
 
 Snew sorts known things in listings using the [hotness algorithm from open-source reddit.](https://medium.com/hacking-and-gonzo/how-reddit-ranking-algorithms-work-ef111e33d0d9)
 
 Snew displays the listing numbers from reddit (or as recorded by transparency bots like u/FrontpageWatch)
 
-The discrepancy between the sort and the numbers is evidence of [this manipulation](/r/ModSupport/comments/77o0wm/friday_discussion_thread_what_unique_challenges/dons0qo/)
+The discrepancy between the sort and the numbers is evidence of [this manipulation](https://snew.github.io/r/ModSupport/comments/77o0wm/friday_discussion_thread_what_unique_challenges/dons0qo/)
 
 ###### What is nsfb? (Not Safe For Brand)
 
@@ -58,7 +58,7 @@ Reddit's api returns an undocumented brand_safe field for content.  It appears t
 
 Snew displays a nsfb indicator when a post has a false brand_safe value.
 
-[It is believed that all subreddits are nsfb until manually reviewed as safe](/r/modhelp/comments/64qgv2/my_subreddit_is_not_brand_safe_what_does_it_mean/)
+[It is believed that all subreddits are nsfb until manually reviewed as safe](https://snew.github.io/r/modhelp/comments/64qgv2/my_subreddit_is_not_brand_safe_what_does_it_mean/)
 
 ## History
 

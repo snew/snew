@@ -6183,8 +6183,8 @@ slide@^1.1.5:
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
 
 "snew-classic-ui@https://github.com/decred/snew-classic-ui.git":
-  version "0.1.6"
-  resolved "https://github.com/decred/snew-classic-ui.git#45290b1efd06ed20d7b6a3ec5f8f2d233d7ea766"
+  version "0.1.9"
+  resolved "https://github.com/decred/snew-classic-ui.git#5fc2465c3260c70d22602a1e593d7d72221d66f5"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
