@@ -203,6 +203,7 @@ const restoreComment = state => comment => ({ ...comment, data: comment.data
   ? ((get(["data", "body"], comment) === "[removed]") && ({
     ...comment.data,
     banned_by: "moderators",
+    retrieved_on: get(["pushshiftComments", get(["data", "id"], comment), "data", "retrieved_on"], state),
     author: (
       get(["pushshiftComments", get(["data", "id"], comment), "data", "author"], state)
       || get(["data", "author"], comment)
