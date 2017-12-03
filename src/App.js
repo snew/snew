@@ -4,7 +4,7 @@ import { navMount, getSubreddit } from "./util";
 import ScrollToTop from "./components/ScrollToTop";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import { Subreddit, Content } from "./components/snew";
-import { app, listing, subreddit, modlog } from "./state";
+import { app, pushshift, listing, subreddit, modlog } from "./state";
 
 const SubredditComponent = subreddit(Subreddit);
 const Blank = () => <div className="content" role="main"><h1>This kind of page is not yet supported.  Sorry =(</h1></div>;
@@ -14,6 +14,7 @@ const SubredditRoute = (props) => (
     <Switch>
       <Route path="/submit" component={Blank} />
       <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/r/pushshift/api/*" component={navMount((pushshift(Content)))} />
       <Route path="/r/:subreddit/about/log/" component={navMount(modlog(Content))} />
       <Route path="/r/:subreddit/submit" component={Blank} />
       <Route path="/r/:subreddit/:link_view/:link_id/" component={navMount(listing(Content))} />

@@ -1,6 +1,7 @@
 import { update, provideState } from "freactal";
 import * as effects from "./effects/reddit";
 export { default as listing } from "./listing";
+export { default as pushshift } from "./pushshift";
 export { default as subreddit } from "./subreddit";
 export { default as modlog } from "./modlog";
 

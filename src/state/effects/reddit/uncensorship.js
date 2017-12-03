@@ -18,7 +18,7 @@ const PUSHSHIFT_SUBMISSIONS_SEARCH = "https://api.pushshift.io/reddit/search/sub
 const PUSHSHIFT_COMMENTS_SEARCH = "https://api.pushshift.io/reddit/search/comment";
 const PUSHSHIFT_SUBMISSION_LIMIT=500;
 const PUSHSHIFT_COMMENT_LIMIT=10000;
-const LACKS_CONFIDENCE="{may not be)";
+const LACKS_CONFIDENCE="(may not be)";
 
 export const fetchPushshiftListing = (effects, subreddit) => effects.then()
   .then(() => fetch(`${PUSHSHIFT_SUBMISSIONS_SEARCH}?subreddit=${subreddit}&limit=${PUSHSHIFT_SUBMISSION_LIMIT}`))

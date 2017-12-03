@@ -26,11 +26,19 @@ const getLeastHot = compose(get(["data", "hotness"]), last, sortHotness, without
 export const parseJson = response => (response && response.json && response.json()) || {};
 export const hotSort = orderBy([get(["data", "hotness"])], ["desc"]);
 export const uniqThings = uniqBy(or(get(["data", "name"]), get(["data", "id"])));
+export const byName = reduce((r, t) => ({ ...r, [get(["data", "name"], t)]: t }), {});
 export const filterDeleted = filter(compose(not(eq("[deleted]")), get(["data", "author"])));
 export const checkNotDeleted = compose(not(eq("[deleted]")), get(["data", "author"]));
 export const subredditHotSort = orderBy([get(["data", "stickied"]), get(["data", "hotness"])], ["desc", "desc"]);
 export const subredditCheck = (sr) => (sr === "all")
   ? constant(true) : compose(eq(lc(sr)), lc, get(["data", "subreddit"]));
+export const isRemovedCheck = or(
+  and(
+    compose(eq("[removed]"), get(["data", "body"])),
+    compose(eq("[deleted]"), get(["data", "author"])),
+  ),
+  compose(eq("[removed]"), get(["data", "selftext"]))
+);
 
 export const hotnessCheck = (minH, maxH) => compose(
   and(or(lte(minH), not(constant(minH))), or(gte(maxH), not(constant(maxH)))),
