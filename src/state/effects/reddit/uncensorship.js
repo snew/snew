@@ -14,40 +14,41 @@ import {
   subredditCheck, checkNotDeleted, flattenComments, transformComment, mapCommentTree
 } from "./util";
 
-const PUSHSHIFT_SUBMISSIONS_SEARCH = "https://api.pushshift.io/reddit/search/submission";
 const PUSHSHIFT_COMMENTS_SEARCH = "https://api.pushshift.io/reddit/search/comment";
 const PUSHSHIFT_SUBMISSION_LIMIT=500;
 const PUSHSHIFT_COMMENT_LIMIT=10000;
 const LACKS_CONFIDENCE="(may not be)";
 
-export const fetchPushshiftListing = (effects, subreddit) => effects.then()
-  .then(() => fetch(`${PUSHSHIFT_SUBMISSIONS_SEARCH}?subreddit=${subreddit}&limit=${PUSHSHIFT_SUBMISSION_LIMIT}`))
-  .then(parseJson).then(compose(effects.onFetchNames, map(compose(id => "t3_" + id, get("id"))), get("data")))
-  .then(compose(
-    map(item => ({
-      ...item,
-      rank:"?",
-      data: {
-        ...item.data,
-        banned_by: (item.data.selftext === "[removed]")
-          ? "moderators"
-          :item.data.is_self
-            ? item.data.banned_by
-            : LACKS_CONFIDENCE
-      }
-    })),
-    filterDeleted, get("named")
-  ))
-  .then(pushshift => state => ({
-    ...state, pushshift: uniqThings(pushshift.concat(state.pushshift || []))
-  }));
+export const fetchPushshiftSubredditListing = (effects, subreddit) => {
+  const path = `/search/submission?limit=${PUSHSHIFT_SUBMISSION_LIMIT}&subreddit=${subreddit}`;
+  console.log("path", path);
+  return effects.fetchPushshiftAndReddit(path)
+    .then(compose(
+      map(thing => ({
+        ...thing, data: { ...thing.data, banned_by: LACKS_CONFIDENCE || thing.data.banned_by }
+      })),
+      filterDeleted, get(["pushshift", path])
+    ))
+    .then(things => state => ({
+      ...state, pushshiftListing: uniqThings(things.concat(state.pushshiftListing || []))
+    }));
+};
 
+/*
+export const fetchPushshiftComments = (effects, link_id) => {
+  const path = `/comment?sort=asc&link_id=${link_id}&limit=${PUSHSHIFT_COMMENT_LIMIT}`;
+  return effects.fetchPushshiftAndReddit(path).then(compose(byId, get(["pushshift", path])))
+    .then(pushshiftComments => state({
+      ...state, pushshiftComments, commentTree: mapCommentTree(Object.values(pushshiftComments))
+    }))
+};
+*/
 
 export const fetchSubredditRemovals = (effects, subreddit) => effects.then()
   .then(() => (subreddit === "all")
     ? effects.fetchFrontpageWatch()
     : Promise.all([
-      effects.fetchPushshiftListing(subreddit),
+      effects.fetchPushshiftSubredditListing(subreddit),
       effects.fetchFrontpageWatch("/r/undelete+longtail/search", {
         restrict_sr: "on", sort: "new", search: `url:/r/${subreddit}`
       })
@@ -86,7 +87,7 @@ export const reinsertRemoved = () => (state) => {
       constant(fromReddit),
       compose(filter(and(
         checkNotDeleted, boundsCheck, subredditCheck(state.subreddit)
-      )), concat(get("frontpageWatch"), get("pushshift")))
+      )), concat(get("frontpageWatch"), get("pushshiftListing")))
     )
   )(state);
 };
@@ -139,28 +140,20 @@ export const crossreferencePushshiftComments = (effects) => effects.then()
     return ({ ...state, pushshiftComments, removedComments });
   });
 
-export const restoreSelfPost = (effects, id) => effects.then()
-  .then(() => fetch(`${PUSHSHIFT_SUBMISSIONS_SEARCH}?ids=${id}`))
-  .then(parseJson)
-  .then(get(["data", 0]))
-  .then(({ selftext, author }) => state => ({
-    ...state,
-    listings: [
-      {
-        ...state.listings[0],
-        allChildren: [
-          {
-            ...state.listings[0].allChildren[0],
-            data: {
-              ...state.listings[0].allChildren[0].data,
-              selftext, author, banned_by: "moderators", selftext_html: null
-            }
-          }
-        ]
-      },
-      state.listings[1]
-    ]
-  }));
+export const restoreSelfPost = (effects, id) => {
+  const path = `/submission?ids=${id}`;
+  return effects.fetchPushshiftAndReddit(path).then(get(["pushshift", path, 0, "data"]))
+    .then((thing) => state => ({
+      ...state,
+      listings: [
+        {
+          ...state.listings[0],
+          allChildren: [thing]
+        },
+        state.listings[1]
+      ]
+    }));
+};
 
 export const checkLinkRemoval = (effects, thing) => get(["data", "is_self"], thing) ? state => state : effects.then()
   .then(() => effects.onFetchThings("/api/info", { url: get(["data", "url"], thing) }))
