@@ -3,7 +3,8 @@ import compose from "lodash/fp/compose";
 import get from "lodash/fp/get";
 import { normalizeListing, parseJson, byName, isRemovedCheck } from "./util";
 
-const PUSHSHIFT_BASE = "https://beta.pushshift.io/reddit";
+const PUSHSHIFT_BASE = "https://api.pushshift.io/reddit";
+const PUSHSHIFT_BETA_BASE = "https://beta.pushshift.io/reddit";
 
 const pushshiftToThings = map(data => {
   const kind = data.title ? "t3" : "t1";
