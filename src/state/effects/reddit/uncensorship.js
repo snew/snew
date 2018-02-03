@@ -21,7 +21,6 @@ const LACKS_CONFIDENCE="(may not be)";
 
 export const fetchPushshiftSubredditListing = (effects, subreddit) => {
   const path = `/search/submission?limit=${PUSHSHIFT_SUBMISSION_LIMIT}&subreddit=${subreddit}`;
-  console.log("path", path);
   return effects.fetchPushshiftAndReddit(path)
     .then(compose(
       map(thing => ({
@@ -141,7 +140,7 @@ export const crossreferencePushshiftComments = (effects) => effects.then()
   });
 
 export const restoreSelfPost = (effects, id) => {
-  const path = `/submission?ids=${id}`;
+  const path = `/search/submission?ids=${id}`;
   return effects.fetchPushshiftAndReddit(path).then(get(["pushshift", path, 0, "data"]))
     .then((thing) => state => ({
       ...state,
