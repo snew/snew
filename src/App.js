@@ -9,7 +9,7 @@ import { app, pushshift, listing, subreddit, modlog } from "./state";
 const SubredditComponent = subreddit(Subreddit);
 const Blank = () => <div className="content" role="main"><h1>This kind of page is not yet supported.  Sorry =(</h1></div>;
 
-
+/*
 const ModlogContent = (props) => [
   <div className="content" role="main">
     <div className="spacer">
@@ -33,6 +33,7 @@ const ModlogContent = (props) => [
     <Content {...props} />
   </div>
 ];
+*/
 
 const SubredditRoute = (props) => (
   <SubredditComponent {...props}>
@@ -40,7 +41,7 @@ const SubredditRoute = (props) => (
       <Route path="/submit" component={Blank} />
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/r/pushshift/api/*" component={navMount((pushshift(Content)))} />
-      <Route path="/r/:subreddit/about/log/" component={navMount(modlog(ModlogContent))} />
+      <Route path="/r/:subreddit/about/log/" component={navMount(modlog(Content))} />
       <Route path="/r/:subreddit/submit" component={Blank} />
       <Route path="/r/:subreddit/:link_view/:link_id/" component={navMount(listing(Content))} />
       <Route path="/r/:subreddit/:link_view/:link_id/" component={navMount(listing(Content))} />
