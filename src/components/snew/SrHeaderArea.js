@@ -14,8 +14,17 @@ const SrHeaderArea = ({
 }) => (
   <div id="sr-header-area">
     <div className="width-clip">
-      <div className="dropdown srdrop">
-        <span className="selected title">THIS IS NOT REDDIT.COM!</span>
+      <div className="dropdown srdrop"
+        style={{ backgroundColor: "#FF4500", marginRight: "1em", paddingRight: 0 }}
+      >
+        <a href="https://notabug.io" style={{ paddingRight: 0 }}>
+          <span
+            className="selected title"
+            style={{ fontWeight: "bold", color: "white", paddingRight: 0, marginRight: 0, paddingLeft: "1em", background: "transparent" }}
+          >visit notabug.io <span
+              style={{ display: "inline-block", backgroundColor: "maroon", marginLeft: "1em" }}
+            >ಠ_ಠ</span></span>
+        </a>
       </div>
       <div className="drop-choices srdrop">
         <Link className="choice" href="/r/all/">

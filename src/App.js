@@ -9,13 +9,38 @@ import { app, pushshift, listing, subreddit, modlog } from "./state";
 const SubredditComponent = subreddit(Subreddit);
 const Blank = () => <div className="content" role="main"><h1>This kind of page is not yet supported.  Sorry =(</h1></div>;
 
+
+const ModlogContent = (props) => [
+  <div className="content" role="main">
+    <div className="spacer">
+      <div className="wiki-page-content md-container">
+        <div className="md wiki">
+          <h3><a href="https://www.reddit.com/r/ModSupport/comments/8k3f0v/is_publicmodlogs_suspended_and_what_can_be_done/">Reddit has suspended u/publicmodlogs</a></h3>
+          <p>
+            So this page will be unlikely to work.
+            I suggest <a href="https://modlogs.fyi">modlogs.fyi</a> as an alternative.
+          </p><p>
+            Reddit has chosen to block the account that allowed over 300 subreddits to willfully moderate transparently
+          </p><p>
+            If you're ready to ditch reddit entirely in favor of a network that supports freedom and transparency try out:
+          </p><p>
+            Snew's anticensorship capabilities in comments and listings are not affected.
+          </p>
+          <h2><a href="https://notabug.io">notabug.io a decentralized, open-source reddit fork</a></h2>
+        </div>
+      </div>
+    </div>
+    <Content {...props} />
+  </div>
+];
+
 const SubredditRoute = (props) => (
   <SubredditComponent {...props}>
     <Switch>
       <Route path="/submit" component={Blank} />
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/r/pushshift/api/*" component={navMount((pushshift(Content)))} />
-      <Route path="/r/:subreddit/about/log/" component={navMount(modlog(Content))} />
+      <Route path="/r/:subreddit/about/log/" component={navMount(modlog(ModlogContent))} />
       <Route path="/r/:subreddit/submit" component={Blank} />
       <Route path="/r/:subreddit/:link_view/:link_id/" component={navMount(listing(Content))} />
       <Route path="/r/:subreddit/:link_view/:link_id/" component={navMount(listing(Content))} />
