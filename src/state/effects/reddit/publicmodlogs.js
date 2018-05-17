@@ -6,7 +6,7 @@ import last from "lodash/fp/last";
 import first from "lodash/fp/first";
 import { parseJson, normalizeListing } from "./util";
 
-const key = "c7b83b457469643f1912d5fee30e18dba808f351";
+const key = "7e9b27126097f51ae6c9cd5b049af34891da6ba6";
 const user = "publicmodlogs";
 
 const fetchViaYahoo = (sr, url, { count=0, ...params }) => {
