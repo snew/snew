@@ -22,9 +22,9 @@ const ModlogContent = (props) => [
           </p><p>
             Reddit has chosen to block the account that allowed over 300 subreddits to willfully moderate transparently
           </p><p>
-            If you're ready to ditch reddit entirely in favor of a network that supports freedom and transparency try out:
-          </p><p>
             Snew's anticensorship capabilities in comments and listings are not affected.
+          </p><p>
+            If you're ready to ditch reddit entirely in favor of a network that supports freedom and transparency try out:
           </p>
           <h2><a href="https://notabug.io">notabug.io a decentralized, open-source reddit fork</a></h2>
         </div>
