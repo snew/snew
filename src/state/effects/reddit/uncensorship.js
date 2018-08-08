@@ -14,10 +14,12 @@ import {
   subredditCheck, checkNotDeleted, flattenComments, transformComment, mapCommentTree
 } from "./util";
 
+const isRemoved = body => body === "[removed]" || body === "\\[removed\\]";
+
 const PUSHSHIFT_COMMENTS_SEARCH = "https://api.pushshift.io/reddit/search/comment";
 const PUSHSHIFT_SUBMISSION_LIMIT=500;
 const PUSHSHIFT_COMMENT_LIMIT=10000;
-const LACKS_CONFIDENCE="(may not be)";
+const LACKS_CONFIDENCE="(THIS MAY NOT ACTUALLY BE REMOVED!!!)";
 
 export const fetchPushshiftSubredditListing = (effects, subreddit) => {
   const path = `/search/submission?limit=${PUSHSHIFT_SUBMISSION_LIMIT}&subreddit=${subreddit}`;
@@ -117,10 +119,10 @@ export const crossreferencePushshiftComments = (effects) => effects.then()
           ...cMap, [id]: {
             ...existing, data: {
               ...existing.data,
-              author: compose(eq("[removed]"), get(["data", "body"]))(c) ? existing.data.author : c.data.author,
-              body: compose(eq("[removed]"), get(["data", "body"]))(c) ? existing.data.body : c.data.body,
-              body_html: compose(eq("[removed]"), get(["data", "body"]))(c) ? null : existing.data.body_html,
-              banned_by: (compose(eq("[removed]"), get(["data", "body"]))(c) && "moderators") || null,
+              author: compose(isRemoved, get(["data", "body"]))(c) ? existing.data.author : c.data.author,
+              body: compose(isRemoved, get(["data", "body"]))(c) ? existing.data.body : c.data.body,
+              body_html: compose(isRemoved, get(["data", "body"]))(c) ? null : existing.data.body_html,
+              banned_by: (compose(isRemoved, get(["data", "body"]))(c) && "moderators") || null,
               score: get(["data", "score"], c),
               score_hidden: get(["data", "score_hidden"], c),
               controversiality: get(["data", "controversiality"], c),
@@ -192,7 +194,7 @@ export const checkLinkRemoval = (effects, thing) => get(["data", "is_self"], thi
   }));
 
 const restoreComment = state => comment => ({ ...comment, data: comment.data
-  ? ((get(["data", "body"], comment) === "[removed]") && ({
+  ? (isRemoved(get(["data", "body"], comment)) && ({
     ...comment.data,
     banned_by: "moderators",
     retrieved_on: get(["pushshiftComments", get(["data", "id"], comment), "data", "retrieved_on"], state),
@@ -285,7 +287,7 @@ export const fetchFrontpageWatch = (effects, path="/r/undelete/new", params={}) 
       .then(compose(
         filter(and(
           or(
-            compose(eq("[removed]"), get(["data", "selftext"])),
+            compose(isRemoved, get(["data", "selftext"])),
             not(get(["data", "is_self"]))
           ),
           get("rank")
@@ -330,7 +332,7 @@ export const uncensoredListing = (effects, {
   .then(() => (subreddit && !link_id) ? effects.setUncensorSubreddit(subreddit || "all") : effects.then())
   .then((state) => link_id && effects.then()
     .then(() => effects.checkLinkRemoval(get(["listings", 0, "allChildren", 0], state)))
-    .then(() => ("[removed]" === get(["listings", 0, "allChildren", 0, "data", "selftext"], state)) &&
+    .then(() => isRemoved(get(["listings", 0, "allChildren", 0, "data", "selftext"], state)) &&
       effects.restoreSelfPost(link_id))
     .then(() => link_view === "comments" && effects.then()
       .then(() => effects.fetchPushshiftComments(link_id))

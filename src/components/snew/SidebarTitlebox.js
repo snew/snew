@@ -24,6 +24,7 @@ const SidebarTitlebox = ({
     ...((subredditData && subredditData.data) || {}),
     subreddit: (subreddit === "all") ? null: subreddit,
     useStyle,
+    isShowingCustomStyleOption: true,
     description: or(
       get(["data", "description"]),
       constant(README)

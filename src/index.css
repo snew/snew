@@ -2,3 +2,8 @@
 #header-img.default-header, .thumbnail.nsfw, .thumbnail.self { background: black; background-image: none; }
 body > .content .link .rank, .rank-spacer { width: 3.3ex; }
 body > .content .link .midcol, .midcol-spacer { width: 6ex; }
+
+.expando img {
+  max-width: 100%;
+  max-height: 720px;
+}
