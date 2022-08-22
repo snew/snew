@@ -280,7 +280,8 @@ export const fetchFrontpageWatch = (effects, path="/r/undelete/new", params={}) 
       }),
       filter(or(
         compose(eq("Frontpage-Watch"), get(["data", "author"])),
-        compose(eq("FrontpageWatch"), get(["data", "author"]))
+        compose(eq("FrontpageWatch"), get(["data", "author"])),
+        compose(eq("FrontpageWatch2020"), get(["data", "author"]))
       )),
       get([path, "allChildren"])
     )(state)
