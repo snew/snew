@@ -7,6 +7,7 @@ const reddit = new Snoocore({
     mobile: false,
     duration: "temporary",
     key: "yP8VpQkHmtgcUA",
+    secret: "",
     throttle: 0,
     redirectUri: "http://politicbot.github.io/#/?",
     scope: [

@@ -97,7 +97,7 @@ export const resetPushshiftComments = () => state => ({...state, pushshiftCommen
 
 export const fetchPushshiftComments = (effects, link_id) => effects.then()
   .then(() => effects.resetPushshiftComments())
-  .then(() => fetch(`${PUSHSHIFT_COMMENTS_SEARCH}?sort=asc&link_id=${link_id}&limit=${PUSHSHIFT_COMMENT_LIMIT}`))
+  .then(() => fetch(`${PUSHSHIFT_COMMENTS_SEARCH}?sort=asc&link_id=${link_id}&limit=${PUSHSHIFT_COMMENT_LIMIT}&q=*`))
   .then(parseJson).then(compose(
     reduce((cMap, c) => ({ ...cMap, [get(["data", "id"], c)]: c }), {}),
     map(data => ({ kind: "t1", data })), get("data")
@@ -280,7 +280,8 @@ export const fetchFrontpageWatch = (effects, path="/r/undelete/new", params={}) 
       }),
       filter(or(
         compose(eq("Frontpage-Watch"), get(["data", "author"])),
-        compose(eq("FrontpageWatch"), get(["data", "author"]))
+        compose(eq("FrontpageWatch"), get(["data", "author"])),
+        compose(eq("FrontpageWatch2020"), get(["data", "author"]))
       )),
       get([path, "allChildren"])
     )(state)
